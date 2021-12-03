@@ -55,14 +55,14 @@ Navigate to the directory from your console and run the collector host with the 
 ./otelcontribcol_darwin_amd64 --config otel_collector_config.yaml
 ```
 
-### Step 7: Run your application
+### Step 5: Run your application
 The collector is now running and listening to incoming traces on port 4317.
 Our next step is to start our application:
 ```
 python3 server.py
 ```
 
-### Step 8: Try it out
+### Step 6: Try it out
 All that is left for us to do at this point is to visit [localhost](http://localhost) and refresh the page, triggering our app to generate and emit a trace of that transaction. The Otel-Collector will then pick up these traces and send them to the distributed tracing backend(wavefront) defined by the exporter in the collector config file.
 
 OpenTelemetry provides a record_exception method for capturing them correctly. Visit [exception end point](http://localhost/exception) to record exceptions. 
