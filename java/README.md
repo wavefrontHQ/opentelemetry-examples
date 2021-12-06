@@ -145,24 +145,6 @@ Dependencies that need to be included in the ```pom.xml``` are:
   by a single OpenTelemetry instance will interoperate, regardless of name.
 
 * #### Create a nested span, add attributes
-  Note: These are default values, changing this is optional.
-  ```python
-    span_exporter = OTLPSpanExporter(
-        # endpoint="localhost:4317",
-        # credentials=ChannelCredentials(credentials),
-        # headers=(("metadata", "metadata")),
-        )
-  ```
-* #### Setup tracer
-  Tracer, an object that tracks the currently active span and allows you to create (or activate) new spans.
-    ```python
-      trace.set_tracer_provider(tracer_provider)
-      span_processor = BatchSpanProcessor(span_exporter)
-      tracer_provider.add_span_processor(span_processor)
-    
-      tracer = trace.get_tracer_provider().get_tracer(__name__)
-    ```
-* #### Creating a child span
   To create a basic span, you only need to specify the name of the span. The start and end time of the span is
   automatically set by the OpenTelemetry SDK. Most of the time, we want to correlate spans for nested operations. In
   OpenTelemetry spans can be created freely and it’s up to the implementor to annotate them with attributes specific to
@@ -222,7 +204,7 @@ Dependencies that need to be included in the ```pom.xml``` are:
         }
     }
     ```
-* #### More info
+* #### More information
   The above-mentioned example is a very basic example. Please refer
   to [the guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for more details
   like ```events```, ```links```, ```context propagation```, etc.
