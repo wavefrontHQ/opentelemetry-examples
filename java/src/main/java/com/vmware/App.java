@@ -37,13 +37,14 @@ public class App {
             logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceIdAsHexString());
 
             /*put the span into the current Context*/
-            try (Scope scope = parentSpan.makeCurrent()) {
-
+            try {
+                parentSpan.makeCurrent();
                 /*annotate the span with attributes specific to the represented operation, to provide additional context*/
                 parentSpan.setAttribute("parentIndex", index);
                 childMethod(parentSpan);
             } catch (Throwable throwable) {
                 parentSpan.setStatus(StatusCode.ERROR, "Something wrong with the parent span");
+                return;
             } finally {
                 /*closing the scope does not end the span, this has to be done manually*/
                 parentSpan.end();
@@ -73,7 +74,7 @@ public class App {
         }
     }
 
-    private static Tracer getTracer() {
+    private static synchronized Tracer getTracer() {
         if (tracer == null) {
 
             /*it is important to initialize your SDK as early as possible in your application's lifecycle*/

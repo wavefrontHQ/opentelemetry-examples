@@ -11,11 +11,10 @@ out [this guide](https://tanzu.vmware.com/content/blog/getting-started-opentelem
 
 ## Manual-Instrumentation
 
-Libraries that want to export telemetry data using OpenTelemetry MUST only depend on the opentelemetry-api package and
-should never configure or depend on the OpenTelemetry SDK. The SDK configuration must be provided by Applications which
-should also depend on the opentelemetry-sdk package, or any other implementation of the OpenTelemetry API. This way,
-libraries will obtain a real implementation only if the user application is configured for it. For more details, check
-out the [Library Guidelines](https://opentelemetry.io/docs/reference/specification/library-guidelines/).
+This example demonstrate Manual instrumentation for OpenTelemetry Java through the OpenTelemetry API and configuration
+through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the classes, meaning
+that all of the data recorded is simply dropped. Configuring the OpenTelemetry SDK enables the data to be processed and
+exported in useful ways.
 
 #### Prerequisite: Installing OpenTelemetry Components
 
