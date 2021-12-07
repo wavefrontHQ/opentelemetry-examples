@@ -1,15 +1,15 @@
 # Instrumenting Python Apps with OpenTelemetry
 
-## Auto-Instrumentation
+## Auto Instrumentation
 
 We will go through a working example of a Python application auto-instrumented with OpenTelemetry. To keep things
 simple, we will create a basic “Hello World” application using Flask, instrument it with OpenTelemetry’s Python client
 library to generate trace data and send it to an OpenTelemetry Collector. The Collector will then export the trace data
-to the Wavefront Proxy which will eventually export the trace data to the Wavefront UI.
+to the Wavefront Proxy which will eventually export the trace data to the Tanzu Observability UI.
 
 ![Here is how it works:](https://raw.githubusercontent.com/wavefrontHQ/opentelemetry-examples/main/TraceFlow.png?raw=true)
 
-If you have not installed an OpenTelemetry Collector or Wavefront proxy yet, then check
+If you have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
 
 #### Step 1: Get your example application
