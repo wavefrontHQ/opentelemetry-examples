@@ -19,8 +19,7 @@ public class OTelConfig {
     public static final String OTEL_COLLECTOR_ENDPOINT = "http://localhost:4317";
 
 
-    /*Adds a BatchSpanProcessor initialized with OtlpGrpcSpanExporter to the
-    TracerSdkProvider.*/
+    //Adds a BatchSpanProcessor initialized with OtlpGrpcSpanExporter to the TracerSdkProvider.
 
     static OpenTelemetry initOpenTelemetry() {
         OtlpGrpcSpanExporter spanExporter = getOtlpGrpcSpanExporter();
@@ -35,28 +34,24 @@ public class OTelConfig {
     }
 
     private static OpenTelemetrySdk getOpenTelemetrySdk(SdkTracerProvider tracerProvider) {
-        OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk.builder().setTracerProvider(tracerProvider)
+        return OpenTelemetrySdk.builder().setTracerProvider(tracerProvider)
                 .buildAndRegisterGlobal();
-        return openTelemetrySdk;
     }
 
     private static SdkTracerProvider getSdkTracerProvider(BatchSpanProcessor spanProcessor, Resource serviceNameResource) {
-        SdkTracerProvider tracerProvider = SdkTracerProvider.builder().addSpanProcessor(spanProcessor)
+        return SdkTracerProvider.builder().addSpanProcessor(spanProcessor)
                 .setResource(Resource.getDefault().merge(serviceNameResource)).build();
-        return tracerProvider;
     }
 
     private static BatchSpanProcessor getBatchSpanProcessor(OtlpGrpcSpanExporter spanExporter) {
-        BatchSpanProcessor spanProcessor = BatchSpanProcessor.builder(spanExporter)
+        return BatchSpanProcessor.builder(spanExporter)
                 .setScheduleDelay(100, TimeUnit.MILLISECONDS).build();
-        return spanProcessor;
     }
 
     private static OtlpGrpcSpanExporter getOtlpGrpcSpanExporter() {
-        OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
+        return OtlpGrpcSpanExporter.builder()
                 .setEndpoint(OTEL_COLLECTOR_ENDPOINT)
                 .setTimeout(2, TimeUnit.SECONDS)
                 .build();
-        return spanExporter;
     }
 }

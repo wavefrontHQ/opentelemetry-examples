@@ -1,6 +1,6 @@
 # Instrumenting Java Apps with OpenTelemetry
 
-## Auto-Instrumentation
+## Auto Instrumentation
 
 For instrumentation, we will use the Java agent provided by OpenTelemetry, which can be attached to any Java
 application. This agent will dynamically inject bytecode to collect telemetry data so that you don’t need to add any
@@ -9,7 +9,7 @@ manual instrumentation.
 If you have not tried Auto-instrumenting your Java application yet, then you can check
 out [this guide](https://tanzu.vmware.com/content/blog/getting-started-opentelemetry-vmware-tanzu-observability#devops).
 
-## Manual-Instrumentation
+## Manual Instrumentation
 
 This example demonstrate Manual instrumentation for OpenTelemetry Java through the OpenTelemetry API and configuration
 through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the classes, meaning
@@ -18,7 +18,7 @@ exported in useful ways.
 
 #### Prerequisite: Installing OpenTelemetry Components
 
-Note: If you have not installed an OpenTelemetry Collector or Wavefront proxy yet, then check
+Note: If you have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
 
 To ease the process of installing OpenTelemetry components, we have put all the dependencies in
@@ -211,7 +211,7 @@ Dependencies that need to be included in the ```pom.xml``` are:
 #### Step 2: Run your application
 
 The collector is now running and listening to incoming traces on port 4317. Just start your application either from the
-CMD line or from an IDE.
+CLI line or from an IDE.
 
 The ```main``` method in our Java application will trigger our app to generate and emit a trace of a transaction. When
 the trace data collected from the OpenTelemetry collector are ingested, you can examine them in the Tanzu Observability
