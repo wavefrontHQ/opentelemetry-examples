@@ -17,7 +17,8 @@ FlaskInstrumentor().instrument_app(app)
 # resource can be required for some backends like wavefront
 # note: change the value of service.name attribute to your service name
 resource = Resource(attributes={
-    "service.name": "myPythonService"
+    "service.name": "otel-otlp-python-service",
+    "application": "otel-otlp-python-app"
 })
 
 span_exporter = OTLPSpanExporter(
