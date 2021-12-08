@@ -5,7 +5,7 @@ Tanzu Observability (Wavefront) trace exporter. When the data is in Wavefront, y
 visualize any request as a trace that consists of a hierarchy of spans. This visualization helps you pinpoint where the
 request is spending most of its time and discover problems.
 
-![Here is how it works:](https://raw.githubusercontent.com/wavefrontHQ/opentelemetry-examples/main/TraceFlow.png?raw=true)
+![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
 
 ### Install Wavefront proxy
 Configure your Tanzu Observability (Wavefront) URL and the token. (If you’ve signed up for the free trial, [here’s how you can get your token](https://docs.wavefront.com/users_account_managing.html#generate-an-api-token)).
