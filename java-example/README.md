@@ -13,7 +13,7 @@ out [this guide](https://tanzu.vmware.com/content/blog/getting-started-opentelem
 
 This example demonstrate Manual instrumentation for OpenTelemetry Java through the OpenTelemetry API and configuration
 through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the classes, meaning
-that all of the data recorded is simply dropped. Configuring the OpenTelemetry SDK enables the data to be processed and
+that all the data recorded is simply dropped. Configuring the OpenTelemetry SDK enables the data to be processed and
 exported in useful ways.
 
 #### Prerequisite: Installing OpenTelemetry Components
@@ -21,8 +21,9 @@ exported in useful ways.
 Note: If you have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
 
-To ease the process of installing OpenTelemetry components, we have put all the dependencies in
-the [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/java/pom.xml)
+Locate the ```pom.xml``` in ```java-example``` project in your IDE, and right click and
+select ```Add as a Maven Project```. To ease the process of installing OpenTelemetry components, we have put all the
+dependencies in the [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/java/pom.xml)
 file.
 
 Dependencies that need to be included in the ```pom.xml``` are:
