@@ -1,6 +1,7 @@
 package com.vmware;
 
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
@@ -8,6 +9,9 @@ import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Sumit Deo (deosu@vmware.com)
@@ -27,7 +31,8 @@ public class App {
         //an automated way to propagate the parent span on the current thread
         for (int index = 0; index < 3; index++) {
             //create a span by specifying the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK
-            Span parentSpan = tracer.spanBuilder("parentSpan").startSpan();
+            Span parentSpan =
+                tracer.spanBuilder("parentSpan-" + index).setSpanKind(Span.Kind.SERVER).startSpan();
             logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceIdAsHexString());
 
             //put the span into the current Context
@@ -54,9 +59,16 @@ public class App {
         tracer = getTracer();
 
         //setParent(...) is not required, `Span.current()` is automatically added as the parent
-        Span childSpan = tracer.spanBuilder("childSpan").setParent(Context.current().with(parentSpan))
-                .startSpan();
+        Span childSpan = tracer.spanBuilder("childSpan")
+            .setParent(Context.current().with(parentSpan))
+            .setSpanKind(Span.Kind.CLIENT)
+            .startSpan();
         logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceIdAsHexString());
+
+        AttributeKey<List<Long>> longAttr = AttributeKey.longArrayKey("long-arr");
+        childSpan.setAttribute(longAttr, Arrays.asList(Integer.toUnsignedLong(1), Integer.toUnsignedLong(2)));
+        AttributeKey<List<Boolean>> boolAttr = AttributeKey.booleanArrayKey("bool-arr");
+        childSpan.setAttribute(boolAttr, Arrays.asList(true, false, true));
 
         //put the span into the current Context
         try (Scope scope = childSpan.makeCurrent()) {
@@ -64,6 +76,7 @@ public class App {
         } catch (Throwable throwable) {
             childSpan.setStatus(StatusCode.ERROR, "Something wrong with the child span");
         } finally {
+            childSpan.setStatus(StatusCode.ERROR, "Something wrong with the child spanooo");
             childSpan.end();
         }
     }
