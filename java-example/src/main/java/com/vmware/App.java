@@ -15,16 +15,11 @@ import org.slf4j.LoggerFactory;
 public class App {
 
     private final static Logger logger = LoggerFactory.getLogger(App.class);
-    public static final String OTEL_RESOURCE_ATTRIBUTES_KEY = "otel.resource.attributes";
-    public static final String OTEL_RESOURCE_ATTRIBUTES_VALUE = "service.name=HelloWorldJavaService";
     public static final String INSTRUMENTATION_LIBRARY_NAME = "instrumentation-library-name";
     public static final String INSTRUMENTATION_VERSION = "1.0.0";
     static Tracer tracer;
 
     public static void main(String[] args) throws InterruptedException {
-
-        //this will make sure that a proper service.name attribute is set on all the spans/metrics.
-        System.setProperty(OTEL_RESOURCE_ATTRIBUTES_KEY, OTEL_RESOURCE_ATTRIBUTES_VALUE);
 
         /*tracer must be acquired, which is responsible for creating spans and interacting with the Context*/
         tracer = getTracer();
