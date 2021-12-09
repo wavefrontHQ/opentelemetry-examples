@@ -7,7 +7,7 @@ simple, we will create a basic “Hello World” application using Flask, instru
 library to generate trace data and send it to an OpenTelemetry Collector. The Collector will then export the trace data
 to the Wavefront Proxy which will eventually export the trace data to the Tanzu Observability UI.
 
-![Here is how it works:](https://raw.githubusercontent.com/wavefrontHQ/opentelemetry-examples/main/TraceFlow.png?raw=true)
+![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
 
 If you have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
