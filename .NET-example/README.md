@@ -14,8 +14,8 @@ out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main
 
 #### Step 1: Get our example application
 
-We can easily instrument our any other application, but if we do not have one then refer to a following simple application. Our
-example application is a locally hosted server that responds with “Hello, World!“ every time we access it.
+The instrumentation works with any application, for this walk through we will refer to the following simple application.
+Our example application is a locally hosted server that responds with “Hello, World!“ every time we access it.
 
 ```c#
 using Microsoft.AspNetCore.Builder;
@@ -57,18 +57,22 @@ use [OpenTelemetry.Instrumentation.AspNetCore](https://www.nuget.org/packages/Op
 Now we can enable the instrumentation with a single block of code in our startup to:
 
 * Add a trace provider for OpenTelemetry
-* Set the service name we want to appear in the trace. Note: change the service name to our desired service name.
+* Set the service name we want to appear in the trace. Note: change the service-name/application as per application's requirements.
 * Add the ASP.NET Core instrumentation
 * Add an exporter using the OpenTelemetry protocol (OTLP) over gRPC pointing to the OpenTelemetry Collector instance
 
 The code looks like:
 
 ```c#
+var resourceList = new List<KeyValuePair<string, object>>();
+resourceList.Add(new KeyValuePair<string, object>
+    ("application", "otel-otlp-.net-app"));
+    
 builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
 {
     tracerProviderBuilder.AddAspNetCoreInstrumentation();
     tracerProviderBuilder.SetResourceBuilder(ResourceBuilder.CreateDefault()
-        .AddService("ServiceA"));
+        .AddService("otel-otlp-.net-service").AddAttributes(resourceList));
     tracerProviderBuilder.AddOtlpExporter(options =>
     {
         options.Endpoint = new Uri("http://localhost:4317");
@@ -78,15 +82,17 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
 opentelemetry-bootstrap --action=install
 ```
 
-That’s all the coding we need! The libraries we used above provide auto-instrumentation of all the incoming and outgoing web requests.
+That’s all the coding we need! The libraries we used above provide auto-instrumentation of all the incoming and outgoing
+web requests.
 
 #### Step 4: Run our application
 
 The collector is now running and listening to incoming traces on port 4317.
 
-Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this point is to visit [localhost](https://localhost:7203) and refresh the page, triggering
-our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
-are ingested, we can examine them in the Tanzu Observability user interface.
+Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this
+point is to visit [localhost](https://localhost:7203) and refresh the page, triggering our app to generate and emit a
+trace of that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine
+them in the Tanzu Observability user interface.
 
 ## Manual-Instrumentation
 

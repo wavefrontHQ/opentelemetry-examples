@@ -9,13 +9,13 @@ to the Wavefront Proxy which will eventually export the trace data to the Tanzu 
 
 ![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
 
-If you have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
+To set up an OpenTelemetry Collector or Wavefront proxy, check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
 
-#### Step 1: Get your example application
+#### Step 1: Get our example application
 
-You can easily instrument your application, but if you do not have one then refer to a following simple application. Our
-example application is a locally hosted server that responds with “Hello, World!“ every time we access it.
+The instrumentation works with any application, for this walk through we will refer to the following simple application.
+Our example application is a locally hosted server that responds with “Hello, World!“ every time we access it.
 
 ```python
 from flask import Flask
@@ -38,10 +38,15 @@ Let's save this file as ```server.py```.
 In our next step, we will need to install all OpenTelemetry components that are required to auto-instrument our
 application:
 
+* ```Flask```
 * ```opentelemetry-distro```
 * ```opentelemetry-instrumentation```
 
 To install these packages, we run the following commands from our application directory:
+
+```
+pip3 install Flask
+```
 
 ```
 pip3 install opentelemetry-distro
@@ -82,16 +87,16 @@ export OTEL_TRACES_EXPORTER=otlp
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
 ```
 
-Note: Change the value of 'service.name' attribute to your desired service name.
+Note: Change the value of 'service.name'/'application' attribute as per application requirements.
 
 ```
-export OTEL_RESOURCE_ATTRIBUTES="service.name=myApplication"
+export OTEL_RESOURCE_ATTRIBUTES="service.name=otel-otlp-python-service,application=otel-otlp-python-app"
 ```
 
 In the above configuration, we export our trace data using OpenTelemetry Protocol (OTLP). In addition, we set the export
 endpoint as ```localhost:4317``` and assign the name ```myApplication``` to our tracing service as a resource attribute.
 
-#### Step 5: Run your application
+#### Step 5: Run application
 
 The collector is now running and listening to incoming traces on port 4317.
 
@@ -103,26 +108,26 @@ opentelemetry-instrument python3 server.py
 
 All that is left for us to do at this point is to visit [localhost](http://localhost) and refresh the page, triggering
 our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
-are ingested, you can examine them in the Tanzu Observability user interface.
+are ingested, we can examine them in the Tanzu Observability user interface.
 
 ## Manual-Instrumentation
 
-Okay, automation is great, but eventually you are going to want to add detail. Spans are already decorated with
-standardized attributes, but once you’re settled in, you will want to start adding more detail. In some cases, you may
-want to augment the auto-instrumentation with manual instrumentation in your python code in order to collect more
-fine-grained trace data on specific pieces of your code.
+Okay, automation is great, but eventually we want to add detail. Spans are already decorated with
+standardized attributes, but once we’re settled in, we will start adding more detail. In some cases, we may
+want to augment the auto-instrumentation with manual instrumentation in our python code in order to collect more
+fine-grained trace data on specific pieces of our code.
 
 #### Prerequisite: Installing OpenTelemetry Components
 
 To ease this process, we have put all the dependencies in
 the [```requirements.txt```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/python/requirements.txt)
-file. All you need to do is run the following command.
+file. All we need to do is run the following command.
 
 ```
 pip3 install -r requirements.txt
 ```
 
-#### Step 1: Instrument your application
+#### Step 1: Instrument application
 
 To keep things simple, we will create a basic “Hello World” application using Flask, please do refer an
 application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/python/server.py).
@@ -136,10 +141,11 @@ application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examp
       ```FlaskInstrumentor().instrument_app(app)```
 
 * #### Resource attributes
-  Note: Change the value of 'service.name' attribute to your desired service name.
+  Note: Change the value of 'service.name'/'application' as per the applications requirements.
     ```python
         resource = Resource(attributes={
-        "service.name": "myPythonService"
+          "service.name": "otel-otlp-python-service",
+          "application": "otel-otlp-python-app"
         })
     ```
 * #### OTLPSpanExporter configuration
@@ -152,7 +158,7 @@ application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examp
         )
   ```
 * #### Setup tracer
-  Tracer, an object that tracks the currently active span and allows you to create (or activate) new spans.
+  Tracer, an object that tracks the currently active span and allows us to create (or activate) new spans.
     ```python
       trace.set_tracer_provider(tracer_provider)
       span_processor = BatchSpanProcessor(span_exporter)
@@ -162,8 +168,8 @@ application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examp
     ```
 * #### Creating a child span
   A span represents a distinct operation - not an individual function, but an entire operation, such as a database
-  query. Generally, this means you shouldn't be creating spans in your application code, they should be managed as part
-  of the framework or library you are using. But, that said, here is how you do it. Span management has two parts - the
+  query. Generally, this means we shouldn't be creating spans in our application code, they should be managed as part
+  of the framework or library we are using. But, that said, here is how we do it. Span management has two parts - the
   span lifetime and the span context. The lifetime is managed by starting the span with a tracer, and adding it to a
   trace by assigning it a parent.
   ```python
@@ -200,8 +206,8 @@ application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examp
           return "Some Exception"
     ```
 
- 
-#### Step 2: Run your application
+#### Step 2: Run application
+
 The collector is now running and listening to incoming traces on port 4317.
 
 Our next step is to start our application:
@@ -210,7 +216,8 @@ Our next step is to start our application:
 python3 server.py
 ```
 
-All that is left for us to do at this point is to visit [localhost](http://localhost)/[exception](http://localhost/exception) and refresh the page, triggering
-our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
-are ingested, you can examine them in the Tanzu Observability user interface.
+All that is left for us to do at this point is to visit [localhost](http://localhost)
+/[exception](http://localhost/exception) and refresh the page, triggering our app to generate and emit a trace of that
+transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in the
+Tanzu Observability user interface.
   
