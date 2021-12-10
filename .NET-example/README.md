@@ -90,7 +90,7 @@ web requests.
 The collector is now running and listening to incoming traces on port 4317.
 
 Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this
-point is to visit [localhost](https://localhost:7203) and refresh the page, triggering our app to generate and emit a
+point is to visit ```https://localhost:7203``` and refresh the page, triggering our app to generate and emit a
 trace of that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine
 them in the Tanzu Observability user interface.
 

@@ -12,6 +12,20 @@ to the Wavefront Proxy which will eventually export the trace data to the Tanzu 
 To set up an OpenTelemetry Collector or Wavefront proxy, check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
 
+#### Prerequisite: Setup Virtual Environment(OPTIONAL)
+
+Managing Python installations can be a bit of a snake’s nest, especially on a mac. Virtualenv is a tool that lets you
+create an isolated Python environment for your project. It creates an environment that has its own installation
+directories, that does not share dependencies with other virtualenv environments (and optionally doesn’t access the
+globally installed dependencies either). You can even configure what version of Python you want to use for each
+individual environment. It's very much recommended to use virtualenv when dealing with Python applications.
+
+* Go to python.org and look for python 3.9.9, at the time of this writing we were using 3.9.
+* Install python 3.9.x using the python installer. Don’t use brew
+* Go to home directory
+* run ```python3.9 -m venv ~/py39```
+* run ```source ~/py39/bin/activate```
+
 #### Step 1: Get our example application
 
 The instrumentation works with any application, for this walk through we will refer to the following simple application.
@@ -106,18 +120,20 @@ Our next step is to start our application:
 opentelemetry-instrument python3 server.py
 ```
 
-All that is left for us to do at this point is to visit [localhost](http://localhost) and refresh the page, triggering
-our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
-are ingested, we can examine them in the Tanzu Observability user interface.
+All that is left for us to do at this point is to visit ```http://localhost``` and refresh the page, triggering our app
+to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector are
+ingested, we can examine them in the Tanzu Observability user interface.
 
 ## Manual-Instrumentation
 
-Okay, automation is great, but eventually we want to add detail. Spans are already decorated with
-standardized attributes, but once we’re settled in, we will start adding more detail. In some cases, we may
-want to augment the auto-instrumentation with manual instrumentation in our python code in order to collect more
-fine-grained trace data on specific pieces of our code.
+Okay, automation is great, but eventually we want to add detail. Spans are already decorated with standardized
+attributes, but once we’re settled in, we will start adding more detail. In some cases, we may want to augment the
+auto-instrumentation with manual instrumentation in our python code in order to collect more fine-grained trace data on
+specific pieces of our code.
 
 #### Prerequisite: Installing OpenTelemetry Components
+
+Note: Do not use the same ```virtualenv``` created in ```auto-instrumentation``` example.
 
 To ease this process, we have put all the dependencies in
 the [```requirements.txt```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/python/requirements.txt)
@@ -168,10 +184,10 @@ application [```server.py```](https://github.com/wavefrontHQ/opentelemetry-examp
     ```
 * #### Creating a child span
   A span represents a distinct operation - not an individual function, but an entire operation, such as a database
-  query. Generally, this means we shouldn't be creating spans in our application code, they should be managed as part
-  of the framework or library we are using. But, that said, here is how we do it. Span management has two parts - the
-  span lifetime and the span context. The lifetime is managed by starting the span with a tracer, and adding it to a
-  trace by assigning it a parent.
+  query. Generally, this means we shouldn't be creating spans in our application code, they should be managed as part of
+  the framework or library we are using. But, that said, here is how we do it. Span management has two parts - the span
+  lifetime and the span context. The lifetime is managed by starting the span with a tracer, and adding it to a trace by
+  assigning it a parent.
   ```python
     @app.route('/')
     def index():
@@ -216,8 +232,7 @@ Our next step is to start our application:
 python3 server.py
 ```
 
-All that is left for us to do at this point is to visit [localhost](http://localhost)
-/[exception](http://localhost/exception) and refresh the page, triggering our app to generate and emit a trace of that
-transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in the
-Tanzu Observability user interface.
+All that is left for us to do at this point is to visit ```http://localhost``` or ```http://localhost/exception``` and
+refresh the page, triggering our app to generate and emit a trace of that transaction. When the trace data collected
+from the OpenTelemetry collector are ingested, we can examine them in the Tanzu Observability user interface.
   
