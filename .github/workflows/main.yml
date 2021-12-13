@@ -19,7 +19,5 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Locate java-example app
-        run: cd java-example
       - name: Build project with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file java-example/pom.xml
