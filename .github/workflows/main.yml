@@ -2,7 +2,7 @@ name: Maven CI/CD
 
 on:
   push:
-    branches: [ MONIT-26152-AddGitHubActions ]
+    branches: [ master ]
 
   pull_request:
     branches: [ master ]
