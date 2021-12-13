@@ -134,7 +134,7 @@ Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` sectio
   ```c#
   using (var activity = activitySource.StartActivity("Get some data")){}
   ```
-  
+
 * add some info to the activity using ```AddTag```. This data will be exported to Tanzu Observability.
   ```c#
   activity?.AddTag("sampleTag", "someTag");
@@ -147,9 +147,16 @@ Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` sectio
 
 #### Step 5: Run our application
 
-The collector is now running and listening to incoming traces on port 4317.
+Run the below commands to start our application either from the CLI.
 
-Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this
-point is to visit ```https://localhost:7205``` and refresh the page, triggering our app to generate and emit a trace of
-that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
-the Tanzu Observability user interface.
+```
+cd DOTNET-example
+```
+
+```
+dotnet run --project WebApp  
+```
+
+All that is left for us to do at this point is to visit ```https://localhost:7205``` and refresh the page, triggering
+our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
+are ingested, we can examine them in the Tanzu Observability user interface.
