@@ -51,6 +51,10 @@ use [OpenTelemetry.Instrumentation.AspNetCore](https://www.nuget.org/packages/Op
   ```
   dotnet add package OpenTelemetry.Instrumentation.Http --version 1.0.0-rc8
   ```
+* OpenTelemetry.Extensions.Hosting: To register the .NET OpenTelemetry provider.
+  ```
+  dotnet add package OpenTelemetry.Extensions.Hosting --version 1.0.0-rc8
+  ```
 
 #### Step 3: Configure the Trace Provider
 
