@@ -34,6 +34,7 @@ public class App {
             try {
                 parentSpan.makeCurrent();
                 //annotate the span with attributes specific to the represented operation, to provide additional context
+                parentSpan.setAttribute("parentIndex", index);
                 childMethod(parentSpan);
             } catch (Throwable throwable) {
                 parentSpan.setStatus(StatusCode.ERROR, "Exception message: " + throwable.getMessage());
