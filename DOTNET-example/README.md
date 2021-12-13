@@ -51,13 +51,18 @@ use [OpenTelemetry.Instrumentation.AspNetCore](https://www.nuget.org/packages/Op
   ```
   dotnet add package OpenTelemetry.Instrumentation.Http --version 1.0.0-rc8
   ```
+* OpenTelemetry.Extensions.Hosting: To register the .NET OpenTelemetry provider.
+  ```
+  dotnet add package OpenTelemetry.Extensions.Hosting --version 1.0.0-rc8
+  ```
 
 #### Step 3: Configure the Trace Provider
 
 Now we can enable the instrumentation with a single block of code in our startup to:
 
 * Add a trace provider for OpenTelemetry
-* Set the service name we want to appear in the trace. Note: change the service-name/application as per application's requirements.
+* Set the service name we want to appear in the trace. Note: change the service-name/application as per application's
+  requirements.
 * Add the ASP.NET Core instrumentation
 * Add an exporter using the OpenTelemetry protocol (OTLP) over gRPC pointing to the OpenTelemetry Collector instance
 
@@ -90,10 +95,65 @@ web requests.
 The collector is now running and listening to incoming traces on port 4317.
 
 Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this
-point is to visit ```https://localhost:7203``` and refresh the page, triggering our app to generate and emit a
-trace of that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine
-them in the Tanzu Observability user interface.
+point is to visit ```https://localhost:7205``` and refresh the page, triggering our app to generate and emit a trace of
+that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
+the Tanzu Observability user interface.
 
 ## Manual-Instrumentation
 
-Work In Progress...
+Getting all our web requests instrumented was super simple with auto-instrumentation. But there might be lots going on
+in our services, and it would be helpful if we broke the span down into parts for finer-grain tracing. To do this, we
+can add additional spans manually over sections of the code.
+
+#### Prerequisite
+
+If we have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
+out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
+
+#### Step 1: Get our example application
+
+Locate the ```WebApp``` web-application in the ```DOTNET-example``` directory.
+
+#### Step 2: Installing OpenTelemetry Components
+
+Note: Follow the ```Step 2``` mentioned in the ```Auto-Instrumentation``` section.
+
+#### Step 3: Configure the Trace Provider
+
+Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` section.
+
+#### Step 4: Add a tracer, create a span
+
+* System.Diagnostics.ActivitySource represents
+  an [OpenTelemetry Tracer](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#tracer)
+  ```c#
+  var activitySource = new ActivitySource("MyApplicationActivitySource");
+  ```
+* System.Diagnostics.Activity represents
+  an [OpenTelemetry Span](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#span)
+  ```c#
+  using (var activity = activitySource.StartActivity("Get some data")){}
+  ```
+* System.Diagnostics.Activity represents
+  an [OpenTelemetry Span](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#span)
+  ```c#
+  using (var activity = activitySource.StartActivity("Get some data")){}
+  ```
+* add some info to the activity using ```AddTag```. This data will be exported to Tanzu Observability.
+  ```c#
+  activity?.AddTag("sampleTag", "someTag");
+  ```
+* add baggage using ```AddBagage```. Baggage will flow to child activities. This could be useful to flow a correlation
+  id to all child activities, even the ones started on other services.
+  ```c#
+  activity?.AddBaggage("sampleBaggage", "someBaggage");
+  ```
+
+#### Step 5: Run our application
+
+The collector is now running and listening to incoming traces on port 4317.
+
+Our next step is to start our application either from the CLI or from our IDE. All that is left for us to do at this
+point is to visit ```https://localhost:7205``` and refresh the page, triggering our app to generate and emit a trace of
+that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
+the Tanzu Observability user interface.
