@@ -134,11 +134,7 @@ Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` sectio
   ```c#
   using (var activity = activitySource.StartActivity("Get some data")){}
   ```
-* System.Diagnostics.Activity represents
-  an [OpenTelemetry Span](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#span)
-  ```c#
-  using (var activity = activitySource.StartActivity("Get some data")){}
-  ```
+  
 * add some info to the activity using ```AddTag```. This data will be exported to Tanzu Observability.
   ```c#
   activity?.AddTag("sampleTag", "someTag");
