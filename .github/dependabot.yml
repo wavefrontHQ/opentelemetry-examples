@@ -13,7 +13,7 @@ updates:
     directory: "python-example/"
     schedule:
       interval: "daily"
-  — package-ecosystem: "nuget"
+  - package-ecosystem: "nuget"
     directory: “DOTNET-example/” 
     schedule:
       interval: "daily"
