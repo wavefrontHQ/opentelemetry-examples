@@ -9,3 +9,11 @@ updates:
     directory: "java-example/"
     schedule:
       interval: "daily"
+  - package-ecosystem: "pip"
+    directory: "python-example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget"
+    directory: “DOTNET-example/” 
+    schedule:
+      interval: "daily"

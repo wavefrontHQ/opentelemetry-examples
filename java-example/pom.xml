@@ -11,10 +11,11 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.opentelemetry-alpha>0.15.0-alpha</version.opentelemetry-alpha>
+        <version.opentelemetry-alpha>1.10.0-alpha</version.opentelemetry-alpha>
         <version.opentelemetry-semconv>1.10.0-alpha-rc.1</version.opentelemetry-semconv>
-        <version.opentelemetry>0.15.0</version.opentelemetry>
-        <version.grpc>1.35.0</version.grpc>
+        <version.opentelemetry-semconv>1.9.1-alpha</version.opentelemetry-semconv>
+        <version.opentelemetry>1.9.1</version.opentelemetry>
+        <version.grpc>1.42.1</version.grpc>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -43,14 +44,17 @@
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
+            <version>${version.opentelemetry}</version>          
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <version>${version.opentelemetry}</version>          
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
