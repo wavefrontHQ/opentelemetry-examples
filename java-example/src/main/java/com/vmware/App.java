@@ -28,7 +28,7 @@ public class App {
         for (int index = 0; index < 3; index++) {
             //create a span by specifying the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK
             Span parentSpan = tracer.spanBuilder("parentSpan").startSpan();
-            logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceIdAsHexString());
+            logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceId());
 
             //put the span into the current Context
             try {
@@ -56,7 +56,7 @@ public class App {
         //setParent(...) is not required, `Span.current()` is automatically added as the parent
         Span childSpan = tracer.spanBuilder("childSpan").setParent(Context.current().with(parentSpan))
                 .startSpan();
-        logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceIdAsHexString());
+        logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceId());
 
         //put the span into the current Context
         try (Scope scope = childSpan.makeCurrent()) {
