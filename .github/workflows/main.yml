@@ -2,20 +2,20 @@ name: Maven CI/CD
 
 on:
   push:
-    branches: [ master ]
+    branches: [ MONIT-26152-AddGitHubActions ]
 
   pull_request:
     branches: [ master ]
 
 jobs:
-  build_and_test:
+  build_and_run_java_app:
+
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         distribution: [ 'temurin' ]
         java: [ '8', '11', '17' ]
-
-    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -30,3 +30,26 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
       - name: Compile and Run project
         run: mvn compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml
+
+
+  build_and_run_python_app:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [ 3.5, 3.6, 3.7, 3.8 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r python-example/requirements.txt
+      - name: Lint with flake8
+        run: |
+          python3 python-example/server.py
