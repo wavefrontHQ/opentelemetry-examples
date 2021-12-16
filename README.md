@@ -1,17 +1,34 @@
-# Sending Trace Data to Wavefront
+# Sending Trace Data to Tanzu Observability by Wavefront
 
-If your application uses OpenTelemetry, you can configure the application to send trace data to Wavefront using the
-Tanzu Observability (Wavefront) trace exporter. When the data is in Wavefront, you can use our tracing dashboards to
-visualize any request as a trace that consists of a hierarchy of spans. This visualization helps you pinpoint where the
-request is spending most of its time and discover problems.
+This README is for all users who want to send OpenTelemetry trace data to Tanzu Observability. This README explains how
+to install Tanzu Observability proxy and install the OpenTelemetry collector. This repository includes specific examples for using
+the OpenTelemetry collector in java, python, and .NET, etc.
 
-![Here is how it works:](https://raw.githubusercontent.com/wavefrontHQ/opentelemetry-examples/main/TraceFlow.png?raw=true)
+## Overview
 
-### Install Wavefront proxy
-Configure your Tanzu Observability (Wavefront) URL and the token. (If you’ve signed up for the free trial, [here’s how you can get your token](https://docs.wavefront.com/users_account_managing.html#generate-an-api-token)).
+If your application uses OpenTelemetry, you can use the Trace exporter to send trace data to Tanzu Observability UI.
+When trace data is in Tanzu Observability UI, you can use tracing dashboards to visualize any request as a trace that
+consists of a hierarchy of spans. This visualization helps you pinpoint where the request is spending most of its time
+and discover problems.
+
+![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
+
+## Prerequisites
+
+* A Tanzu Observability account (If you don't have one already, you
+  can [sign up for one](https://tanzu.vmware.com/observability))
+
+### Install Tanzu Observability Proxy
+
+Use docker run to install the Tanzu Observability proxy. You have to specify.
+
+* The Tanzu Observability instance (for example, https://longboard.wavefront.com).
+* A Tanzu Observability API token that is linked to an account with Proxy permission.
+  See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+
 ```
 docker run -d \
-      -e WAVEFRONT_URL=https://{CLUSTER}.wavefront.com/api/ \
+      -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
       -e WAVEFRONT_TOKEN={TOKEN} \
       -e JAVA_HEAP_USAGE=512m \
       -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
@@ -21,9 +38,14 @@ docker run -d \
 ```
 
 ### Install the OpenTelemetry Collector
-Download the binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
 
-In the same directory, create the otel_collector_config.yaml file and copy the below configuration to the yaml file. (Learn more about [OpenTelemetry collector configuration](https://opentelemetry.io/docs/collector/configuration/)).
+Download the binary from the latest release of
+the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and
+add it to a preferred directory.
+
+In the same directory, create the `otel_collector_config.yaml` file and copy the below configuration into the yaml
+file. (
+Learn more about [OpenTelemetry collector configuration](https://opentelemetry.io/docs/collector/configuration/)).
 
 ```
 receivers:
@@ -48,7 +70,8 @@ service:
         processors: [batch]
 ```
 
-Navigate to the directory from your console and run the collector host with the config file using --config parameter and the command.
+Navigate to the directory from your console and run the following command to start OTel collector:
+
 ```
 ./otelcontribcol_darwin_amd64 --config otel_collector_config.yaml
 ```
