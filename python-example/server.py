@@ -53,7 +53,7 @@ def index():
     return "Hello World"
 
 
-@app.route("/exception")
+@app.route("/exceptions")
 def exception():
     try:
         1 / 0
