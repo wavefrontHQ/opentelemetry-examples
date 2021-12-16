@@ -210,7 +210,7 @@ Our next step is to start our application:
 python3 server.py
 ```
 
-All that is left for us to do at this point is to visit [localhost](http://localhost)/[exception](http://localhost/exception) and refresh the page, triggering
+All that is left for us to do at this point is to visit [localhost](http://localhost:8080/)/[exception](http://localhost:8080/exception) and refresh the page, triggering
 our app to generate and emit a trace of that transaction. When the trace data collected from the OpenTelemetry collector
 are ingested, you can examine them in the Tanzu Observability user interface.
   

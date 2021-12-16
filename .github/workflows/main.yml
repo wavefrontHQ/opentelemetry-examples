@@ -53,4 +53,4 @@ jobs:
           pip3 install opentelemetry-instrumentation-flask
       - name: Run the app
         run: |
-          python3 python-example/server.py
+          python3 python-example/server.py &
