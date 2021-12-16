@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [ 3.8, 3.9, 3.10 ]
+        python-version: [ 3.8, 3.9 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -49,7 +49,8 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip install -r python-example/requirements.txt
-      - name: Lint with flake8
+          pip3 install -r python-example/requirements.txt
+          pip3 install opentelemetry-instrumentation-flask
+      - name: Run the app
         run: |
           python3 python-example/server.py
