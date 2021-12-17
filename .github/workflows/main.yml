@@ -1,0 +1,77 @@
+name: Maven CI/CD
+
+on:
+  push:
+    branches: [ master ]
+
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build_and_run_java_app:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        distribution: [ 'temurin' ]
+        java: [ '8', '11', '17' ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JAVA
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: ${{ matrix.distribution }}
+          cache: maven
+
+      - name: Build project with Maven
+        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
+      - name: Compile and Run project
+        run: mvn compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml
+
+
+  build_and_run_python_app:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [ 3.8, 3.9 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r python-example/requirements.txt
+          pip3 install opentelemetry-instrumentation-flask
+      - name: Run the app
+        run: |
+          python3 python-example/server.py &
+      - name: Send a sample request to localhost:8080
+        run: |
+          OUTPUT_FILE=$(mktemp)
+          HTTP_CODE=$(curl --silent --output $OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080")
+          if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
+            >&2 cat $OUTPUT_FILE
+            exit 1;
+          fi
+          cat $OUTPUT_FILE
+          rm $OUTPUT_FILE
+      - name: Send a sample request to localhost:8080/exception
+        run: |
+          OUTPUT_FILE=$(mktemp)
+          HTTP_CODE=$(curl --silent --output $OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080/exception")
+          if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
+            >&2 cat $OUTPUT_FILE
+            exit 1;
+          fi
+          cat $OUTPUT_FILE
+          rm $OUTPUT_FILE    
+      

@@ -11,14 +11,14 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.opentelemetry-alpha>0.15.0-alpha</version.opentelemetry-alpha>
-        <version.opentelemetry-semconv>1.9.0-alpha</version.opentelemetry-semconv>
-        <version.opentelemetry>0.15.0</version.opentelemetry>
-        <version.grpc>1.35.0</version.grpc>
+        <version.opentelemetry-alpha>1.10.0-alpha</version.opentelemetry-alpha>
+        <version.opentelemetry-semconv>1.10.0-alpha-rc.1</version.opentelemetry-semconv>
+        <version.opentelemetry>1.9.1</version.opentelemetry>
+        <version.grpc>1.43.0</version.grpc>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <version.logback>1.2.3</version.logback>
+        <version.logback>1.2.8</version.logback>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencyManagement>
@@ -37,20 +37,23 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -80,6 +83,7 @@
                 <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>

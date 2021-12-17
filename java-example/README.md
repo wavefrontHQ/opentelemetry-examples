@@ -2,38 +2,40 @@
 
 ## Auto Instrumentation
 
-For instrumentation, we will use the Java agent provided by OpenTelemetry, which can be attached to any Java
-application. This agent will dynamically inject bytecode to collect telemetry data so that we don’t need to add any
-manual instrumentation.
+This section shows a working example of a Java application auto-instrumented with OpenTelemetry.
 
 To auto-instrument a Java application, check
 out [this guide](https://tanzu.vmware.com/content/blog/getting-started-opentelemetry-vmware-tanzu-observability#devops).
 
 ## Manual Instrumentation
 
-This example demonstrate Manual instrumentation for OpenTelemetry Java through the OpenTelemetry API and configuration
-through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the classes, meaning
-that all the data recorded is simply dropped. Configuring the OpenTelemetry SDK enables the data to be processed and
-exported in useful ways.
+This section shows a working example of a Java application manually-instrumented with OpenTelemetry API and
+configuration through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the
+classes. Configuring the OpenTelemetry SDK enables the data to be processed and exported in useful ways.
 
-#### Prerequisite: Installing OpenTelemetry Components
+### Prerequisite
 
-Note: To set up an OpenTelemetry Collector or Wavefront proxy, check
-out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
+* Install the Tanzu Observability proxy. See
+  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-wavefront-proxy).
+* Set up an OpenTelemetry Collector for Tanzu Observability. See
+  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-the-opentelemetry-collector)
+  .
 
-Locate the ```pom.xml``` in ```java-example``` project in IDE, and right click and
-select ```Add as a Maven Project```. To ease the process of installing OpenTelemetry components, we have put all the
-dependencies in the [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/java/pom.xml)
+### Step 1: Add a Maven Project
+
+Locate the ```pom.xml``` in ```java-example``` project in IDE, and right click and select ```Add as a Maven Project```.
+We have put all the dependencies in
+the [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/java-example/pom.xml)
 file.
 
-Dependencies that need to be included in the ```pom.xml``` are:
+Dependencies included in the ```pom.xml``` are:
 
 ```xml
 
 <properties>
-    <version.opentelemetry-alpha>0.15.0-alpha</version.opentelemetry-alpha>
-    <version.opentelemetry-semconv>1.9.0-alpha</version.opentelemetry-semconv>
-    <version.opentelemetry>0.15.0</version.opentelemetry>
+    <version.opentelemetry-alpha>1.9.1</version.opentelemetry-alpha>
+    <version.opentelemetry-semconv>1.9.1-alpha</version.opentelemetry-semconv>
+    <version.opentelemetry>1.9.1</version.opentelemetry>
     <version.grpc>1.35.0</version.grpc>
 </properties>
 
@@ -80,14 +82,14 @@ Dependencies that need to be included in the ```pom.xml``` are:
 </dependencies>
 ```
 
-#### Step 1: Instrument application
+### Step 2: Instrument the Application
 
-* #### Get OpenTelemetry interface
-    * The first step is to get a handle to an instance of the OpenTelemetry interface. As an application
-      developer, we need to configure an instance of the OpenTelemetrySdk as early as possible in our application.
-      This can be done using the OpenTelemetrySdk.builder() method.
+* #### Get an OpenTelemetry Interface
+  The first step is to get a handle to an instance of the OpenTelemetry interface. As an application developer, we need
+  to configure an instance of the OpenTelemetrySdk as early as possible in our application. This can be done using the
+  OpenTelemetrySdk.builder() method.
 
-      ```java
+  ```java
       static OpenTelemetry initOpenTelemetry() {
         OtlpGrpcSpanExporter spanExporter = getOtlpGrpcSpanExporter();
         BatchSpanProcessor spanProcessor = getBatchSpanProcessor(spanExporter);
@@ -125,26 +127,26 @@ Dependencies that need to be included in the ```pom.xml``` are:
           .build();
        return spanExporter;
       }
-      ```
-      As an aside, if we are writing library instrumentation, it is strongly recommended that we provide our users
-      the ability to inject an instance of ```OpenTelemetry``` into our instrumentation code. If this is not possible
-      for some reason, we can fall back to using an instance from the ```GlobalOpenTelemetry``` class. Note that we
-      can’t force end-users to configure the global, so this is the most brittle option for library instrumentation.
+  ```
+  As an aside, if we are writing library instrumentation, it is strongly recommended that we provide our users the
+  ability to inject an instance of ```OpenTelemetry``` into our instrumentation code. If this is not possible for some
+  reason, we can fall back to using an instance from the ```GlobalOpenTelemetry``` class. Note that we can’t force
+  end-users to configure the global, so this is the most brittle option for library instrumentation.
 
-* #### Tracing
+* #### Get a Tracer
   First, a Tracer must be acquired, which is responsible for creating spans and interacting with the Context. A tracer
   is acquired by using the OpenTelemetry API specifying the name and version of the library instrumenting the
   instrumented library or application to be monitored.
   ```java
     private static Tracer getTracer() {
-        tracer = openTelemetry.getTracer(INSTRUMENTATION_LIBRARY_NAME, INSTRUMENTATION_VERSION);         
+        tracer = openTelemetry.getTracer(<my_instrumentation_library_name>, <my_instrumentation_library_version>);         
         return tracer;
     }
   ```
-  Note: the ```name``` and ```optional version``` of the tracer are purely informational. All Tracers that are created
-  by a single OpenTelemetry instance will interoperate, regardless of name.
+  Note: the ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the tracer are purely
+  informational. All Tracers that are created by a single OpenTelemetry instance will interoperate, regardless of name.
 
-* #### Create a nested span, add attributes
+* #### Create a Nested Span, Add an Attribute
   To create a basic span, we only need to specify the name of the span. The start and end time of the span is
   automatically set by the OpenTelemetry SDK. Most of the time, we want to correlate spans for nested operations. In
   OpenTelemetry spans can be created freely and it’s up to the implementor to annotate them with attributes specific to
@@ -204,17 +206,16 @@ Dependencies that need to be included in the ```pom.xml``` are:
         }
     }
     ```
-* #### More information
+* #### More Information
   The above-mentioned example is a very basic example. Please refer
   to [the guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for more details
   like ```events```, ```links```, ```context propagation```, etc.
 
-#### Step 2: Run application
+### Step 3: Run the Application
 
-The collector is now running and listening to incoming traces on port 4317. Just start an application either from the
-CLI line or from an IDE.
+Run the application either from the CLI line or from an IDE.
 
 The ```main``` method in our Java application will trigger our app to generate and emit a trace of a transaction. When
-the trace data collected from the OpenTelemetry collector are ingested, we can examine them in the Tanzu Observability
-user interface.
+the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
+the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
   
