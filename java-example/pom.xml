@@ -48,12 +48,12 @@
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
-            <version>${version.opentelemetry}</version>          
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
-            <version>${version.opentelemetry}</version>          
+            <version>${version.opentelemetry}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
