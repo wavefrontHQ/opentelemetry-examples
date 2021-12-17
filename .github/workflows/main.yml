@@ -15,15 +15,15 @@ jobs:
     strategy:
       matrix:
         distribution: [ 'temurin' ]
-        java: [ '8', '11', '17' ]
+        java-version: [ '8', '11', '17' ]
 
-    name: Run with Java ${{ java }}
+    name: Run with Java ${{ matrix.java-version }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JAVA
         uses: actions/setup-java@v2
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ matrix.java-version }}
           distribution: ${{ matrix.distribution }}
           cache: maven
 
@@ -41,7 +41,7 @@ jobs:
       matrix:
         python-version: [ 3.8, 3.9 ]
 
-    name: Run with Python ${{ python-version }}
+    name: Run with Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -85,7 +85,7 @@ jobs:
       matrix:
         dotnet-version: [ '3.1.x', '5.0.x', '6.0.x' ]
     
-    name: Run with Dotnet ${{ dotnet-version }}
+    name: Run with Dotnet ${{ matrix.dotnet-version }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up DOTNET ${{ matrix.dotnet-version }}
