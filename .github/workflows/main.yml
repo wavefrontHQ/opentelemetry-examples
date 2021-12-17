@@ -58,24 +58,24 @@ jobs:
           python3 python-example/server.py &
       - name: Send a sample request to localhost:8080
         run: |
-          OUTPUT_FILE=$(mktemp)
-          HTTP_CODE=$(curl --silent --output $OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080")
+          TEMP_OUTPUT_FILE=$(mktemp)
+          HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080")
           if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
-            >&2 cat $OUTPUT_FILE
+            >&2 cat $TEMP_OUTPUT_FILE
             exit 1;
           fi
-          cat $OUTPUT_FILE
-          rm $OUTPUT_FILE
+          cat $TEMP_OUTPUT_FILE
+          rm $TEMP_OUTPUT_FILE
       - name: Send a sample request to localhost:8080/exception
         run: |
-          OUTPUT_FILE=$(mktemp)
-          HTTP_CODE=$(curl --silent --output $OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080/exception")
+          TEMP_OUTPUT_FILE=$(mktemp)
+          HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080/exception")
           if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
-            >&2 cat $OUTPUT_FILE
+            >&2 cat $TEMP_OUTPUT_FILE
             exit 1;
           fi
-          cat $OUTPUT_FILE
-          rm $OUTPUT_FILE   
+          cat $TEMP_OUTPUT_FILE
+          rm $TEMP_OUTPUT_FILE   
           
   build_and_run_dotnet_app:
 
@@ -97,11 +97,11 @@ jobs:
           dotnet run --project DOTNET-example/Web-App &
       - name: Send a sample request to localhost:7029
         run: |
-          OUTPUT_FILE=$(mktemp)
-          HTTP_CODE=$(curl --silent --output $OUTPUT_FILE --write-out "%{http_code}" "https://localhost:7029")
+          TEMP_OUTPUT_FILE=$(mktemp)
+          HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "https://localhost:7029")
           if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
-            >&2 cat $OUTPUT_FILE
+            >&2 cat $TEMP_OUTPUT_FILE
             exit 1;
           fi
-          cat $OUTPUT_FILE
-          rm $OUTPUT_FILE
+          cat $TEMP_OUTPUT_FILE
+          rm $TEMP_OUTPUT_FILE
