@@ -94,7 +94,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Run the app
         run: |
-          dotnet run --project DOTNET-example/Web-App
+          dotnet run --project DOTNET-example/Web-App &
       - name: Send a sample request to localhost:7205
         run: |
           OUTPUT_FILE=$(mktemp)
