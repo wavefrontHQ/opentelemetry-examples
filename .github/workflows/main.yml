@@ -95,6 +95,10 @@ jobs:
       - name: Run the app
         run: |
           dotnet run --project DOTNET-example/Web-App &
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
       - name: Send a sample request to localhost:5114
         run: |
           TEMP_OUTPUT_FILE=$(mktemp)
