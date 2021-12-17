@@ -14,6 +14,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
-    directory: “DOTNET-example/” 
+    directory: "DOTNET-example/" 
     schedule:
       interval: "daily"
