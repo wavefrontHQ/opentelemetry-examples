@@ -154,7 +154,7 @@ cd DOTNET-example
 ```
 
 ```
-dotnet run --project WebApp  
+dotnet run --project Web-App  
 ```
 
 All that is left for us to do at this point is to visit ```https://localhost:7205``` and refresh the page, triggering
