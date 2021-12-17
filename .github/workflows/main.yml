@@ -15,15 +15,15 @@ jobs:
     strategy:
       matrix:
         distribution: [ 'temurin' ]
-        java-version: [ '8', '11', '17' ]
+        java: [ '8', '11', '17' ]
 
-    name: Run with Java ${{ java-version }}
+    name: Run with Java ${{ java }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JAVA
         uses: actions/setup-java@v2
         with:
-          java-version: ${{ matrix.java-version }}
+          java-version: ${{ matrix.java }}
           distribution: ${{ matrix.distribution }}
           cache: maven
 
