@@ -92,12 +92,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Install dependencies
-        run: |
-          dotnet add ./DOTNET-example/Web-App package OpenTelemetry.Exporter.OpenTelemetryProtocol --version 1.1.0
-          dotnet add ./DOTNET-example/Web-App package OpenTelemetry.Instrumentation.AspNetCore --version 1.0.0-rc8
-          dotnet add ./DOTNET-example/Web-App package OpenTelemetry.Instrumentation.Http --version 1.0.0-rc8
-          dotnet add ./DOTNET-example/Web-App package OpenTelemetry.Extensions.Hosting --version 1.0.0-rc8
       - name: Run the app
         run: |
           dotnet run --project DOTNET-example/Web-App
