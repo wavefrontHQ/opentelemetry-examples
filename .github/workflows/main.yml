@@ -94,9 +94,9 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Run and Test the app
         run: |
-          dotnet run --project DOTNET-example/Web-App
-          TEMP_OUTPUT_FILE=$(mktemp)
-          HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:5114")
+          dotnet run --project DOTNET-example/Web-App & \
+          && TEMP_OUTPUT_FILE=$(mktemp) \
+          && HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:5114")
           if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
             >&2 cat $TEMP_OUTPUT_FILE
             exit 1;
