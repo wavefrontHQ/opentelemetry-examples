@@ -103,7 +103,7 @@ jobs:
             HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:5114")
             if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
               >&2 cat $TEMP_OUTPUT_FILE
-              WAIT_TIME=${WAIT_TIME} * $i;
+              WAIT_TIME=$((WAIT_TIME * $i));
             else
               cat $TEMP_OUTPUT_FILE
               rm $TEMP_OUTPUT_FILE
