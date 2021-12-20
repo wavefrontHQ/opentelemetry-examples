@@ -96,7 +96,7 @@ jobs:
         run: |
           dotnet run --project DOTNET-example/Web-App &
           TEMP_OUTPUT_FILE=$(mktemp)
-          WAIT_TIME=5
+          WAIT_TIME=15
           for i in `seq 1 3`;
           do
             echo $i;
