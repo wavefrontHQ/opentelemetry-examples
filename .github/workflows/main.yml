@@ -76,7 +76,7 @@ jobs:
           fi
           cat $TEMP_OUTPUT_FILE
           rm $TEMP_OUTPUT_FILE   
-          
+  
   build_and_run_dotnet_app:
 
     runs-on: ubuntu-latest
