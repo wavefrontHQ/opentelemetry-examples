@@ -126,7 +126,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-
       - name: Download dependencies
+        working-directory: ./go-example
         run: |
-          cd go-example && go mod tidy
+          go mod tidy
+      - name: Run application
+        working-directory: ./go-example
+        run: |
+          go run manual-instrumentation.go
