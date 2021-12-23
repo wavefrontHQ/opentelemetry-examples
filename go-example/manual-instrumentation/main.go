@@ -19,7 +19,9 @@ import (
 
 func initTracer() func() {
 
+	log.Printf("Getting ctx")
 	ctx := context.Background()
+	log.Printf("Got ctx")
 
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
