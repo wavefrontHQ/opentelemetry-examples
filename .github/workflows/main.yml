@@ -130,10 +130,10 @@ jobs:
         working-directory: ./go-example/manual-instrumentation
         run: |
           go mod tidy
-      - name: Run application(manual-instrumentation)
-        working-directory: ./go-example/manual-instrumentation
-        run: |
-          go run main.go
+#      - name: Run application(manual-instrumentation)
+#        working-directory: ./go-example/manual-instrumentation
+#        run: |
+#          go run main.go
       - name: Download dependencies(auto-instrumentation)
         working-directory: ./go-example/auto-instrumentation
         run: |
@@ -141,4 +141,4 @@ jobs:
       - name: Run application(auto-instrumentation)
         working-directory: ./go-example/auto-instrumentation
         run: |
-          go run main.go &
+          go run main.go
