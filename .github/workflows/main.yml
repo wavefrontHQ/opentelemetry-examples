@@ -128,4 +128,6 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Compile and Run project
-        run: go run go-example/manual-instrumentation.go
+        run: |
+          go mod tidy
+          go run go-example/manual-instrumentation.go
