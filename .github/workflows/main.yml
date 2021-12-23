@@ -129,5 +129,6 @@ jobs:
 
       - name: Compile and Run project
         run: |
+          cd go-example
           go mod tidy
-          go run go-example/manual-instrumentation.go
+          go run manual-instrumentation.go
