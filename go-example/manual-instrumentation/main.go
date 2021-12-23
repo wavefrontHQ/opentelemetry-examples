@@ -15,11 +15,12 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
+	"time"
 )
 
 func initTracer() func() {
 
-	ctx := context.Background()
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
@@ -27,7 +28,6 @@ func initTracer() func() {
 	conn, err := grpc.DialContext(ctx, "localhost:4317", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	handleErr(err, "failed to create gRPC connection to collector")
 
-	log.Printf("Got connection...")
 	// Set up a trace exporter
 	traceExporter := newExporter(err, ctx, conn)
 	handleErr(err, "failed to create trace exporter")
