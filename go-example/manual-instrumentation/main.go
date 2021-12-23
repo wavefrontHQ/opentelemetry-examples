@@ -37,6 +37,7 @@ func initTracer() func() {
 	tracerProvider := newTraceProvider(res, batchSpanProcessor)
 	otel.SetTracerProvider(tracerProvider)
 
+	log.Printf("Got connection...")
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
 		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
@@ -79,8 +80,6 @@ func main() {
 	log.Printf("Waiting for connection...")
 
 	shutdown := initTracer()
-
-	log.Printf("Got connection...")
 
 	defer shutdown()
 
