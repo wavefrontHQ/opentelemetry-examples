@@ -27,6 +27,7 @@ func initTracer() func() {
 	conn, err := grpc.DialContext(ctx, "localhost:4317", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	handleErr(err, "failed to create gRPC connection to collector")
 
+	log.Printf("Got connection...")
 	// Set up a trace exporter
 	traceExporter := newExporter(err, ctx, conn)
 	handleErr(err, "failed to create trace exporter")
@@ -37,7 +38,6 @@ func initTracer() func() {
 	tracerProvider := newTraceProvider(res, batchSpanProcessor)
 	otel.SetTracerProvider(tracerProvider)
 
-	log.Printf("Got connection...")
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
 		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
