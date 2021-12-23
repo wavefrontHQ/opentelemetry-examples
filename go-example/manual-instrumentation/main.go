@@ -21,10 +21,8 @@ func initTracer() func() {
 
 	ctx := context.Background()
 
-	log.Printf("Getting resources")
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
-	log.Printf("Got resources")
 
 	conn, err := grpc.DialContext(ctx, "localhost:4317", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	handleErr(err, "failed to create gRPC connection to collector")
@@ -81,6 +79,9 @@ func main() {
 	log.Printf("Waiting for connection...")
 
 	shutdown := initTracer()
+
+	log.Printf("Got connection...")
+
 	defer shutdown()
 
 	tracer := otel.Tracer("demo1TracerName")
