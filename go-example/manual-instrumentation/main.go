@@ -71,7 +71,7 @@ func newResource(ctx context.Context) (*resource.Resource, error) {
 
 func handleErr(err error, message string) {
 	if err != nil {
-		log.Fatalf("%s: %v", message, err)
+		log.Printf("%s: %v", message, err)
 	}
 }
 
