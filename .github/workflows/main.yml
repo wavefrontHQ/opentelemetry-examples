@@ -133,8 +133,8 @@ jobs:
       - name: Run application(manual-instrumentation)
         working-directory: ./go-example/manual-instrumentation
         run: |
-          EXPORT GRPC_GO_LOG_VERBOSITY_LEVEL=99
-          EXPORT GRPC_GO_LOG_SEVERITY_LEVEL=info
+          GRPC_GO_LOG_VERBOSITY_LEVEL=99
+          GRPC_GO_LOG_SEVERITY_LEVEL=info
           go run main.go
       - name: Download dependencies(auto-instrumentation)
         working-directory: ./go-example/auto-instrumentation
