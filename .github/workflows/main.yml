@@ -127,8 +127,6 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Compile and Run project
+      - name: Download dependencies
         run: |
-          cd go-example
-          go mod tidy
-          go run manual-instrumentation.go
+          cd go-example && go mod tidy
