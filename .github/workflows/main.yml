@@ -141,7 +141,7 @@ jobs:
       - name: Run application(auto-instrumentation)
         working-directory: ./go-example/auto-instrumentation
         run: |
-          go run main.go
+          go run main.go &
           TEMP_OUTPUT_FILE=$(mktemp)
           WAIT_TIME=30
           for i in `seq 1 3`;
