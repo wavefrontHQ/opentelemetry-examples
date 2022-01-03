@@ -55,9 +55,6 @@ buildNumber.properties
 *.dylib
 *.dll
 
-# Fortran module files
-*.smod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -291,3 +288,5 @@ cython_debug/
 .idea
 .git
 /DOTNET-example/Web-App/.idea/
+
+!go.mod

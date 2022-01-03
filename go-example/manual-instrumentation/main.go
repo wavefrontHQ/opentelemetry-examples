@@ -20,7 +20,7 @@ import (
 
 func initTracer() func() {
 
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
@@ -29,7 +29,7 @@ func initTracer() func() {
 	handleErr(err, "failed to create gRPC connection to collector")
 
 	// Set up a trace exporter
-	traceExporter := newExporter(err, ctx, conn)
+	traceExporter, err := newExporter(ctx, conn)
 	handleErr(err, "failed to create trace exporter")
 
 	// Register the trace exporter with a TracerProvider, using a batch
@@ -40,6 +40,7 @@ func initTracer() func() {
 
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
+		cancel()
 		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
 	}
 }
@@ -53,25 +54,23 @@ func newTraceProvider(res *resource.Resource, bsp sdktrace.SpanProcessor) *sdktr
 	return tracerProvider
 }
 
-func newExporter(err error, ctx context.Context, conn *grpc.ClientConn) *otlptrace.Exporter {
-	traceExporter, err := otlptracegrpc.New(ctx, otlptracegrpc.WithGRPCConn(conn))
-	return traceExporter
+func newExporter(ctx context.Context, conn *grpc.ClientConn) (*otlptrace.Exporter, error) {
+	return otlptracegrpc.New(ctx, otlptracegrpc.WithGRPCConn(conn))
 }
 
 func newResource(ctx context.Context) (*resource.Resource, error) {
-	res, err := resource.New(ctx,
+	return resource.New(ctx,
 		resource.WithAttributes(
 			// the service name used to display traces in backends
 			semconv.ServiceNameKey.String("otel-otlp-go-service"),
 			attribute.String("application", "otel-otlp-go-app"),
 		),
 	)
-	return res, err
 }
 
 func handleErr(err error, message string) {
 	if err != nil {
-		log.Printf("%s: %v", message, err)
+		log.Fatal("%s: %v", message, err)
 	}
 }
 

@@ -25,7 +25,7 @@ func initTracerAuto() func(context.Context) error {
 	)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Could not set exporter: ", err)
 	}
 	resources, err := resource.New(
 		context.Background(),
@@ -35,7 +35,7 @@ func initTracerAuto() func(context.Context) error {
 		),
 	)
 	if err != nil {
-		log.Printf("Could not set resources: ", err)
+		log.Fatal("Could not set resources: ", err)
 	}
 
 	otel.SetTracerProvider(

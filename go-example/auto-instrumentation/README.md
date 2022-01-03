@@ -17,7 +17,7 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
 ### Step 1: Install OpenTelemetry Packages
 
 All the required dependencies are listed
-in [`mod.go`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
+in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
 OpenTelemetry packages for Golang, run this command:
 
 ```
@@ -95,7 +95,7 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
 ### Step 1: Install OpenTelemetry Packages
 
 All the required dependencies are listed
-in [`mod.go`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
+in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
 OpenTelemetry packages for Golang, run this command:
 
 ```
