@@ -20,7 +20,8 @@ import (
 
 func initTracer() func() {
 
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
@@ -69,7 +70,7 @@ func newResource(ctx context.Context) (*resource.Resource, error) {
 
 func handleErr(err error, message string) {
 	if err != nil {
-		log.Fatal("%s: %v", message, err)
+		log.Printf("%s: %v", message, err)
 	}
 }
 
