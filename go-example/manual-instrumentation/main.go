@@ -15,11 +15,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
+	"time"
 )
 
 func initTracer() func() {
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	res, err := newResource(ctx)
 	handleErr(err, "failed to create res")
@@ -39,7 +41,6 @@ func initTracer() func() {
 
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
-		cancel()
 		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
 	}
 }
