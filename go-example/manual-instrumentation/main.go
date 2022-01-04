@@ -21,17 +21,16 @@ import (
 func initTracer() func() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
 
 	res, err := newResource(ctx)
-	handleErr(err, "failed to create res")
+	reportErr(err, "failed to create res")
 
 	conn, err := grpc.DialContext(ctx, "localhost:4317", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
-	handleErr(err, "failed to create gRPC connection to collector")
+	reportErr(err, "failed to create gRPC connection to collector")
 
 	// Set up a trace exporter
 	traceExporter, err := newExporter(ctx, conn)
-	handleErr(err, "failed to create trace exporter")
+	reportErr(err, "failed to create trace exporter")
 
 	// Register the trace exporter with a TracerProvider, using a batch
 	// span processor to aggregate spans before export.
@@ -41,7 +40,8 @@ func initTracer() func() {
 
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
-		handleErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
+		cancel()
+		reportErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
 	}
 }
 
@@ -68,7 +68,7 @@ func newResource(ctx context.Context) (*resource.Resource, error) {
 	)
 }
 
-func handleErr(err error, message string) {
+func reportErr(err error, message string) {
 	if err != nil {
 		log.Printf("%s: %v", message, err)
 	}
