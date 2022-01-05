@@ -17,3 +17,7 @@ updates:
     directory: "DOTNET-example/" 
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "go-example/"
+    schedule:
+      interval: "daily"
