@@ -2,7 +2,7 @@ name: Maven CI/CD
 
 on:
   push:
-    branches: [ MONIT-26299-Golang ]
+    branches: [ master ]
 
   pull_request:
     branches: [ master ]
