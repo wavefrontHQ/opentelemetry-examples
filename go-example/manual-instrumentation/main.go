@@ -40,8 +40,8 @@ func initTracer() func() {
 
 	return func() {
 		// Shutdown will flush any remaining spans and shut down the exporter.
-		cancel()
 		reportErr(tracerProvider.Shutdown(ctx), "failed to shutdown TracerProvider")
+		cancel()
 	}
 }
 
