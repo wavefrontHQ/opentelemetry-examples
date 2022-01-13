@@ -61,6 +61,11 @@ exporters:
 processors:
     batch:
       timeout: 10s
+    memory_limiter:
+      check_interval: 1s
+      limit_percentage: 50
+      spike_limit_percentage: 30
+
       
 service:
     pipelines:
