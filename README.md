@@ -72,7 +72,7 @@ service:
       traces:
         receivers: [otlp]
         exporters: [tanzuobservability]
-        processors: [batch]
+        processors: [memory_limiter, batch]
 ```
 
 Navigate to the directory from your console and run the following command to start OTel collector:
