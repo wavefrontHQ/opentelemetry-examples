@@ -14,10 +14,14 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
-    directory: "DOTNET-example/" 
+    directory: "DOTNET-example/Web-App" 
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "go-example/"
+    directory: "go-example/auto-instrumentation"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "go-example/manual-instrumentation"
     schedule:
       interval: "daily"
