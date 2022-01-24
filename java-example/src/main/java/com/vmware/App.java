@@ -1,6 +1,7 @@
 package com.vmware;
 
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
@@ -57,6 +58,8 @@ public class App {
         Span childSpan = tracer.spanBuilder("childSpan").setParent(Context.current().with(parentSpan))
                 .startSpan();
         logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceId());
+        Attributes eventAttrs = Attributes.builder().put("a-key", "a-val").build();
+        childSpan.addEvent("child-event", eventAttrs);
 
         //put the span into the current Context
         try (Scope scope = childSpan.makeCurrent()) {
