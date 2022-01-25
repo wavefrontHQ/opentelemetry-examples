@@ -213,7 +213,7 @@ Dependencies included in the ```pom.xml``` are:
 
 ### Step 3: Run the Application
 
-Run the application either from the CLI line or from an IDE.
+Run the application either from an IDE or the CLI via `mvn compile exec:java -Dexec.mainClass="com.vmware.App"`.
 
 The ```main``` method in our Java application will trigger our app to generate and emit a trace of a transaction. When
 the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
