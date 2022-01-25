@@ -28,7 +28,7 @@ public class App {
         //an automated way to propagate the parent span on the current thread
         for (int index = 0; index < 3; index++) {
             //create a span by specifying the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK
-            Span parentSpan = tracer.spanBuilder("parentSpan").startSpan();
+            Span parentSpan = tracer.spanBuilder("parentSpan" + index).setNoParent().startSpan();
             logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceId());
 
             //put the span into the current Context

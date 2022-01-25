@@ -30,7 +30,17 @@ jobs:
       - name: Build project with Maven
         run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
       - name: Compile and Run project
-        run: mvn compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml
+        run: |
+          mvn compile exec:java -Dexec.mainClass="com.vmware.App" \
+            -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
+      - name: Check Output
+        run: |
+          # Get count of unique Trace IDs from output; 'xargs' trims whitespace
+          count=$(grep 'TraceID : ' mvn.log | rev | cut -f1 -d' ' | uniq | wc -l | xargs)
+          if [[ $count -ne 3 ]]; then
+            echo "[ERROR] Wrong TraceID count. Expected: 3. Actual: ${count}."
+            exit 1
+          fi
 
 
   build_and_run_python_app:
