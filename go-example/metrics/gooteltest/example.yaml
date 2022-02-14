@@ -1,0 +1,25 @@
+collectPeriod: 60s
+otelCollector: "localhost:4317"
+metrics:
+- name: "foo"
+  type: "gauge"
+- name: "bar"
+  type: "sum"
+- name: "baz"
+  type: "histogram"
+valueSets:
+  - valueSet:
+    - name: "foo"
+      value: 35.7
+    - name: "bar"
+      value: 12.3
+    - name: "baz"
+      value: 1.3
+  - valueSet:
+    - name: "foo"
+      value: 21.4
+    - name: "bar"
+      value: 7.2
+    - name: "baz"
+      value: 3.9
+
