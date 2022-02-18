@@ -3,13 +3,13 @@
 ## Auto Instrumentation
 
 This section shows a working example of a Go application auto-instrumented with OpenTelemetry. See
-this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/auto-instrumentation.go)
+this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/auto-instrumentation/main.go)
 .
 
 ### Prerequisite
 
 * Install the Tanzu Observability proxy. See
-  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-wavefront-proxy).
+  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-tanzu-observability-proxy).
 * Set up an OpenTelemetry Collector for Tanzu Observability. See
   this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-the-opentelemetry-collector)
   .
@@ -17,7 +17,7 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
 ### Step 1: Install OpenTelemetry Packages
 
 All the required dependencies are listed
-in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
+in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/auto-instrumentation/go.mod). To install
 OpenTelemetry packages for Golang, run this command:
 
 ```
