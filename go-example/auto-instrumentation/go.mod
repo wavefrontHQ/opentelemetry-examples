@@ -1,4 +1,4 @@
-module go-example
+module github.com/wavefronthq/opentelemetry-examples/go-example/auto-instrumentation
 
 go 1.17
 

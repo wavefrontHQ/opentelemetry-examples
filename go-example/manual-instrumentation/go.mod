@@ -1,4 +1,4 @@
-module go-example
+module github.com/wavefronthq/opentelemetry-examples/go-example/manual-instrumentation
 
 go 1.17
 
@@ -13,7 +13,6 @@ require (
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-logr/logr v1.2.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
