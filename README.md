@@ -1,15 +1,10 @@
 # Sending Trace Data to Tanzu Observability by Wavefront
 
-This README is for all users who want to send OpenTelemetry trace data to Tanzu Observability. This README explains how
-to install Tanzu Observability proxy and install the OpenTelemetry collector. This repository includes specific examples for using
-the OpenTelemetry collector in java, python, and .NET, etc.
+This README is for all users who want to send OpenTelemetry trace data or metrics data to Tanzu Observability. This README explains how to install Tanzu Observability proxy and install the OpenTelemetry collector. This repository includes specific examples for using the OpenTelemetry collector in java, python, and .NET, etc.
 
 ## Overview
 
-If your application uses OpenTelemetry, you can use the Trace exporter to send trace data to Tanzu Observability UI.
-When trace data is in Tanzu Observability UI, you can use tracing dashboards to visualize any request as a trace that
-consists of a hierarchy of spans. This visualization helps you pinpoint where the request is spending most of its time
-and discover problems.
+If your application uses OpenTelemetry, you can use the Tanzu Observability exporter to send trace data or metrics data to Tanzu Observability UI. When trace data is in Tanzu Observability UI, you can use tracing dashboards to visualize any request as a trace that consists of a hierarchy of spans. This visualization helps you pinpoint where the request is spending most of its time and discover problems.
 
 ![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
 
@@ -43,9 +38,7 @@ Download the binary from the latest release of
 the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and
 add it to a preferred directory.
 
-In the same directory, create the `otel_collector_config.yaml` file and copy the below configuration into the yaml
-file. (
-Learn more about [OpenTelemetry collector configuration](https://opentelemetry.io/docs/collector/configuration/)).
+In the same directory, create the `otel_collector_config.yaml` file and copy the below configuration into the yaml file. (Learn more about [OpenTelemetry collector configuration](https://opentelemetry.io/docs/collector/configuration/)).
 
 ```
 receivers:
@@ -56,7 +49,9 @@ receivers:
 exporters:
     tanzuobservability:
       traces:
-        endpoint: "http://localhost:30001" 
+        endpoint: "http://localhost:30001"
+      metrics:
+        endpoint: "http://localhost:2878"
   # Proxy hostname and customTracing ListenerPort
 processors:
     batch:
@@ -66,9 +61,13 @@ processors:
       limit_percentage: 50
       spike_limit_percentage: 30
 
-      
+
 service:
     pipelines:
+      metrics:
+        receivers: [otlp]
+        exporters: [tansuobservability]
+        processors: [memory_limiter, batch]
       traces:
         receivers: [otlp]
         exporters: [tanzuobservability]
