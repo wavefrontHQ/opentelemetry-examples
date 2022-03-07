@@ -16,7 +16,7 @@
         <version.grpc>1.44.0</version.grpc>
         <version.opentelemetry>1.11.0</version.opentelemetry>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
-        <version.logback>1.2.10</version.logback>
+        <version.logback>1.2.11</version.logback>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
