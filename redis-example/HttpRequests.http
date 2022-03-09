@@ -1,0 +1,18 @@
+### Save a new employee.
+POST http://localhost:8080/employee
+Content-Type: application/json
+{
+  "id": "{{$randomInt}}",
+  "name": "{{$randomFullName}}",
+  "age": "{{$randomInt}}",
+  "salary": "{{$randomDouble}}",
+}
+
+###  Get all employees.
+GET http://localhost:8080/employee/getall
+
+### Get employee by id.
+GET http://localhost:8080/employee/get/<employee_id>
+
+### Delete employee by id.
+DELETE http://localhost:8080/employee/delete/<employee_id>

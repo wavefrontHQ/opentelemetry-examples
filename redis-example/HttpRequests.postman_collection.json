@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "99259990-b5d4-4d30-9a34-9064bcc1eff5",
+		"name": "Postman-HttpRequests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save new employee",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"randomAge\", _.random(21, 40));\r",
+							"pm.environment.set(\"randomSalary\", _.random(50000, true).toFixed(2));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{$randomInt}}\",\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"age\": \"{{randomAge}}\",\r\n    \"salary\": {{randomSalary}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10091/api/redis/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10091",
+					"path": [
+						"api",
+						"redis",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10091/api/redis/employee/getall",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10091",
+					"path": [
+						"api",
+						"redis",
+						"employee",
+						"getall"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get employee by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10091/api/redis/employee/get/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10091",
+					"path": [
+						"api",
+						"redis",
+						"employee",
+						"get",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete employee by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:10091/api/redis/employee/delete/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10091",
+					"path": [
+						"api",
+						"redis",
+						"employee",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
