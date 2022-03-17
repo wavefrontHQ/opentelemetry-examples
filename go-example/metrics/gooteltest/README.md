@@ -2,7 +2,7 @@
 
 ## Compiling
 ```sh
-go install github.com/wavefrontHQ/opentelemetry-examples/go-example/gooteltest@latest
+go install github.com/wavefronthq/opentelemetry-examples/go-example/metrics/gooteltest/cmd/oteltester@latest
 ```
 
 ## running
