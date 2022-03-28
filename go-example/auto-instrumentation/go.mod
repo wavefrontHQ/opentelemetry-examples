@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/gin-gonic/gin v1.7.7
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.30.0
-	go.opentelemetry.io/otel v1.5.0
+	go.opentelemetry.io/otel v1.6.1
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.5.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.5.0
 	go.opentelemetry.io/otel/sdk v1.5.0
@@ -14,7 +14,7 @@ require (
 require (
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/go-logr/logr v1.2.2 // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.5.0 // indirect
-	go.opentelemetry.io/otel/trace v1.5.0 // indirect
+	go.opentelemetry.io/otel/trace v1.6.1 // indirect
 	go.opentelemetry.io/proto/otlp v0.12.0 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
