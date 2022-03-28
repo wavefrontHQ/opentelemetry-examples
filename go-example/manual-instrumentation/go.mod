@@ -3,17 +3,17 @@ module github.com/wavefronthq/opentelemetry-examples/go-example/manual-instrumen
 go 1.17
 
 require (
-	go.opentelemetry.io/otel v1.5.0
+	go.opentelemetry.io/otel v1.6.1
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.5.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.5.0
-	go.opentelemetry.io/otel/sdk v1.5.0
-	go.opentelemetry.io/otel/trace v1.5.0
+	go.opentelemetry.io/otel/sdk v1.6.1
+	go.opentelemetry.io/otel/trace v1.6.1
 	google.golang.org/grpc v1.45.0
 )
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
-	github.com/go-logr/logr v1.2.2 // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
