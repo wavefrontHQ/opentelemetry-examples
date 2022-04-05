@@ -66,7 +66,7 @@ service:
     pipelines:
       metrics:
         receivers: [otlp]
-        exporters: [tansuobservability]
+        exporters: [tanzuobservability]
         processors: [memory_limiter, batch]
       traces:
         receivers: [otlp]
