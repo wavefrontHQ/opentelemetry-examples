@@ -33,10 +33,10 @@ file is already configured with the required dependencies.
 You can examine the data sent by the application to Tanzu Observability on the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
 
 Example: Application Status
-![shows a screenshot of how the application status page looks once the data is on Tanzu Observability by Wavefront](../resources/java_examples_collector_app_status.png)
+![shows a screenshot of how the application status page looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_app_status.png)
 
 Example: Traces Browser
-![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](../resources/java_examples_collector_traces_browser.png)
+![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_traces_browser.png)
 
 ## OpenTelemetry Building Blocks of the Application
 

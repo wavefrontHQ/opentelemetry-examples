@@ -40,7 +40,7 @@ Follow these steps:
 
 If you have already configured your application to send data to the OpenTelemetry Collector, the data flows from your application to Tanzu Observability as shown in the diagram:
 
-{% include note.html content="You need to use OpenTelemetry Collector Contrib version v0.28.0 or later to export traces to Tanzu Observability." %} 
+**Note**: You need to use OpenTelemetry Collector Contrib version v0.28.0 or later to export traces to Tanzu Observability." %} 
 
 ![Shows how the data flows from your application to the OpenTelemetry Collector to Tanzu Observability](images/opentelemetry_collector_tracing.png)
 
