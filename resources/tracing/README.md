@@ -24,7 +24,7 @@ Here's how the data flows:
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](proxies_installing.html) version 11 or higher.
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11 or higher.
 1. Open the port on the Wavefront Proxy to send OpenTelemetry spans to Tanzu Observability. 
     * port 4317 (recommended) with `otlpGrpcListenerPorts` 
     * or port 4318 (recommended) with `otlpHttpListenerPorts`  
@@ -64,7 +64,7 @@ Follow these steps:
     1. Create a directory to store all the files.
     1. Download the binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) to the directory you created.
     1. In the same directory, create a file named `otel_collector_config.yaml`.
-    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)." %}
+    1. Copy the configurations in the [preconfigured YAML file](../otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)." %}
     1. On your console, navigate to the directory you created in the step above and run the following command to start OpenTelemetry Collector:
         ```
         ./otelcontribcol_darwin_amd64 --config otel_collector_config.yaml
