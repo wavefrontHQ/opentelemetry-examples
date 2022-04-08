@@ -9,7 +9,7 @@ Here's how it works:
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](proxies_installing.html).
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
    <br/>Make sure to open port 2878 to send spans and metrics to Wavefront. For example, on Linux, Mac, and Windows, open the wavefront.conf file, uncomment  the `pushListenerPorts` and set it to 2878.
 1. Configure your application to send the metrics/trace data to the OpenTelemetry Collector. See the [OpenTelemetry documentation](https://opentelemetry.io/docs/collector/) for details.
 1. Export the data from the OpenTelemetry Collector to the Wavefront Prometheus Storage Adapter. 
@@ -18,7 +18,7 @@ Follow these steps:
 
 This tutorial uses the OpenTelemetry Collector demo. For steps on how to configure your application to send custom OpenTelemetry metrics to Wavefront, see the [registering OpenCensus metric exporter in Java Application](#registering-opencensus-metric-exporter).
 
-1. If you do not have a [Wavefront proxy](proxies.html) installed on your network, install a proxy.
+1. If you do not have a [Wavefront proxy](https://docs.wavefront.com/proxies.html) installed on your network, install a proxy.
 1. Configure the demo application to send trace data to the OpenTelemetry Collector.
 
     1. Clone the [OpenTelemetry collector](https://github.com/open-telemetry/opentelemetry-collector-contrib.git).{% raw %}
@@ -67,11 +67,11 @@ This tutorial uses the OpenTelemetry Collector demo. For steps on how to configu
     **Tip**: Enter `http://localhost:1234/health` on your browser and run it. If you see `{"Message":"OK"}`, you have successfully configured the Prometheus Storage Adapter.
   
 1. Explore the data sent to Wavefront: 
-    * See the metrics sent in the [Metrics browser](metrics_managing.html#metrics-browser):
+    * See the metrics sent in the [Metrics browser](https://docs.wavefront.com/metrics_managing.html#metrics-browser):
         1. Log in to your Wavefront instance and select Browse > Metrics. 
         1. Search for metrics that have a prom prefix. 
 {% include image.md src="images/tracing_opentelemetry_metrics.png" width="90" %}
-    * You can create [charts and dashboards](ui_examine_data.html) to see the data that was sent from your application and [create alerts](alerts_manage.html).
+    * You can create [charts and dashboards](https://docs.wavefront.com/ui_examine_data.html) to see the data that was sent from your application and [create alerts](alerts_manage.html).
 {% include image.md src="images/tracing_opentelemetry_collector_chart.png" width="90" %}
 
 ### Registering OpenCensus Metric Exporter
@@ -116,6 +116,6 @@ Once you have configured your OpenTelemetry Collector to send metric data to Wav
 
 ## Next Steps
 Next, log in to your Tanzu Observability instance and examine your data in dashboards and charts:
-* [Examine the sample data on the predefined charts and dashboards](tutorial_dashboards.html).
-* Create [dashboards](ui_dashboards.html) and [charts](ui_charts.html) for the data you sent to Tanzu Observability. 
+* [Examine the sample data on the predefined charts and dashboards](https://docs.wavefront.com/tutorial_dashboards.html).
+* Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
   <br/>You need to have the required permissions to do these tasks.

@@ -29,11 +29,11 @@ Follow these steps:
     * port 4317 (recommended) with `otlpGrpcListenerPorts` 
     * or port 4318 (recommended) with `otlpHttpListenerPorts`  
   
-    See the [Wavefront proxy settings for OpenTelemetry](proxies_configuring.html#opentelemetry-proxy-properties).
-    <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
+    See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
+    <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
 1. Configure your application to send trace data to the Wavefront Proxy. 
     {% include note.html content="By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`." %}
-1. Explore the trace data using our [tracing dashboards](tracing_basics.html#visualize-distributed-tracing-data).
+1. Explore the trace data using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
 
 
 ### Send Data Using the OpenTelemetry Collector
@@ -46,7 +46,7 @@ If you have already configured your application to send data to the OpenTelemetr
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](proxies_installing.html).
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
     {{site.data.alerts.note}}
       <ul>
       <li>
@@ -64,50 +64,15 @@ Follow these steps:
     1. Create a directory to store all the files.
     1. Download the binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) to the directory you created.
     1. In the same directory, create a file named `otel_collector_config.yaml`.
-    1. Copy the configurations below into the YAML file.
-        ```
-        receivers:
-           otlp:
-              protocols:
-                  grpc:
-                      endpoint: "<enter your IP address>:4317"
-        exporters:
-            tanzuobservability:
-              traces:
-                endpoint: "http://<enter your IP address>:30001"
-              metrics:
-                endpoint: "http://<enter your IP address>:2878"
-          # Proxy hostname and customTracing ListenerPort
-        processors:
-            batch:
-              timeout: 10s
-            memory_limiter:
-              check_interval: 1s
-              limit_percentage: 50
-              spike_limit_percentage: 30
-
-
-        service:
-            pipelines:
-              metrics:
-                receivers: [otlp]
-                exporters: [tansuobservability]
-                processors: [memory_limiter, batch]
-              traces:
-                receivers: [otlp]
-                exporters: [tanzuobservability]
-                processors: [memory_limiter, batch]
-          
-        ```
-        {% include tip.html content="To learn more about OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)." %}
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)." %}
     1. On your console, navigate to the directory you created in the step above and run the following command to start OpenTelemetry Collector:
         ```
         ./otelcontribcol_darwin_amd64 --config otel_collector_config.yaml
         ```
-1. Explore the trace data sent using our [tracing dashboards](tracing_basics.html#visualize-distributed-tracing-data).
+1. Explore the trace data sent using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
 
 
 ## Next Steps
 
-- [Try out the Tutorials](opentelemetry_java_tutorial.html) and see how you can send your data to Tanzu Observability!
-- To enable proxy debug logs for the OpenTelemetry data sent directly to the Wavefront Porxy, see [Enable Proxy Debug Logs for OpenTelemetry Data](opentelemetry_logs.html).
+- [Try out the Tutorials](https://docs.wavefront.com/opentelemetry_java_tutorial.html) and see how you can send your data to Tanzu Observability!
+- To enable proxy debug logs for the OpenTelemetry data sent directly to the Wavefront Porxy, see [Enable Proxy Debug Logs for OpenTelemetry Data](https://docs.wavefront.com/opentelemetry_logs.html).
