@@ -1,4 +1,4 @@
-name: CI
+name: Python CI
 
 on:
   push:
@@ -6,18 +6,17 @@ on:
 
   pull_request:
     branches: [ master ]
-    paths-ignore:
-    - 'go-example/**'
-    - 'java-example/**'
+    paths:
+      - '.github/workflows/python.yml'
+      - 'python-example/**'
 
 jobs:
   build_and_run_python_app:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python-version: [ 3.8, 3.9 ]
+        python-version: [ 3.8, 3.9, '3.10' ]
 
     name: Python ${{ matrix.python-version }}
     steps:
@@ -54,37 +53,3 @@ jobs:
           fi
           cat $TEMP_OUTPUT_FILE
           rm $TEMP_OUTPUT_FILE   
-  
-  build_and_run_dotnet_app:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        dotnet-version: [ '6.0.x' ]
-    
-    name: Dotnet ${{ matrix.dotnet-version }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up DOTNET ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Run and Test the app
-        run: |
-          dotnet run --project DOTNET-example/Web-App &
-          TEMP_OUTPUT_FILE=$(mktemp)
-          WAIT_TIME=20
-          for i in `seq 1 3`;
-          do
-            sleep ${WAIT_TIME}; 
-            HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:5114")
-            if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
-              >&2 cat $TEMP_OUTPUT_FILE
-              WAIT_TIME=$((WAIT_TIME * $i));
-            else
-              cat $TEMP_OUTPUT_FILE
-              rm $TEMP_OUTPUT_FILE
-              break
-            fi
-          done
