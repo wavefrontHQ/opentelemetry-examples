@@ -6,43 +6,11 @@ on:
 
   pull_request:
     branches: [ master ]
+    paths-ignore:
+    - 'go-example/**'
+    - 'java-example/**'
 
 jobs:
-  build_and_run_java_app:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        distribution: [ 'temurin' ]
-        java-version: [ '8', '11', '17' ]
-
-    name: Java ${{ matrix.java-version }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JAVA
-        uses: actions/setup-java@v2
-        with:
-          java-version: ${{ matrix.java-version }}
-          distribution: ${{ matrix.distribution }}
-          cache: maven
-
-      - name: Build project with Maven
-        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
-      - name: Compile and Run project
-        run: |
-          mvn compile exec:java -Dexec.mainClass="com.vmware.App" \
-            -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
-      - name: Check Output
-        run: |
-          # Get count of unique Trace IDs from output; 'xargs' trims whitespace
-          count=$(grep 'TraceID : ' mvn.log | rev | cut -f1 -d' ' | uniq | wc -l | xargs)
-          if [[ $count -ne 3 ]]; then
-            echo "[ERROR] Wrong TraceID count. Expected: 3. Actual: ${count}."
-            exit 1
-          fi
-
-
   build_and_run_python_app:
 
     runs-on: ubuntu-latest
@@ -114,55 +82,6 @@ jobs:
             if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
               >&2 cat $TEMP_OUTPUT_FILE
               WAIT_TIME=$((WAIT_TIME * $i));
-            else
-              cat $TEMP_OUTPUT_FILE
-              rm $TEMP_OUTPUT_FILE
-              break
-            fi
-          done
-
-  build_and_run_go_app:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        go-version: [ 1.17.x ]
-
-    name: Go ${{ matrix.go-version }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ${{ matrix.go-version }}
-      - name: Download dependencies(manual-instrumentation)
-        working-directory: ./go-example/manual-instrumentation
-        run: |
-          go mod tidy
-      - name: Run application(manual-instrumentation)
-        working-directory: ./go-example/manual-instrumentation
-        run: |
-          go run main.go
-      - name: Download dependencies(auto-instrumentation)
-        working-directory: ./go-example/auto-instrumentation
-        run: |
-          go mod tidy
-      - name: Run application(auto-instrumentation)
-        working-directory: ./go-example/auto-instrumentation
-        run: |
-          go build -o ./auto-instrumentation
-          ./auto-instrumentation &
-          TEMP_OUTPUT_FILE=$(mktemp)
-          WAIT_TIME=5
-          for i in `seq 1 3`;
-          do
-            HTTP_CODE=$(curl --silent --output $TEMP_OUTPUT_FILE --write-out "%{http_code}" "http://localhost:8080")
-            if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
-              >&2 cat $TEMP_OUTPUT_FILE
-              WAIT_TIME=$((WAIT_TIME * $i));
-              echo Sleeping for ${WAIT_TIME} seconds...
-              sleep ${WAIT_TIME}
             else
               cat $TEMP_OUTPUT_FILE
               rm $TEMP_OUTPUT_FILE

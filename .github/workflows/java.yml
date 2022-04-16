@@ -1,0 +1,45 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ master ]
+
+  pull_request:
+    branches: [ master ]
+    paths:
+      - '.github/workflows/java.yml'
+      - 'java-example/**'
+
+jobs:
+  build_and_run_java_app:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        distribution: [ 'temurin' ]
+        java-version: [ '8', '11', '17' ]
+
+    name: Java ${{ matrix.java-version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JAVA
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.distribution }}
+          cache: maven
+
+      - name: Build project with Maven
+        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
+      - name: Compile and Run project
+        run: |
+          mvn compile exec:java -Dexec.mainClass="com.vmware.App" \
+            -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
+      - name: Check Output
+        run: |
+          # Get count of unique Trace IDs from output; 'xargs' trims whitespace
+          count=$(grep 'TraceID : ' mvn.log | rev | cut -f1 -d' ' | uniq | wc -l | xargs)
+          if [[ $count -ne 3 ]]; then
+            echo "[ERROR] Wrong TraceID count. Expected: 3. Actual: ${count}."
+            exit 1
+          fi
