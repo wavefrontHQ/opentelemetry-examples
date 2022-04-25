@@ -35,7 +35,7 @@ Follow these steps to configure the OpenTelemetry Collector:
 1. Download the `otelcol-contrib` binary from the latest release of
 the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
 1. Create a file named `otel_collector_config.yaml` in the same directory.
-1. Copy the configurations in the  [`otel_collector_config.yaml`](resources/otel_collector_config.yaml) file to the new file you created.  
+1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/resources/otel_collector_config.yaml) file to the new file you created.  
 
 See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
 
