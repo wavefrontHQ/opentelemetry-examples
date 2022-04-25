@@ -4,7 +4,7 @@ OpenTracing and OpenCensus have merged to form OpenTelemetry. OpenTelemetry prov
 
 Before you get started, pick how you send data to Tanzu Observability by Wavefront. What your application uses determines what makes sense: 
 * If your application uses SpringBoot, use Spring Cloud Sleuth.
-* If you are a new user, and you are configuring your application to send data to Tanzu Observability, use OpenTelemetry. If you run into issues when configuring Tanzu Observability with OpenTelemetry, contact [Technical Support](wavefront_support_feedback.html#support) for help.
+* If you are a new user, and you are configuring your application to send data to Tanzu Observability, use OpenTelemetry. If you run into issues when configuring Tanzu Observability with OpenTelemetry, contact [Technical Support](https://docs.wavefront.com/wavefront_support_feedback.html#support) for help.
 * If your application is already using OpenTracing, continue using OpenTracing. See [OpenTracing Compatibility](https://opentelemetry.io/docs/reference/specification/compatibility/opentracing) for guidance on transitioning from OpenTracing to OpenTelemetry.
 
 ## Send Trace Data
@@ -64,7 +64,7 @@ Follow these steps:
     1. Create a directory to store all the files.
     1. Download the binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) to the directory you created.
     1. In the same directory, create a file named `otel_collector_config.yaml`.
-    1. Copy the configurations in the [preconfigured YAML file](../otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/)." %}
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
     1. On your console, navigate to the directory you created in the step above and run the following command to start OpenTelemetry Collector:
         ```
         ./otelcontribcol_darwin_amd64 --config otel_collector_config.yaml
