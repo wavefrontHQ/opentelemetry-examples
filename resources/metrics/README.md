@@ -71,7 +71,7 @@ This tutorial uses the OpenTelemetry Collector demo. For steps on how to configu
         1. Log in to your Wavefront instance and select Browse > Metrics. 
         1. Search for metrics that have a prom prefix. 
 {% include image.md src="images/tracing_opentelemetry_metrics.png" width="90" %}
-    * You can create [charts and dashboards](https://docs.wavefront.com/ui_examine_data.html) to see the data that was sent from your application and [create alerts](alerts_manage.html).
+    * You can create [charts and dashboards](https://docs.wavefront.com/ui_examine_data.html) to see the data that was sent from your application and [create alerts](https://docs.wavefront.com/alerts_manage.html).
 {% include image.md src="images/tracing_opentelemetry_collector_chart.png" width="90" %}
 
 ### Registering OpenCensus Metric Exporter

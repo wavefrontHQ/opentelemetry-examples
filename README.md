@@ -28,14 +28,14 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 ![A data flow diagram that shows how the data flows from your application to the collector, to the proxy, and then to Tanzu Observability.](images/opentelemetry_collector_metrics.png)
 
 ## OpenTelemetry Collector
+<!-- This section is linked to the tutorial README's. Therefore, make sure those links don't break if the heading is updated-->
 
 Follow these steps to configure the OpenTelemetry Collector:
 
 1. Download the `otelcol-contrib` binary from the latest release of
 the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
-
 1. Create a file named `otel_collector_config.yaml` in the same directory.
-1. Copy the configurations in the  [`otel_collector_config.yaml`](resources/otel_collector_config.yml) file to the new file you created.  
+1. Copy the configurations in the  [`otel_collector_config.yaml`](resources/otel_collector_config.yaml) file to the new file you created.  
 
 See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
 
