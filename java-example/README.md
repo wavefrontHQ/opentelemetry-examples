@@ -2,9 +2,9 @@
 
 This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. The data is sent to Tanzu Observability using the OpenTelemetry Collector and the Wavefront Proxy. To learn about on the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector).
 
-## Prerequisite
+## Prerequisites
 
-* [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html).
+* [**Install the Wavefront proxy**](https://docs.wavefront.com/proxies_installing.html).
     <br/> For example, Use Docker to run to install the Wavefront proxy. You have to specify the:
 
     * The Tanzu Observability instance (for example, https://longboard.wavefront.com).
@@ -21,7 +21,7 @@ This guide shows you how to manually instrument your Java application using the 
         -p 30001:30001 \
         wavefronthq/proxy:latest
     ```
-* Set up an OpenTelemetry Collector for Tanzu Observability
+* **Set up an OpenTelemetry Collector for Tanzu Observability**:
     1. Download the `otelcol-contrib` binary from the latest release of
     the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
     1. Create a file named `otel_collector_config.yaml` in the same directory.
