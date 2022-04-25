@@ -21,7 +21,13 @@ This guide shows you how to manually instrument your Java application using the 
         -p 30001:30001 \
         wavefronthq/proxy:latest
     ```
-* [Set up an OpenTelemetry Collector for Tanzu Observability](https://github.com/wavefrontHQ/opentelemetry-examples/tree/shavi-content#opentelemetry-collector). 
+* Set up an OpenTelemetry Collector for Tanzu Observability
+    1. Download the `otelcol-contrib` binary from the latest release of
+    the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
+    1. Create a file named `otel_collector_config.yaml` in the same directory.
+    1. Copy the configurations in the  [`otel_collector_config.yaml`](resources/otel_collector_config.yaml) file to the new file you created.  
+
+    See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
 
 ## Send Data to Tanzu Observability
 
@@ -47,7 +53,7 @@ Example: Traces Browser
 
 ## OpenTelemetry Building Blocks of the Application
 
-#### OpenTelemetry Interface
+### OpenTelemetry Interface
 
 You need to configure an instance of the `OpenTelemetrySdk` as early as possible in your application. This can be done using the `OpenTelemetrySdk.builder()` method.
 
@@ -95,7 +101,7 @@ ability to inject an instance of `OpenTelemetry` into the instrumentation code. 
   
 **Note**: You can’t force end-users to configure the global OpenTelemetry class.
 
-#### Get a Tracer
+### Get a Tracer
 The `Tracer` is responsible for creating spans and interacting with the `Context`. A `Tracer` needs to be acquired using the OpenTelemetry API. You need to specify the name and version of the library that is instrumenting your library or application.
 
 ```java
@@ -106,7 +112,7 @@ The `Tracer` is responsible for creating spans and interacting with the `Context
 ```
 **Note**: the ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the `Tracer` are purely informational. All `Tracers` created by a single OpenTelemetry instance will work together, regardless of the name or version.
 
-#### Create a Nested Span, Add an Attribute
+### Create a Nested Span, Add an Attribute
 
 To create a basic span, you only need to specify the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations. 
   
