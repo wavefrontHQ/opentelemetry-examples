@@ -32,7 +32,7 @@ Follow these steps:
     See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
     <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
 1. Configure your application to send trace data to the Wavefront Proxy. 
-    {% include note.html content="By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`." %}
+    <br/>**Note**: By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`.
 1. Explore the trace data using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
 
 
@@ -47,7 +47,7 @@ If you have already configured your application to send data to the OpenTelemetr
 Follow these steps:
 
 1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
-    {{site.data.alerts.note}}
+    **Note**:
       <ul>
       <li>
         Open port 30001, with <code>customTracingListenerPorts=30001</code>, for the proxy to generate span-level RED metrics.
@@ -55,9 +55,7 @@ Follow these steps:
        <li>
          Ensure that port 2878 is open to send spans and metrics to the Wavefront service. For example, on Linux, Mac, and Windows, open the <a href="proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented. 
        </li>
-       
      </ul>
-    {{site.data.alerts.end}}
      
 1. Configure your application to send trace data to the OpenTelemetry Collector. See the [OpenTelemetry documentation](https://opentelemetry.io/docs/collector/) for details.
 1. Export the data from the OpenTelemetry Collector to the Tanzu Observability (Wavefront) trace exporter:
