@@ -4,8 +4,9 @@ This guide shows you how to manually instrument your Java application using the 
 
 ## Prerequisites
 
+* Clone this repository.
 * [**Install the Wavefront proxy**](https://docs.wavefront.com/proxies_installing.html).
-    <br/> For example, Use Docker to run to install the Wavefront proxy. You have to specify the:
+    <br/> For example, Use Docker to install the Wavefront proxy. You have to specify the:
 
     * The Tanzu Observability instance (for example, https://longboard.wavefront.com).
     * A Tanzu Observability API token that is linked to an account with Proxy permission.
@@ -25,7 +26,7 @@ This guide shows you how to manually instrument your Java application using the 
     1. Download the `otelcol-contrib` binary from the latest release of
     the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
     1. Create a file named `otel_collector_config.yaml` in the same directory.
-    1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/resources/otel_collector_config.yaml) file to the new file you created.  
+    1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) file to the new file you created.  
 
     See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
 
@@ -51,7 +52,7 @@ Example: Application Status
 Example: Traces Browser
 ![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_traces_browser.png)
 
-## OpenTelemetry Building Blocks of the Application
+## OpenTelemetry Instrumentation Building Blocks
 
 ### OpenTelemetry Interface
 

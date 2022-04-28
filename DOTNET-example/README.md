@@ -7,7 +7,7 @@ we will create a basic “Hello World” web application, instrument it with Ope
 and send it to an OpenTelemetry Collector. The Collector will then export the trace data to the Wavefront Proxy which
 will eventually export the trace data to the Tanzu Observability UI.
 
-![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
+![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/doc-resources/TraceFlow.png?raw=true)
 
 If we have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
 out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).

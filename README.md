@@ -7,37 +7,41 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 * [Send Trace Data](#send-trace-data)
 * [Send Metrics Data](#send-metrics-data)
 * [Tutorials](#tutorials)
-<!-- * [License](#license) -->
 * [Getting Support](#getting-support)
-
+<!-- * [License](#license) Add this before getting started-->
 
 ## Send Trace Data
 If your application uses an OpenTelemetry SDK, you can configure the application to send trace data to Tanzu Observability using any of the following options:
 
-* [**Directly send OpenTelemetry data to the Wavefront proxy**](resources/tracing/README.md#send-data-using-the-wavefront-proxy---recommended) - [Recommended]
+* **Directly send OpenTelemetry data to the Wavefront proxy - [Recommended]**
   <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to Tanzu Observability" style="width:750px;"/>
-* Or [**use the OpenTelemetry Collector and the Wavefront proxy**](resources/tracing/README.md#send-data-using-the-opentelemetry-collector)
+  Follow these steps:
+
+    1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11 or higher.
+    1. Open the port on the Wavefront Proxy to send OpenTelemetry spans to Tanzu Observability. 
+        * port 4317 (recommended) with `otlpGrpcListenerPorts` 
+        * or port 4318 (recommended) with `otlpHttpListenerPorts`  
+      
+        See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
+        <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
+    1. Configure your application to send trace data to the Wavefront Proxy. 
+        <br/>By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`.
+    1. Explore the trace data using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
+
+* Or [**use the OpenTelemetry Collector and the Wavefront proxy**](docs-resources/tracing/README.md#send-data-using-the-opentelemetry-collector)
   ![A data flow diagram that shows how the data flows from your application to the collector, to the proxy, and then to Tanzu Observability](images/opentelemetry_collector_tracing.png)
 
-You can then use our tracing dashboards to visualize any request as a trace, which consists of a hierarchy of spans. This visualization helps you pinpoint where the request is spending most of its time and discover problems.
+You can then use our tracing dashboards to visualize the requests as traces, which consists of a hierarchy of spans. This visualization helps you pinpoint where the request is spending most of its time and discover problems.
 
 ## Send Metrics Data
 
-If your application uses an OpenTelemetry SDK, you can configure the application to send metrics data to Tanzu Observability using the Tanzu Observability OpenTelemetry Collector. See [OpenTelemetry Metrics Data](resources/metrics/README.md) for details.
+<!-- To be added later
+If your application uses an OpenTelemetry SDK, you can configure the application to send metrics data to Tanzu Observability using the Tanzu Observability OpenTelemetry Collector. See [OpenTelemetry Metrics Data](docs-resources/metrics/README.md) for details.
 
 ![A data flow diagram that shows how the data flows from your application to the collector, to the proxy, and then to Tanzu Observability.](images/opentelemetry_collector_metrics.png)
+-->
 
-## OpenTelemetry Collector
-<!-- This section is linked to the tutorial README's. Therefore, make sure those links don't break if the heading is updated-->
-
-Follow these steps to configure the OpenTelemetry Collector:
-
-1. Download the `otelcol-contrib` binary from the latest release of
-the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
-1. Create a file named `otel_collector_config.yaml` in the same directory.
-1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/resources/otel_collector_config.yaml) file to the new file you created.  
-
-See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
+Metrics support for OpenTelemetry on Tanzu Observability by Wavefront will be made available soon!
 
 ## Tutorials
 
