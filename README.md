@@ -59,9 +59,10 @@ Metrics support for OpenTelemetry on Tanzu Observability by Wavefront will be ma
 
 ## Tutorials
 
-This repository includes specific examples for using the OpenTelemetry collector in Java, Python, .NET, and more. 
-
-For example, navigate to the `java-examples` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
+The Wavefront OpenTelemetry GitHub repository includes specific examples for using the OpenTelemetry collector in Java, Python, .NET, and more. 
+ 
+* If you are on Wavefront Documentation, expand the tutorials section under OpenTelemetry, and try out a tutorial.
+* If you are on the GitHub repository, for example, go to the `java-examples` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
 
 <!-- 
 ## License
