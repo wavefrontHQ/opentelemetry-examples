@@ -30,6 +30,7 @@ will eventually export the trace data to the Tanzu Observability UI.
     * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
     * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
       See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+    
     <br/>See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
 * **Set up an OpenTelemetry Collector for Tanzu Observability**:
