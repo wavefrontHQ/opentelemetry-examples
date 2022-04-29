@@ -4,14 +4,11 @@ This guide shows you how to manually instrument your Java application using the 
 
 ## Prerequisites
 
-* Clone this repository.
-* [**Install the Wavefront proxy**](https://docs.wavefront.com/proxies_installing.html).
-    <br/> For example, Use Docker to install the Wavefront proxy. You have to specify:
-
-    * The Tanzu Observability instance (for example, https://longboard.wavefront.com).
-    * A Tanzu Observability API token linked to an account with Proxy permission. 
-    See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
-
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
+* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
+* Install the Wavefront proxy on Docker.
     ```
     docker run -d \
         -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
@@ -22,6 +19,8 @@ This guide shows you how to manually instrument your Java application using the 
         -p 30001:30001 \
         wavefronthq/proxy:latest
     ```
+    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    
 * **Set up an OpenTelemetry Collector for Tanzu Observability**:
     1. Download the `otelcol-contrib` binary from the latest release of
     the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.

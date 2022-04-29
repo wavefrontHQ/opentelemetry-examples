@@ -6,11 +6,31 @@ This section shows a working example of a Python application auto-instrumented w
 
 ### Prerequisite
 
-* Install the Tanzu Observability proxy. See
-  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-wavefront-proxy).
-* Set up an OpenTelemetry Collector for Tanzu Observability. See
-  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-the-opentelemetry-collector)
-  .
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
+* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
+* Install the Wavefront proxy on Docker.
+    ```
+    docker run -d \
+        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
+        -e WAVEFRONT_TOKEN={TOKEN} \
+        -e JAVA_HEAP_USAGE=512m \
+        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
+        -p 2878:2878 \
+        -p 30001:30001 \
+        wavefronthq/proxy:latest
+    ```
+    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    
+* **Set up an OpenTelemetry Collector for Tanzu Observability**:
+    1. Download the `otelcol-contrib` binary from the latest release of
+    the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
+    1. Create a file named `otel_collector_config.yaml` in the same directory.
+    1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) file to the new file you created.  
+
+    See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
+
 
 **Tip:** We recommend trying [`virtualenv`](https://sourabhbajaj.com/mac-setup/Python/virtualenv.html) to create an
 isolated Python environment.
