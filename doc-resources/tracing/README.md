@@ -72,4 +72,4 @@ Follow these steps:
 ## Next Steps
 
 - [Try out the Tutorials](https://docs.wavefront.com/opentelemetry_java_tutorial.html) and see how you can send your data to Tanzu Observability!
-- To enable proxy debug logs for the OpenTelemetry data sent directly to the Wavefront Porxy, see [Enable Proxy Debug Logs for OpenTelemetry Data](https://docs.wavefront.com/opentelemetry_logs.html).
+- To enable proxy debug logs for the OpenTelemetry data sent directly to the Wavefront Proxy, see [Enable Proxy Debug Logs for OpenTelemetry Data](https://docs.wavefront.com/opentelemetry_logs.html).
