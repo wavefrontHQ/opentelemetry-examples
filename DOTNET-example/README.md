@@ -16,6 +16,10 @@ will eventually export the trace data to the Tanzu Observability UI.
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
+    Replace `{INSTANCE_NAME}` and `{TOKEN}` as follows:
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     ```
     docker run -d \
         -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
