@@ -5,6 +5,8 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 ## Table of Content
 
 * [Send Trace Data](#send-trace-data)
+  * [Directly Send Data Using the Wavefront Proxy - (Recommended)](#)
+  * [Send Data Using the OpenTelemetry Collector and the Wavefront Proxy](#)
 * [Send Metrics Data](#send-metrics-data)
 * [Tutorials](#tutorials)
 * [Getting Support](#getting-support)
@@ -13,7 +15,7 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 ## Send Trace Data
 If your application uses an OpenTelemetry SDK, you can configure the application to send trace data to Tanzu Observability using any of the following options:
 
-* **Directly send OpenTelemetry data to the Wavefront proxy - [Recommended]**
+### Directly Send Data Using the Wavefront Proxy - (Recommended)
   <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to Tanzu Observability" style="width:750px;"/>
   Follow these steps:
 
@@ -28,7 +30,7 @@ If your application uses an OpenTelemetry SDK, you can configure the application
         <br/>By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`.
     1. Explore the trace data using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
 
-* Or **use the OpenTelemetry Collector and the Wavefront proxy**
+### Send Data Using the OpenTelemetry Collector and the Wavefront Proxy
     If you have already configured your application to send data to the OpenTelemetry Collector, the data flows from your application to Tanzu Observability as shown in the diagram:
 
     **Note**: You need to use OpenTelemetry Collector Contrib version v0.28.0 or later to export traces to Tanzu Observability." 
