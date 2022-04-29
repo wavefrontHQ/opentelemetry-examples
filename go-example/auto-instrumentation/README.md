@@ -124,9 +124,14 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
         -p 30001:30001 \
         wavefronthq/proxy:latest
     ```
+    Replace:
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+    
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-* **Set up an OpenTelemetry Collector for Tanzu Observability**:
+* Set up an OpenTelemetry Collector for Tanzu Observability:
     1. Download the `otelcol-contrib` binary from the latest release of
     the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
     1. Create a file named `otel_collector_config.yaml` in the same directory.
