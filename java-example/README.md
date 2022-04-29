@@ -1,15 +1,15 @@
 # Instrumenting Java Apps with OpenTelemetry
 
-This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. The data is sent to Tanzu Observability using the OpenTelemetry Collector and the Wavefront Proxy. To learn about on the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector).
+This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. The data is sent to Tanzu Observability using the OpenTelemetry Collector and the Wavefront Proxy. To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector).
 
 ## Prerequisites
 
 * Clone this repository.
 * [**Install the Wavefront proxy**](https://docs.wavefront.com/proxies_installing.html).
-    <br/> For example, Use Docker to install the Wavefront proxy. You have to specify the:
+    <br/> For example, Use Docker to install the Wavefront proxy. You have to specify:
 
     * The Tanzu Observability instance (for example, https://longboard.wavefront.com).
-    * A Tanzu Observability API token that is linked to an account with Proxy permission.
+    * A Tanzu Observability API token linked to an account with Proxy permission. 
     See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
 
     ```
@@ -35,7 +35,7 @@ This guide shows you how to manually instrument your Java application using the 
 1. Open the `pom.xml` file in the `java-example` directory using your IDE, and right-click and select **Add as a Maven Project**.
 
     The [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/java-example/pom.xml)
-  file is already configured with the required dependencies.
+  file is configured with the required dependencies.
 
 2. Run the application either from the IDE or using the terminal: 
     ```
@@ -98,7 +98,7 @@ You need to configure an instance of the `OpenTelemetrySdk` as early as possible
     }
 ```
 If you are writing library instrumentation, it is recommended that you provide the users with the
-ability to inject an instance of `OpenTelemetry` into the instrumentation code. If this is not possible for some reason, you can fall back on using an instance from the `GlobalOpenTelemetry` class. 
+ability to inject an instance of `OpenTelemetry` into the instrumentation code. If this is not possible, you can use an instance from the `GlobalOpenTelemetry` class. 
   
 **Note**: You can’t force end-users to configure the global OpenTelemetry class.
 
@@ -115,11 +115,11 @@ The `Tracer` is responsible for creating spans and interacting with the `Context
 
 ### Create a Nested Span, Add an Attribute
 
-To create a basic span, you only need to specify the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations. 
-  
-In OpenTelemetry spans can be created freely, and it’s up to the implementor to annotate them with attributes specific to the operation. `Attributes` provide additional context on a span and about the specific operation it tracks, such as results or properties of an operations. 
-  
-The spans can be manually linked for the `main` method to call the `child` method in the following way:
+To create a span, you only need to specify the name of the span. The start and end time of the span are set automatically by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations
+
+In OpenTelemetry, you can create spans freely, and it’s up to the implementor to annotate them with attributes specific to the operation. `Attributes` provide additional context on a span and about the specific operation it tracks, such as results or properties of an operation.
+
+You can link spans manually for the `main` method to call the `child` method as follows:
   
 ```java
   public static void main(String[] args) throws InterruptedException {
@@ -176,4 +176,5 @@ private static void childMethod(Span parentSpan) {
 ```
 
 ## Next Steps
-The above-mentioned example is a very basic example. Refer [the OpenTelemetry guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for more details, such as `events`, `links`, `context propagation`, and more.
+
+This tutorial covers a simple example. Refer to [the OpenTelemetry guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for details, such as `events`, `links`, `context propagation`, and more.
