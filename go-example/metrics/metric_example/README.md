@@ -19,7 +19,11 @@ This section shows a working example of a Go application that send metrics to th
         -p 30001:30001 \
         wavefronthq/proxy:latest
     ```
-    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    Replace:
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+    <br/> See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
 * **Set up an OpenTelemetry Collector for Tanzu Observability**:
     1. Download the `otelcol-contrib` binary from the latest release of
