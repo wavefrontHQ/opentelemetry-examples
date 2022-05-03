@@ -8,7 +8,7 @@ require (
 	go.opentelemetry.io/otel v1.7.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.6.3
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.6.3
-	go.opentelemetry.io/otel/sdk v1.6.3
+	go.opentelemetry.io/otel/sdk v1.7.0
 )
 
 require (
