@@ -34,9 +34,9 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
     1. In the same directory, create a file named `otel_collector_config.yaml`.
     1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
     1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
-      ```
-      ./otelcol-contrib --config otel_collector_config.yaml
-      ```
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ```
 
 ### Step 1: Install OpenTelemetry Packages
 
@@ -137,9 +137,9 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
     1. In the same directory, create a file named `otel_collector_config.yaml`.
     1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
     1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
-      ```
-      ./otelcol-contrib --config otel_collector_config.yaml
-      ```
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ```
 
 ### Step 1: Install OpenTelemetry Packages
 
