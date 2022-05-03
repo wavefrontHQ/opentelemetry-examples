@@ -1,11 +1,11 @@
-collectPeriod: 60s
+collectPeriod: 10s
 otelCollector: "localhost:4317"
 metrics:
 - name: "foo"
   type: "gauge"
 - name: "bar"
   type: "sum"
-- name: "baz"
+- name: "response_times"
   type: "histogram"
 valueSets:
   - valueSet:
@@ -13,13 +13,34 @@ valueSets:
       value: 35.7
     - name: "bar"
       value: 12.3
-    - name: "baz"
-      value: 1.3
-  - valueSet:
-    - name: "foo"
-      value: 21.4
-    - name: "bar"
-      value: 7.2
-    - name: "baz"
-      value: 3.9
+    - name: "response_times"
+      value: 0.5
+#  - valueSet:
+#    - name: "response_times"
+#      value: 1.5
+#    - name: "foo"
+#      value: 21.4
+#    - name: "bar"
+#      value: 7.2
+#  - valueSet:
+#    - name: "response_times"
+#      value: 2.5
+#    - name: "foo"
+#      value: 21.4
+#    - name: "bar"
+#      value: 7.2
+#  - valueSet:
+#    - name: "response_times"
+#      value: 7.5
+#    - name: "foo"
+#      value: 21.4
+#    - name: "bar"
+#      value: 7.2
+#  - valueSet:
+#    - name: "response_times"
+#      value: 15.5
+#    - name: "foo"
+#      value: 21.4
+#    - name: "bar"
+#      value: 7.2
 

@@ -14,6 +14,6 @@ public class App {
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
-        LOG.info("Redis application started successfully.");
+        LOG.info("Kafka consumer application started successfully.");
     }
 }

@@ -40,34 +40,39 @@ public class EmployeeService implements EmployeeRepo {
 
     @Override
     public void save(final Employee employee) {
-        setSpanTags(OUTBOUND_EXTERNAL_SERVICE_KEY);
+        //setSpanTags(OUTBOUND_EXTERNAL_SERVICE_KEY);
         hashOperations.put(EMPLOYEE_CACHE, employee.getId(), employee);
     }
 
     @Override
     public Employee findById(final String id) {
-        setSpanTags(INBOUND_EXTERNAL_SERVICE_KEY);
+        //setSpanTags(INBOUND_EXTERNAL_SERVICE_KEY);
         return hashOperations.get(EMPLOYEE_CACHE, id);
     }
 
     @Override
     public Map<String, Employee> findAll() {
-        setSpanTags(INBOUND_EXTERNAL_SERVICE_KEY);
+        //setSpanTags(INBOUND_EXTERNAL_SERVICE_KEY);
         return hashOperations.entries(EMPLOYEE_CACHE);
     }
 
     @Override
     public void delete(String id) {
-        setSpanTags(OUTBOUND_EXTERNAL_SERVICE_KEY);
+        //setSpanTags(OUTBOUND_EXTERNAL_SERVICE_KEY);
         hashOperations.delete(EMPLOYEE_CACHE, id);
     }
 
     private void setSpanTags(String callType) {
         Span span = Span.current();
-        span.setAttribute(callType, EXTERNAL_SERVICE_VAL);
-        span.setAttribute(EXTERNAL_APPLICATION_KEY, EXTERNAL_APPLICATION_VAL);
-        span.setAttribute(EXTERNAL_HOST_KEY, EXTERNAL_HOST_VAL);
-        span.setAttribute(EXTERNAL_COMPONENT_KEY, EXTERNAL_COMPONENT_VAL);
-        span.setAttribute(EXTERNAL_CATEGORY_KEY, EXTERNAL_CATEGORY_VAL);
+//        span.setAttribute(callType, EXTERNAL_SERVICE_VAL);
+//        span.setAttribute(EXTERNAL_APPLICATION_KEY, EXTERNAL_APPLICATION_VAL);
+//        span.setAttribute(EXTERNAL_HOST_KEY, EXTERNAL_HOST_VAL);
+//        span.setAttribute(EXTERNAL_COMPONENT_KEY, EXTERNAL_COMPONENT_VAL);
+//        span.setAttribute(EXTERNAL_CATEGORY_KEY, EXTERNAL_CATEGORY_VAL);
+        //span.setAttribute("span.kind", "client");
+        span.setAttribute("span.kind", "client");
+        span.setAttribute("component", "java-jdbc");
+        span.setAttribute("db.instance", "employeeDB");
+        span.setAttribute("db.type", "postgresql");
     }
 }

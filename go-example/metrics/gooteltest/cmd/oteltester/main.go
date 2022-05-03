@@ -56,7 +56,7 @@ func initMetric(config *gooteltest.Config) func() {
 		processor.NewFactory(
 			simple.NewWithHistogramDistribution(
 				histogram.WithExplicitBoundaries(
-					[]float64{1.0, 2.0, 5.0, 10.0},
+					[]float64{},
 				),
 			),
 			metricExporter,
@@ -150,11 +150,11 @@ func registerSumMetric(
 	)
 }
 
-// registerHistograms registers the histogram metrics with given meter.
+// registerCumulativeHistograms registers the histogram metrics with given meter.
 // collectPeriod is how often we send histogram data. meter is what we are
 // registering with. metrics is the list of metric names and types from the
 // yaml file. engine supplies the values for the histograms.
-func registerHistograms(
+func registerCumulativeHistograms(
 	collectPeriod time.Duration,
 	meter metric.Meter,
 	metrics []gooteltest.MetricInfo,
@@ -193,6 +193,7 @@ func registerHistograms(
 				ctx,
 				[]attribute.KeyValue{},
 				measurements...)
+			log.Printf("histo measurements: %v\n", histograms)
 		}
 	}()
 }
@@ -212,8 +213,11 @@ func main() {
 	defer shutdown()
 	engine := gooteltest.NewEngine(config.ValueSets)
 	meter := global.Meter("opamp")
-	registerMetricObservers(meter, config.Metrics, engine)
-	registerHistograms(config.CollectPeriod, meter, config.Metrics, engine)
+	//registerMetricObservers(meter, config.Metrics, engine)
+	// cumulative histogram
+	registerCumulativeHistograms(config.CollectPeriod, meter, config.Metrics, engine)
+
+	//TODO: How do we send delta histogram metric?
 
 	var waitForever chan struct{}
 	<-waitForever
