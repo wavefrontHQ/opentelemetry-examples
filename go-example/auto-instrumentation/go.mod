@@ -7,7 +7,7 @@ require (
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.31.0
 	go.opentelemetry.io/otel v1.7.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.7.0
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.6.3
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.7.0
 	go.opentelemetry.io/otel/sdk v1.7.0
 )
 
@@ -28,8 +28,8 @@ require (
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.7.0 // indirect
-	go.opentelemetry.io/proto/otlp v0.16.0 // indirect
 	go.opentelemetry.io/otel/trace v1.7.0 // indirect
+	go.opentelemetry.io/proto/otlp v0.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
