@@ -44,7 +44,7 @@ This guide shows you how to manually instrument your Java application using the 
 
 2. Run the application either from the IDE or using the terminal: 
     ```
-      mvn compile exec:java -Dexec.mainClass="com.vmware.App" 
+      mvn compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false 
     ```
 
     The ```main``` method in this Java application triggers the application to generate and emit a transaction trace, which includes a parent span and a few child spans.
