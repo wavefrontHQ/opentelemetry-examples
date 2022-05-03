@@ -34,14 +34,13 @@ will eventually export the trace data to the Tanzu Observability UI.
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
 * Set up an OpenTelemetry Collector for Tanzu Observability:
-    1. Download the `otelcol-contrib` binary from the latest release of
-    the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
-    1. Create a file named `otel_collector_config.yaml` in the same directory.
-    1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) file to the new file you created.  
-
-    See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
-
-
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+      ```
+      ./otelcol-contrib --config otel_collector_config.yaml
+      ```  
 ### Step 1: Get our example application
 
 The instrumentation works with any application, for this walk through we will refer to the following simple application.
@@ -155,13 +154,13 @@ can add additional spans manually over sections of the code.
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
 * Set up an OpenTelemetry Collector for Tanzu Observability:
-    1. Download the `otelcol-contrib` binary from the latest release of
-    the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases) and add it to a preferred directory.
-    1. Create a file named `otel_collector_config.yaml` in the same directory.
-    1. Copy the configurations in the  [`otel_collector_config.yaml`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) file to the new file you created.  
-
-    See [OpenTelemetry collector configurations](https://opentelemetry.io/docs/collector/configuration/) to learn more.
-
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+      ```
+      ./otelcol-contrib --config otel_collector_config.yaml
+      ```
 
 ### Step 1: Get our example application
 
