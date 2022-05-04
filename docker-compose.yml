@@ -1,0 +1,16 @@
+version: "3"
+services:
+  wavefront:
+    # Ref: https://hub.docker.com/r/wavefronthq/proxy
+    image: docker.io/wavefronthq/proxy:latest
+    restart: always
+    ports:
+     - 2878:2878
+     - 30001:30001
+    environment:
+     - WAVEFRONT_URL=https://{INSTANCE}.wavefront.com/api/
+     - WAVEFRONT_TOKEN={TOKEN}
+     - JAVA_HEAP_USAGE=512m
+     # https://docs.wavefront.com/proxies_configuring.html#tracing-proxy-properties
+     - WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001 \
+                             --hostname {HOSTNAME}"
