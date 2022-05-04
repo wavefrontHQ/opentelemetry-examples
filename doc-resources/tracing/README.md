@@ -64,5 +64,5 @@ Follow these steps:
     1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
         ```
         ./otelcol-contrib --config otel_collector_config.yaml
-        ```
+        ``` 
 1. Explore the trace data sent using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
