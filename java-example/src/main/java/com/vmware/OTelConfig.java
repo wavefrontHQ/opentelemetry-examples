@@ -7,7 +7,6 @@ import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
-import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,15 +14,14 @@ import java.util.concurrent.TimeUnit;
  * @author Sumit Deo (deosu@vmware.com)
  */
 public class OTelConfig {
-    private static final String SERVICE_NAME_VALUE = "otel-otlp-java-service";
+    private static final String SERVICE_NAME_VALUE = "otel-java-svc";
     public static final String OTEL_COLLECTOR_ENDPOINT = "http://localhost:4317";
-    public static final String APP_NAME_VALUE = "otel-otlp-java-app";
+    public static final String APP_NAME_VALUE = "otel-java-app";
     public static final String SERVICE_NAME_KEY = "service.name";
     public static final String APP_NAME_KEY = "application";
 
 
-    //Adds a BatchSpanProcessor initialized with OtlpGrpcSpanExporter to the TracerSdkProvider.
-
+    // Adds a BatchSpanProcessor initialized with OtlpGrpcSpanExporter to the TracerSdkProvider.
     static OpenTelemetry initOpenTelemetry() {
         OtlpGrpcSpanExporter spanExporter = getOtlpGrpcSpanExporter();
         BatchSpanProcessor spanProcessor = getBatchSpanProcessor(spanExporter);
