@@ -60,7 +60,7 @@ Follow these steps:
 1. Export the data from the OpenTelemetry Collector to the Tanzu Observability (Wavefront) trace exporter:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
     1. In the same directory, create a file named `otel_collector_config.yaml`.
-    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
     1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
         ```
         ./otelcol-contrib --config otel_collector_config.yaml
