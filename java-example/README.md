@@ -1,221 +1,185 @@
 # Instrumenting Java Apps with OpenTelemetry
 
-## Auto Instrumentation
+This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. The data is sent to Tanzu Observability using the OpenTelemetry Collector and the Wavefront Proxy. To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector).
 
-This section shows a working example of a Java application auto-instrumented with OpenTelemetry.
+## Prerequisites
 
-To auto-instrument a Java application, check
-out [this guide](https://tanzu.vmware.com/content/blog/getting-started-opentelemetry-vmware-tanzu-observability#devops).
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
+* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
+* Install the Wavefront proxy on Docker.
+    ```
+    docker run -d \
+        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
+        -e WAVEFRONT_TOKEN={TOKEN} \
+        -e JAVA_HEAP_USAGE=512m \
+        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
+        -p 2878:2878 \
+        -p 30001:30001 \
+        wavefronthq/proxy:latest
+    ```
+    Replace:
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+    
+    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    
+* Set up an OpenTelemetry Collector for Tanzu Observability:
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ```
+      
+## Send Data to Tanzu Observability
 
-## Manual Instrumentation
+1. Open the `pom.xml` file in the `java-example` directory using your IDE, and right-click and select **Add as a Maven Project**.
 
-This section shows a working example of a Java application manually-instrumented with OpenTelemetry API and
-configuration through the OpenTelemetry SDK. By default, the OpenTelemetry API returns no-op implementations of the
-classes. Configuring the OpenTelemetry SDK enables the data to be processed and exported in useful ways.
+    The [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/java-example/pom.xml)
+  file is configured with the required dependencies.
 
-### Prerequisite
+2. Run the application either from the IDE or using the terminal: 
+    ```
+      mvn compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false 
+    ```
 
-* Install the Tanzu Observability proxy. See
-  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-wavefront-proxy).
-* Set up an OpenTelemetry Collector for Tanzu Observability. See
-  this [README](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/README.md#install-the-opentelemetry-collector)
-  .
+    The ```main``` method in this Java application triggers the application to generate and emit a transaction trace, which includes a parent span and a few child spans.
 
-### Step 1: Add a Maven Project
+You can examine the data sent by the application to Tanzu Observability on the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
 
-Locate the ```pom.xml``` in ```java-example``` project in IDE, and right click and select ```Add as a Maven Project```.
-We have put all the dependencies in
-the [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/java-example/pom.xml)
-file.
+Example: Application Status
+![shows a screenshot of how the application status page looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_app_status.png)
 
-Dependencies included in the ```pom.xml``` are:
+Example: Traces Browser
+![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_traces_browser.png)
 
-```xml
+## OpenTelemetry Instrumentation Building Blocks
 
-<properties>
-    <version.opentelemetry-alpha>1.9.1</version.opentelemetry-alpha>
-    <version.opentelemetry-semconv>1.9.1-alpha</version.opentelemetry-semconv>
-    <version.opentelemetry>1.9.1</version.opentelemetry>
-    <version.grpc>1.35.0</version.grpc>
-</properties>
+### OpenTelemetry Interface
 
-<dependencyManagement>
-<dependencies>
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-bom</artifactId>
-        <version>${version.opentelemetry}</version>
-        <type>pom</type>
-        <scope>import</scope>
-    </dependency>
-</dependencies>
-</dependencyManagement>
+You need to configure an instance of the `OpenTelemetrySdk` as early as possible in your application. This can be done using the `OpenTelemetrySdk.builder()` method.
 
-<dependencies>
-<dependency>
-    <groupId>io.opentelemetry</groupId>
-    <artifactId>opentelemetry-api</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.opentelemetry</groupId>
-    <artifactId>opentelemetry-sdk</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.opentelemetry</groupId>
-    <artifactId>opentelemetry-exporter-otlp</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.grpc</groupId>
-    <artifactId>grpc-protobuf</artifactId>
-    <version>${version.grpc}</version>
-</dependency>
-<dependency>
-    <groupId>io.grpc</groupId>
-    <artifactId>grpc-netty-shaded</artifactId>
-    <version>${version.grpc}</version>
-</dependency>
-<dependency>
-    <groupId>io.opentelemetry</groupId>
-    <artifactId>opentelemetry-semconv</artifactId>
-    <version>${version.opentelemetry-semconv}</version>
-</dependency>
-</dependencies>
+```java
+    static OpenTelemetry initOpenTelemetry() {
+      OtlpGrpcSpanExporter spanExporter = getOtlpGrpcSpanExporter();
+      BatchSpanProcessor spanProcessor = getBatchSpanProcessor(spanExporter);
+      Resource serviceNameResource = Resource
+              .create(Attributes.of(ResourceAttributes.SERVICE_NAME, SERVICE_NAME));
+      SdkTracerProvider tracerProvider = getSdkTracerProvider(spanProcessor, serviceNameResource);
+      OpenTelemetrySdk openTelemetrySdk = getOpenTelemetrySdk(tracerProvider);
+      Runtime.getRuntime().addShutdownHook(new Thread(tracerProvider::shutdown));
+
+      return openTelemetrySdk;
+    }
+
+    private static OpenTelemetrySdk getOpenTelemetrySdk(SdkTracerProvider tracerProvider) {
+      OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk.builder().setTracerProvider(tracerProvider)
+        .buildAndRegisterGlobal();
+      return openTelemetrySdk;
+    }
+
+    private static SdkTracerProvider getSdkTracerProvider(BatchSpanProcessor spanProcessor, Resource serviceNameResource) {
+      SdkTracerProvider tracerProvider = SdkTracerProvider.builder().addSpanProcessor(spanProcessor)
+        .setResource(Resource.getDefault().merge(serviceNameResource)).build();
+      return tracerProvider;
+    }
+
+    private static BatchSpanProcessor getBatchSpanProcessor(OtlpGrpcSpanExporter spanExporter) {
+      BatchSpanProcessor spanProcessor = BatchSpanProcessor.builder(spanExporter)
+        .setScheduleDelay(100, TimeUnit.MILLISECONDS).build();
+      return spanProcessor;
+    }
+
+    private static OtlpGrpcSpanExporter getOtlpGrpcSpanExporter() {
+      OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
+        .setEndpoint(OTEL_COLLECTOR_ENDPOINT)
+        .setTimeout(2, TimeUnit.SECONDS)
+        .build();
+      return spanExporter;
+    }
 ```
+If you are writing library instrumentation, it is recommended that you provide the users with the
+ability to inject an instance of `OpenTelemetry` into the instrumentation code. If this is not possible, you can use an instance from the `GlobalOpenTelemetry` class. 
+  
+**Note**: You can’t force end-users to configure the global OpenTelemetry class.
 
-### Step 2: Instrument the Application
+### Get a Tracer
+The `Tracer` is responsible for creating spans and interacting with the `Context`. A `Tracer` needs to be acquired using the OpenTelemetry API. You need to specify the name and version of the library that is instrumenting your library or application.
 
-* #### Get an OpenTelemetry Interface
-  The first step is to get a handle to an instance of the OpenTelemetry interface. As an application developer, we need
-  to configure an instance of the OpenTelemetrySdk as early as possible in our application. This can be done using the
-  OpenTelemetrySdk.builder() method.
+```java
+  private static Tracer getTracer() {
+      tracer = openTelemetry.getTracer(<my_instrumentation_library_name>, <my_instrumentation_library_version>);         
+      return tracer;
+  }
+```
+**Note**: the ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the `Tracer` are purely informational. All `Tracers` created by a single OpenTelemetry instance will work together, regardless of the name or version.
 
-  ```java
-      static OpenTelemetry initOpenTelemetry() {
-        OtlpGrpcSpanExporter spanExporter = getOtlpGrpcSpanExporter();
-        BatchSpanProcessor spanProcessor = getBatchSpanProcessor(spanExporter);
-        Resource serviceNameResource = Resource
-                .create(Attributes.of(ResourceAttributes.SERVICE_NAME, SERVICE_NAME));
-        SdkTracerProvider tracerProvider = getSdkTracerProvider(spanProcessor, serviceNameResource);
-        OpenTelemetrySdk openTelemetrySdk = getOpenTelemetrySdk(tracerProvider);
-        Runtime.getRuntime().addShutdownHook(new Thread(tracerProvider::shutdown));
+### Create a Nested Span, Add an Attribute
 
-        return openTelemetrySdk;
-      }
+To create a span, you only need to specify the name of the span. The start and end time of the span are set automatically by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations
 
-      private static OpenTelemetrySdk getOpenTelemetrySdk(SdkTracerProvider tracerProvider) {
-        OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk.builder().setTracerProvider(tracerProvider)
-          .buildAndRegisterGlobal();
-        return openTelemetrySdk;
-      }
+In OpenTelemetry, you can create spans freely, and it’s up to the implementor to annotate them with attributes specific to the operation. `Attributes` provide additional context on a span and about the specific operation it tracks, such as results or properties of an operation.
 
-      private static SdkTracerProvider getSdkTracerProvider(BatchSpanProcessor spanProcessor, Resource serviceNameResource) {
-        SdkTracerProvider tracerProvider = SdkTracerProvider.builder().addSpanProcessor(spanProcessor)
-          .setResource(Resource.getDefault().merge(serviceNameResource)).build();
-        return tracerProvider;
-      }
+You can link spans manually for the `main` method to call the `child` method as follows:
+  
+```java
+  public static void main(String[] args) throws InterruptedException {
 
-      private static BatchSpanProcessor getBatchSpanProcessor(OtlpGrpcSpanExporter spanExporter) {
-        BatchSpanProcessor spanProcessor = BatchSpanProcessor.builder(spanExporter)
-          .setScheduleDelay(100, TimeUnit.MILLISECONDS).build();
-        return spanProcessor;
-      }
+    /*this will make sure that a proper service.name attribute is set on all the
+      spans/metrics.*/
+    System.setProperty(OTEL_RESOURCE_ATTRIBUTES_KEY, OTEL_RESOURCE_ATTRIBUTES_VALUE);
 
-      private static OtlpGrpcSpanExporter getOtlpGrpcSpanExporter() {
-        OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
-          .setEndpoint(OTEL_COLLECTOR_ENDPOINT)
-          .setTimeout(2, TimeUnit.SECONDS)
-          .build();
-       return spanExporter;
-      }
-  ```
-  As an aside, if we are writing library instrumentation, it is strongly recommended that we provide our users the
-  ability to inject an instance of ```OpenTelemetry``` into our instrumentation code. If this is not possible for some
-  reason, we can fall back to using an instance from the ```GlobalOpenTelemetry``` class. Note that we can’t force
-  end-users to configure the global, so this is the most brittle option for library instrumentation.
+    /*tracer must be acquired, which is responsible for creating spans and interacting with the Context*/
+    tracer = getTracer();
 
-* #### Get a Tracer
-  First, a Tracer must be acquired, which is responsible for creating spans and interacting with the Context. A tracer
-  is acquired by using the OpenTelemetry API specifying the name and version of the library instrumenting the
-  instrumented library or application to be monitored.
-  ```java
-    private static Tracer getTracer() {
-        tracer = openTelemetry.getTracer(<my_instrumentation_library_name>, <my_instrumentation_library_version>);         
-        return tracer;
-    }
-  ```
-  Note: the ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the tracer are purely
-  informational. All Tracers that are created by a single OpenTelemetry instance will interoperate, regardless of name.
-
-* #### Create a Nested Span, Add an Attribute
-  To create a basic span, we only need to specify the name of the span. The start and end time of the span is
-  automatically set by the OpenTelemetry SDK. Most of the time, we want to correlate spans for nested operations. In
-  OpenTelemetry spans can be created freely and it’s up to the implementor to annotate them with attributes specific to
-  the represented operation. Attributes provide additional context on a span about the specific operation it tracks,
-  such as results or operation properties. For the ```main``` method to call the ```child``` method, the spans could be
-  manually linked in the following way:
-    ```java
-      public static void main(String[] args) throws InterruptedException {
-
-        /*this will make sure that a proper service.name attribute is set on all the
-         spans/metrics.*/
-        System.setProperty(OTEL_RESOURCE_ATTRIBUTES_KEY, OTEL_RESOURCE_ATTRIBUTES_VALUE);
-
-        /*tracer must be acquired, which is responsible for creating spans and interacting with the Context*/
-        tracer = getTracer();
-
-        /*an automated way to propagate the parent span on the current thread*/
-        for (int index = 0; index < 3; index++) {
-            /*create a span by specifying the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK*/
-            Span parentSpan = tracer.spanBuilder("parentSpan").setNoParent().startSpan();
-            logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceIdAsHexString());
-
-            /*put the span into the current Context*/
-            try (Scope scope = parentSpan.makeCurrent()) {
-
-                /*annotate the span with attributes specific to the represented operation, to provide additional context*/
-                parentSpan.setAttribute("parentIndex", index);
-                childMethod(parentSpan);
-            } catch (Throwable throwable) {
-                parentSpan.setStatus(StatusCode.ERROR, "Something wrong with the parent span");
-            } finally {
-                /*closing the scope does not end the span, this has to be done manually*/
-                parentSpan.end();
-            }
-        }
-
-        /*sleep for a bit to let everything settle*/
-        Thread.sleep(2000);
-    }
-
-    private static void childMethod(Span parentSpan) {
-
-        tracer = getTracer();
-
-        /*setParent(...) is not required, `Span.current()` is automatically added as the parent*/
-        Span childSpan = tracer.spanBuilder("childSpan").setParent(Context.current().with(parentSpan))
-                .startSpan();
-        logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceIdAsHexString());
+    /*an automated way to propagate the parent span on the current thread*/
+    for (int index = 0; index < 3; index++) {
+        /*create a span by specifying the name of the span. The start and end time of the span is automatically set by the OpenTelemetry SDK*/
+        Span parentSpan = tracer.spanBuilder("parentSpan").setNoParent().startSpan();
+        logger.info("In parent method. TraceID : {}", parentSpan.getSpanContext().getTraceIdAsHexString());
 
         /*put the span into the current Context*/
-        try (Scope scope = childSpan.makeCurrent()) {
-            Thread.sleep(1000);
+        try (Scope scope = parentSpan.makeCurrent()) {
+
+            /*annotate the span with attributes specific to the represented operation, to provide additional context*/
+            parentSpan.setAttribute("parentIndex", index);
+            childMethod(parentSpan);
         } catch (Throwable throwable) {
-            childSpan.setStatus(StatusCode.ERROR, "Something wrong with the child span");
+            parentSpan.setStatus(StatusCode.ERROR, "Something wrong with the parent span");
         } finally {
-            childSpan.end();
+            /*closing the scope does not end the span, this has to be done manually*/
+            parentSpan.end();
         }
     }
-    ```
-* #### More Information
-  The above-mentioned example is a very basic example. Please refer
-  to [the guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for more details
-  like ```events```, ```links```, ```context propagation```, etc.
 
-### Step 3: Run the Application
+    /*sleep for a bit to let everything settle*/
+    Thread.sleep(2000);
+}
 
-Run the application either from an IDE or the CLI via `mvn compile exec:java -Dexec.mainClass="com.vmware.App"`.
+private static void childMethod(Span parentSpan) {
 
-The ```main``` method in our Java application will trigger our app to generate and emit a trace of a transaction. When
-the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
-the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
-  
+    tracer = getTracer();
+
+    /*setParent(...) is not required, `Span.current()` is automatically added as the parent*/
+    Span childSpan = tracer.spanBuilder("childSpan").setParent(Context.current().with(parentSpan))
+            .startSpan();
+    logger.info("In child method. TraceID : {}", childSpan.getSpanContext().getTraceIdAsHexString());
+
+    /*put the span into the current Context*/
+    try (Scope scope = childSpan.makeCurrent()) {
+        Thread.sleep(1000);
+    } catch (Throwable throwable) {
+        childSpan.setStatus(StatusCode.ERROR, "Something wrong with the child span");
+    } finally {
+        childSpan.end();
+    }
+}
+```
+
+## Next Steps
+
+This tutorial covers a simple example. Refer to [the OpenTelemetry guide](https://opentelemetry.io/docs/instrumentation/java/manual_instrumentation/) for details, such as `events`, `links`, `context propagation`, and more.

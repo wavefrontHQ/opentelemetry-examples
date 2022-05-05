@@ -7,12 +7,41 @@ we will create a basic “Hello World” web application, instrument it with Ope
 and send it to an OpenTelemetry Collector. The Collector will then export the trace data to the Wavefront Proxy which
 will eventually export the trace data to the Tanzu Observability UI.
 
-![Here is how it works:](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/resources/TraceFlow.png?raw=true)
+![Here is how it works:](images/opentelemetry_collector_tracing.png)
 
-If we have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
-out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
+### Prerequisites
 
-#### Step 1: Get our example application
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
+* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
+* Install the Wavefront proxy on Docker    
+    ```
+    docker run -d \
+        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
+        -e WAVEFRONT_TOKEN={TOKEN} \
+        -e JAVA_HEAP_USAGE=512m \
+        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
+        -p 2878:2878 \
+        -p 30001:30001 \
+        wavefronthq/proxy:latest
+    ```
+    Replace:
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+    
+    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    
+* Set up an OpenTelemetry Collector for Tanzu Observability:
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ```  
+### Step 1: Get our example application
 
 The instrumentation works with any application, for this walk through we will refer to the following simple application.
 Our example application is a locally hosted server that responds with “Hello, World!“ every time we access it.
@@ -31,7 +60,7 @@ app.Run();
 
 Let's save this file as ```Program.cs```.
 
-#### Step 2: Installing OpenTelemetry Components
+### Step 2: Installing OpenTelemetry Components
 
 Several libraries complement the .NET [OpenTelemetry](https://www.nuget.org/packages/OpenTelemetry/) implementation that
 makes integration straightforward. For instrumenting tracing in ASP.NET Core, we
@@ -56,7 +85,7 @@ use [OpenTelemetry.Instrumentation.AspNetCore](https://www.nuget.org/packages/Op
   dotnet add package OpenTelemetry.Extensions.Hosting --version 1.0.0-rc8
   ```
 
-#### Step 3: Configure the Trace Provider
+### Step 3: Configure the Trace Provider
 
 Now we can enable the instrumentation with a single block of code in our startup to:
 
@@ -90,7 +119,7 @@ opentelemetry-bootstrap --action=install
 That’s all the coding we need! The libraries we used above provide auto-instrumentation of all the incoming and outgoing
 web requests.
 
-#### Step 4: Run our application
+### Step 4: Run our application
 
 The collector is now running and listening to incoming traces on port 4317.
 
@@ -105,24 +134,47 @@ Getting all our web requests instrumented was super simple with auto-instrumenta
 in our services, and it would be helpful if we broke the span down into parts for finer-grain tracing. To do this, we
 can add additional spans manually over sections of the code.
 
-#### Prerequisite
+### Prerequisites
 
-If we have not set up an OpenTelemetry Collector or Wavefront proxy yet, then check
-out [this guide](https://github.com/wavefrontHQ/opentelemetry-examples/blob/main/README.md).
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
+* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
+* Install the Wavefront proxy on Docker.
+    ```
+    docker run -d \
+        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
+        -e WAVEFRONT_TOKEN={TOKEN} \
+        -e JAVA_HEAP_USAGE=512m \
+        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
+        -p 2878:2878 \
+        -p 30001:30001 \
+        wavefronthq/proxy:latest
+    ```
+    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+    
+* Set up an OpenTelemetry Collector for Tanzu Observability:
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/78f43e78b292c99bf00e6294712caf4ee940fc67/doc-resources/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ```
 
-#### Step 1: Get our example application
+### Step 1: Get our example application
 
 Locate the ```WebApp``` web-application in the ```DOTNET-example``` directory.
 
-#### Step 2: Installing OpenTelemetry Components
+### Step 2: Installing OpenTelemetry Components
 
 Note: Follow the ```Step 2``` mentioned in the ```Auto-Instrumentation``` section.
 
-#### Step 3: Configure the Trace Provider
+### Step 3: Configure the Trace Provider
 
 Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` section.
 
-#### Step 4: Add a tracer, create a span
+### Step 4: Add a tracer, create a span
 
 * System.Diagnostics.ActivitySource represents
   an [OpenTelemetry Tracer](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md#tracer)
@@ -145,7 +197,7 @@ Note: Follow the ```Step 3``` mentioned in the ```Auto-Instrumentation``` sectio
   activity?.AddBaggage("sampleBaggage", "someBaggage");
   ```
 
-#### Step 5: Run our application
+### Step 5: Run our application
 
 Run the below commands to start our application either from the CLI.
 

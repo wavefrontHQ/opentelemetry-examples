@@ -1,0 +1,31 @@
+receivers:
+   otlp:
+      protocols:
+          grpc:
+              endpoint: "localhost:4317"
+exporters:
+    tanzuobservability:
+      traces:
+        endpoint: "http://localhost:30001"
+      metrics:
+        endpoint: "http://localhost:2878"
+  # Proxy hostname and customTracing ListenerPort
+processors:
+    batch:
+      timeout: 10s
+    memory_limiter:
+      check_interval: 1s
+      limit_percentage: 50
+      spike_limit_percentage: 30
+
+
+service:
+    pipelines:
+      metrics:
+        receivers: [otlp]
+        exporters: [tanzuobservability]
+        processors: [memory_limiter, batch]
+      traces:
+        receivers: [otlp]
+        exporters: [tanzuobservability]
+        processors: [memory_limiter, batch]
