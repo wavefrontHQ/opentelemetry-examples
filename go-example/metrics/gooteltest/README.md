@@ -7,7 +7,7 @@ go install github.com/wavefronthq/opentelemetry-examples/go-example/metrics/goot
 
 ## running
 ```sh
-~/go/bin/gooteltest --config example.yaml
+~/go/bin/oteltester --config example.yaml
 ```
 When you run the tester it runs forever sending the metrics in the yaml file to the OTEL collector in a loop.
 
