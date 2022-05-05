@@ -50,7 +50,7 @@ type Config struct {
 
 	// The host and port of the grpc OTEL collector. Default is
 	// 'localhost:4317'
-	OtelCollector string `yaml:"otelCollector"`
+	AggregationTemporalitySelector string `yaml:"aggregationTemporalitySelector"`
 
 	// The names and types of the metrics being sent.
 	Metrics []MetricInfo `yaml:"metrics"`
@@ -89,9 +89,6 @@ func ReadConfigFromFile(fileName string) (*Config, error) {
 func (c *Config) fixDefaults() {
 	if c.CollectPeriod == 0 {
 		c.CollectPeriod = 10 * time.Second
-	}
-	if c.OtelCollector == "" {
-		c.OtelCollector = "localhost:4317"
 	}
 }
 

@@ -1,11 +1,15 @@
 # The gooteltest oteltester
 
+## Environment Variable
+```shell
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+```
 ## Compiling
 ```sh
 go install github.com/wavefronthq/opentelemetry-examples/go-example/metrics/gooteltest/cmd/oteltester@latest
 ```
 
-## running
+## Running
 ```sh
 ~/go/bin/oteltester --config example.yaml
 ```

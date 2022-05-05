@@ -16,12 +16,11 @@ import (
 	"go.opentelemetry.io/otel/metric/global"
 	"go.opentelemetry.io/otel/sdk/metric/aggregator/histogram"
 	controller "go.opentelemetry.io/otel/sdk/metric/controller/basic"
+	"go.opentelemetry.io/otel/sdk/metric/export/aggregation"
 	processor "go.opentelemetry.io/otel/sdk/metric/processor/basic"
 	"go.opentelemetry.io/otel/sdk/metric/selector/simple"
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
@@ -35,15 +34,12 @@ var (
 func initMetric(config *gooteltest.Config) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	conn, err := grpc.DialContext(
-		ctx,
-		config.OtelCollector,
-		grpc.WithTransportCredentials(
-			insecure.NewCredentials()), grpc.WithBlock())
-	reportErr(err, "failed to create gRPC connection to collector")
-
+	temporalitySelector := aggregation.CumulativeTemporalitySelector()
+	if config.AggregationTemporalitySelector == "delta" {
+		temporalitySelector = aggregation.DeltaTemporalitySelector()
+	}
 	// Wrap the raw grpc connection to OTEL collector with an exporter.
-	metricExporter, err := newExporter(ctx, conn)
+	metricExporter, err := newExporter(ctx, temporalitySelector)
 	reportErr(err, "failed to create metric exporter")
 
 	res, err := newResource(ctx)
@@ -55,15 +51,13 @@ func initMetric(config *gooteltest.Config) func() {
 	cont := controller.New(
 		processor.NewFactory(
 			simple.NewWithHistogramDistribution(
-				histogram.WithExplicitBoundaries(
-					[]float64{1.0, 2.0, 5.0, 10.0},
-				),
+				histogram.WithExplicitBoundaries([]float64{1.0, 2.0, 5.0, 10.0}),
 			),
-			metricExporter,
+			temporalitySelector,
 		),
+		controller.WithResource(res),
 		controller.WithExporter(metricExporter),
 		controller.WithCollectPeriod(config.CollectPeriod),
-		controller.WithResource(res),
 	)
 
 	// Start the controller
@@ -80,11 +74,11 @@ func initMetric(config *gooteltest.Config) func() {
 	}
 }
 
-func newExporter(
-	ctx context.Context,
-	conn *grpc.ClientConn,
-) (*otlpmetric.Exporter, error) {
-	return otlpmetricgrpc.New(ctx, otlpmetricgrpc.WithGRPCConn(conn))
+func newExporter(ctx context.Context, temporalitySelector aggregation.TemporalitySelector) (*otlpmetric.Exporter, error) {
+	return otlpmetric.New(
+		ctx,
+		otlpmetricgrpc.NewClient(),
+		otlpmetric.WithMetricAggregationTemporalitySelector(temporalitySelector))
 }
 
 func reportErr(err error, message string) {
@@ -113,13 +107,14 @@ func registerMetricObservers(
 	meter metric.Meter,
 	metrics []gooteltest.MetricInfo,
 	engine *gooteltest.Engine,
+	prefix string,
 ) {
 	for _, m := range metrics {
 		switch m.Type {
 		case "gauge":
 			registerGaugeMetric(meter, m.Name, engine)
 		case "sum":
-			registerSumMetric(meter, m.Name, engine)
+			registerSumMetric(meter, prefix+m.Name, engine)
 		}
 	}
 }
@@ -159,6 +154,7 @@ func registerHistograms(
 	meter metric.Meter,
 	metrics []gooteltest.MetricInfo,
 	engine *gooteltest.Engine,
+	prefix string,
 ) {
 	// A map of histogram name to the histogram.
 	histograms := make(map[string]metric.Float64Histogram)
@@ -167,7 +163,7 @@ func registerHistograms(
 		if m.Type != "histogram" {
 			continue
 		}
-		histograms[m.Name] = metric.Must(meter).NewFloat64Histogram(m.Name)
+		histograms[m.Name] = metric.Must(meter).NewFloat64Histogram(prefix + m.Name)
 	}
 	ticker := time.NewTicker(collectPeriod)
 	measurements := make([]metric.Measurement, len(histograms))
@@ -208,12 +204,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error opening config file: %v", err)
 	}
+
+	prefix := "cum_"
+	if config.AggregationTemporalitySelector == "delta" {
+		prefix = "delta_"
+	}
+
 	shutdown := initMetric(config)
 	defer shutdown()
 	engine := gooteltest.NewEngine(config.ValueSets)
 	meter := global.Meter("opamp")
-	registerMetricObservers(meter, config.Metrics, engine)
-	registerHistograms(config.CollectPeriod, meter, config.Metrics, engine)
+	registerMetricObservers(meter, config.Metrics, engine, prefix)
+	registerHistograms(config.CollectPeriod, meter, config.Metrics, engine, prefix)
 
 	var waitForever chan struct{}
 	<-waitForever

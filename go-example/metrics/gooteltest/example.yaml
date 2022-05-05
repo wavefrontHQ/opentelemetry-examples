@@ -1,5 +1,5 @@
 collectPeriod: 60s
-otelCollector: "localhost:4317"
+aggregationTemporalitySelector: "delta"
 metrics:
 - name: "foo"
   type: "gauge"
