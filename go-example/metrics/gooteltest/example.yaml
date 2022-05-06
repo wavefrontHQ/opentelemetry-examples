@@ -1,4 +1,4 @@
-collectPeriod: 60s
+collectPeriod: 10s
 aggregationTemporalitySelector: "delta"
 metrics:
 - name: "foo"
