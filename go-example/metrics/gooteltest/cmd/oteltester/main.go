@@ -23,13 +23,6 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 )
 
-const (
-	MetricTypeGauge          = "gauge"
-	MetricTypeSum            = "sum"
-	MetricTypeHistogram      = "histogram"
-	DeltaAggregationSelector = "delta"
-)
-
 var (
 	fConfig string
 )
@@ -42,7 +35,7 @@ func initMetric(config *gooteltest.Config) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	temporalitySelector := aggregation.CumulativeTemporalitySelector()
-	if config.AggregationTemporalitySelector == DeltaAggregationSelector {
+	if config.AggregationTemporalitySelector == gooteltest.DeltaAggregationSelector {
 		temporalitySelector = aggregation.DeltaTemporalitySelector()
 	}
 	// Wrap the raw grpc connection to OTEL collector with an exporter.
@@ -158,7 +151,7 @@ func main() {
 	}
 
 	prefix := "cum_"
-	if config.AggregationTemporalitySelector == DeltaAggregationSelector {
+	if config.AggregationTemporalitySelector == gooteltest.DeltaAggregationSelector {
 		prefix = "delta_"
 	}
 
@@ -178,11 +171,11 @@ func forever(meter metric.Meter,
 	for {
 		for _, m := range config.Metrics {
 			switch m.Type {
-			case MetricTypeGauge:
+			case gooteltest.MetricTypeGauge:
 				registerGaugeMetric(meter, m.Name, engine)
-			case MetricTypeSum:
+			case gooteltest.MetricTypeSum:
 				registerSumMetric(meter, m.Name, prefix, engine)
-			case MetricTypeHistogram:
+			case gooteltest.MetricTypeHistogram:
 				registerHistograms(meter, m.Name, prefix, engine)
 			}
 		}
