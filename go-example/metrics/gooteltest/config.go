@@ -12,15 +12,17 @@ import (
 )
 
 const (
-	MetricTypeGauge     = "gauge"
-	MetricTypeSum       = "sum"
-	MetricTypeHistogram = "histogram"
+	MetricTypeGauge               = "gauge"
+	MetricTypeSum                 = "sum"
+	MetricTypeHistogram           = "histogram"
+	DeltaAggregationSelector      = "delta"
+	CumulativeAggregationSelector = "cumulative"
 )
 
 var metricTypeNames = map[string]bool{
 	MetricTypeGauge: true, MetricTypeSum: true, MetricTypeHistogram: true}
 
-// MetricInfo gives the name and type of a particular metric. type must be
+// MetricInfo gives the name and type of particular metric. type must be
 // 'gauge', 'sum', or 'histogram'
 type MetricInfo struct {
 	Name string `yaml:"name"`
@@ -90,6 +92,9 @@ func (c *Config) fixDefaults() {
 	if c.CollectPeriod == 0 {
 		c.CollectPeriod = 10 * time.Second
 	}
+	if c.AggregationTemporalitySelector == "" {
+		c.AggregationTemporalitySelector = CumulativeAggregationSelector
+	}
 }
 
 // Engine instances keeps track of the metric values. It plays back
@@ -155,6 +160,12 @@ func checkConfig(config *Config) error {
 	if config.CollectPeriod <= 0 {
 		return errors.New("collectPeriod must be a positive duration")
 	}
+
+	if !(config.AggregationTemporalitySelector == DeltaAggregationSelector ||
+		config.AggregationTemporalitySelector == CumulativeAggregationSelector) {
+		return errors.New("aggregationTemporalitySelector can be either delta or cumulative")
+	}
+
 	namesSeen := make(map[string]struct{})
 	for _, metric := range config.Metrics {
 		if _, ok := namesSeen[metric.Name]; ok {

@@ -23,6 +23,13 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 )
 
+const (
+	MetricTypeGauge          = "gauge"
+	MetricTypeSum            = "sum"
+	MetricTypeHistogram      = "histogram"
+	DeltaAggregationSelector = "delta"
+)
+
 var (
 	fConfig string
 )
@@ -35,7 +42,7 @@ func initMetric(config *gooteltest.Config) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	temporalitySelector := aggregation.CumulativeTemporalitySelector()
-	if config.AggregationTemporalitySelector == "delta" {
+	if config.AggregationTemporalitySelector == DeltaAggregationSelector {
 		temporalitySelector = aggregation.DeltaTemporalitySelector()
 	}
 	// Wrap the raw grpc connection to OTEL collector with an exporter.
@@ -105,7 +112,7 @@ func registerGaugeMetric(
 
 	gaugeObserver, err := meter.AsyncFloat64().Gauge(name)
 	if err != nil {
-		log.Panicf("failed to initialize instrument: %v", err)
+		log.Fatalf("failed to initialize instrument: %v", err)
 	}
 	gaugeObserver.Observe(context.Background(), engine.NextValue(name))
 }
@@ -118,7 +125,7 @@ func registerSumMetric(
 ) {
 	counter, err := meter.SyncFloat64().Counter(prefix + name)
 	if err != nil {
-		log.Panicf("failed to initialize instrument: %v", err)
+		log.Fatalf("failed to initialize instrument: %v", err)
 	}
 
 	counter.Add(context.Background(), engine.NextValue(name))
@@ -132,7 +139,7 @@ func registerHistograms(
 ) {
 	histogram, err := meter.SyncFloat64().Histogram(prefix + name)
 	if err != nil {
-		log.Panicf("failed to initialize instrument: %v", err)
+		log.Fatalf("failed to initialize instrument: %v", err)
 	}
 
 	histogram.Record(context.Background(), engine.NextValue(name))
@@ -151,7 +158,7 @@ func main() {
 	}
 
 	prefix := "cum_"
-	if config.AggregationTemporalitySelector == "delta" {
+	if config.AggregationTemporalitySelector == DeltaAggregationSelector {
 		prefix = "delta_"
 	}
 
@@ -171,11 +178,11 @@ func forever(meter metric.Meter,
 	for {
 		for _, m := range config.Metrics {
 			switch m.Type {
-			case "gauge":
+			case MetricTypeGauge:
 				registerGaugeMetric(meter, m.Name, engine)
-			case "sum":
+			case MetricTypeSum:
 				registerSumMetric(meter, m.Name, prefix, engine)
-			case "histogram":
+			case MetricTypeHistogram:
 				registerHistograms(meter, m.Name, prefix, engine)
 			}
 		}
