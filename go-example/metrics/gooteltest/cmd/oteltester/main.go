@@ -16,12 +16,11 @@ import (
 	"go.opentelemetry.io/otel/metric/global"
 	"go.opentelemetry.io/otel/sdk/metric/aggregator/histogram"
 	controller "go.opentelemetry.io/otel/sdk/metric/controller/basic"
+	"go.opentelemetry.io/otel/sdk/metric/export/aggregation"
 	processor "go.opentelemetry.io/otel/sdk/metric/processor/basic"
 	"go.opentelemetry.io/otel/sdk/metric/selector/simple"
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
@@ -35,15 +34,12 @@ var (
 func initMetric(config *gooteltest.Config) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	conn, err := grpc.DialContext(
-		ctx,
-		config.OtelCollector,
-		grpc.WithTransportCredentials(
-			insecure.NewCredentials()), grpc.WithBlock())
-	reportErr(err, "failed to create gRPC connection to collector")
-
+	temporalitySelector := aggregation.CumulativeTemporalitySelector()
+	if config.AggregationTemporalitySelector == gooteltest.DeltaAggregationSelector {
+		temporalitySelector = aggregation.DeltaTemporalitySelector()
+	}
 	// Wrap the raw grpc connection to OTEL collector with an exporter.
-	metricExporter, err := newExporter(ctx, conn)
+	metricExporter, err := newExporter(ctx, temporalitySelector)
 	reportErr(err, "failed to create metric exporter")
 
 	res, err := newResource(ctx)
@@ -55,15 +51,13 @@ func initMetric(config *gooteltest.Config) func() {
 	cont := controller.New(
 		processor.NewFactory(
 			simple.NewWithHistogramDistribution(
-				histogram.WithExplicitBoundaries(
-					[]float64{1.0, 2.0, 5.0, 10.0},
-				),
+				histogram.WithExplicitBoundaries([]float64{1.0, 2.0, 5.0, 10.0}),
 			),
-			metricExporter,
+			temporalitySelector,
 		),
+		controller.WithResource(res),
 		controller.WithExporter(metricExporter),
 		controller.WithCollectPeriod(config.CollectPeriod),
-		controller.WithResource(res),
 	)
 
 	// Start the controller
@@ -80,11 +74,11 @@ func initMetric(config *gooteltest.Config) func() {
 	}
 }
 
-func newExporter(
-	ctx context.Context,
-	conn *grpc.ClientConn,
-) (*otlpmetric.Exporter, error) {
-	return otlpmetricgrpc.New(ctx, otlpmetricgrpc.WithGRPCConn(conn))
+func newExporter(ctx context.Context, temporalitySelector aggregation.TemporalitySelector) (*otlpmetric.Exporter, error) {
+	return otlpmetric.New(
+		ctx,
+		otlpmetricgrpc.NewClient(),
+		otlpmetric.WithMetricAggregationTemporalitySelector(temporalitySelector))
 }
 
 func reportErr(err error, message string) {
@@ -103,98 +97,45 @@ func newResource(ctx context.Context) (*resource.Resource, error) {
 	)
 }
 
-// registerMetricObservers registers asynchronous metrics with given meter.
-// Only "gauge" and "sum" metrics are asynchronous. histogram metrics get
-// registered in another function.
-//
-// meter is what we are registring with. metrics is the list of metric names
-// and types from the yaml file. engine supplies the values for the metrics.
-func registerMetricObservers(
-	meter metric.Meter,
-	metrics []gooteltest.MetricInfo,
-	engine *gooteltest.Engine,
-) {
-	for _, m := range metrics {
-		switch m.Type {
-		case "gauge":
-			registerGaugeMetric(meter, m.Name, engine)
-		case "sum":
-			registerSumMetric(meter, m.Name, engine)
-		}
-	}
-}
-
 func registerGaugeMetric(
 	meter metric.Meter,
 	name string,
 	engine *gooteltest.Engine,
 ) {
-	metric.Must(meter).NewFloat64GaugeObserver(
-		name,
-		func(_ context.Context, result metric.Float64ObserverResult) {
-			result.Observe(engine.NextValue(name))
-		},
-	)
+
+	gaugeObserver, err := meter.AsyncFloat64().Gauge(name)
+	if err != nil {
+		log.Fatalf("failed to initialize instrument: %v", err)
+	}
+	gaugeObserver.Observe(context.Background(), engine.NextValue(name))
 }
 
 func registerSumMetric(
 	meter metric.Meter,
 	name string,
+	prefix string,
 	engine *gooteltest.Engine,
 ) {
-	metric.Must(meter).NewFloat64CounterObserver(
-		name,
-		func(_ context.Context, result metric.Float64ObserverResult) {
-			result.Observe(engine.NextValue(name))
-		},
-	)
+	counter, err := meter.SyncFloat64().Counter(prefix + name)
+	if err != nil {
+		log.Fatalf("failed to initialize instrument: %v", err)
+	}
+
+	counter.Add(context.Background(), engine.NextValue(name))
 }
 
-// registerHistograms registers the histogram metrics with given meter.
-// collectPeriod is how often we send histogram data. meter is what we are
-// registering with. metrics is the list of metric names and types from the
-// yaml file. engine supplies the values for the histograms.
 func registerHistograms(
-	collectPeriod time.Duration,
 	meter metric.Meter,
-	metrics []gooteltest.MetricInfo,
+	name string,
+	prefix string,
 	engine *gooteltest.Engine,
 ) {
-	// A map of histogram name to the histogram.
-	histograms := make(map[string]metric.Float64Histogram)
-
-	for _, m := range metrics {
-		if m.Type != "histogram" {
-			continue
-		}
-		histograms[m.Name] = metric.Must(meter).NewFloat64Histogram(m.Name)
+	histogram, err := meter.SyncFloat64().Histogram(prefix + name)
+	if err != nil {
+		log.Fatalf("failed to initialize instrument: %v", err)
 	}
-	ticker := time.NewTicker(collectPeriod)
-	measurements := make([]metric.Measurement, len(histograms))
 
-	// This go function is what sends the histogram values to the collector
-	// in a loop.
-	go func() {
-		for {
-			// wait for collectPeriod seconds to elapse
-			<-ticker.C
-
-			// Build measurements slice of next values.
-			idx := 0
-			for name, histogram := range histograms {
-				measurements[idx] = histogram.Measurement(
-					engine.NextValue(name))
-				idx++
-			}
-
-			// Send the values to the collector.
-			ctx := context.Background()
-			meter.RecordBatch(
-				ctx,
-				[]attribute.KeyValue{},
-				measurements...)
-		}
-	}()
+	histogram.Record(context.Background(), engine.NextValue(name))
 }
 
 func main() {
@@ -208,15 +149,38 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error opening config file: %v", err)
 	}
+
+	prefix := "cum_"
+	if config.AggregationTemporalitySelector == gooteltest.DeltaAggregationSelector {
+		prefix = "delta_"
+	}
+
 	shutdown := initMetric(config)
 	defer shutdown()
 	engine := gooteltest.NewEngine(config.ValueSets)
 	meter := global.Meter("opamp")
-	registerMetricObservers(meter, config.Metrics, engine)
-	registerHistograms(config.CollectPeriod, meter, config.Metrics, engine)
 
-	var waitForever chan struct{}
-	<-waitForever
+	go forever(meter, config, engine, prefix)
+	select {} // block forever
+}
+
+func forever(meter metric.Meter,
+	config *gooteltest.Config,
+	engine *gooteltest.Engine,
+	prefix string) {
+	for {
+		for _, m := range config.Metrics {
+			switch m.Type {
+			case gooteltest.MetricTypeGauge:
+				registerGaugeMetric(meter, m.Name, engine)
+			case gooteltest.MetricTypeSum:
+				registerSumMetric(meter, m.Name, prefix, engine)
+			case gooteltest.MetricTypeHistogram:
+				registerHistograms(meter, m.Name, prefix, engine)
+			}
+		}
+		time.Sleep(config.CollectPeriod)
+	}
 }
 
 func init() {

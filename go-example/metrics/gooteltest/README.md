@@ -1,11 +1,15 @@
 # The gooteltest oteltester
 
+## Environment Variable
+```shell
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+```
 ## Compiling
 ```sh
 go install github.com/wavefronthq/opentelemetry-examples/go-example/metrics/gooteltest/cmd/oteltester@latest
 ```
 
-## running
+## Running
 ```sh
 ~/go/bin/oteltester --config example.yaml
 ```
@@ -18,7 +22,7 @@ See the sample config file in example.yaml.
 | FieldName | Description |
 | --------- | ----------- |
 | collectPeriod | This is the amount of time to wait before sending the next group of metrics. Default is 10s |
-| otelCollector | This is the host and port that the OTEL collector is listening on for metrics. Default is localhost:4317 |
+| aggregationTemporalitySelector | TemporalitySelector used for selecting aggregation(i.e., Cumulative vs. Delta aggregation). If not specified otherwise, exporter will use a cumulative temporality selector. |
 | metrics | The metrics in this file. Each metric has a name and type. types can be _gauge_, _sum_, or _histogram_ |
 | valueSets | Contains all metric values to send |
 | valueSet | valueSets consists of one or more ValueSet. Each valueSet lists the name and value of each metric |
