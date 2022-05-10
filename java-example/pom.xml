@@ -14,7 +14,7 @@
         <version.opentelemetry-alpha>1.10.0-alpha</version.opentelemetry-alpha>
         <version.opentelemetry-semconv>1.13.0-alpha</version.opentelemetry-semconv>
         <version.grpc>1.46.0</version.grpc>
-        <version.opentelemetry>1.13.0</version.opentelemetry>
+        <version.opentelemetry>1.14.0</version.opentelemetry>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.logback>1.2.11</version.logback>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
