@@ -1,11 +1,13 @@
 # Instrumenting Java Apps with OpenTelemetry
 
-This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. The data is sent to Tanzu Observability using the OpenTelemetry Collector and the Wavefront Proxy. To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector).
+This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. You learn how to send data to Tanzu Observability by Wavefront using the OpenTelemetry Collector and the Wavefront Proxy. 
+
+**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/http://localhost:4000/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
 
 ## Prerequisites
 
-* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Access to a Tanzu Observability by Wavefront account. This gives you access to a Wavefront instance. 
+    If you don’t have one, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
@@ -20,24 +22,26 @@ This guide shows you how to manually instrument your Java application using the 
         wavefronthq/proxy:latest
     ```
     Replace:
-    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
+    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://example.wavefront.com).
     * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
-      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+      See [Generating an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-* Set up an OpenTelemetry Collector for Tanzu Observability:
-    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
-    1. In the same directory, create a file named `otel_collector_config.yaml`.
-    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
-    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
-        ```
-        ./otelcol-contrib --config otel_collector_config.yaml
-        ```
+## Set Up an OpenTelemetry Collector for Tanzu Observability:
+
+1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+1. In the same directory, create a file named `otel_collector_config.yaml`.
+1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+    ```
+    ./otelcol-contrib --config otel_collector_config.yaml
+    ```
       
 ## Send Data to Tanzu Observability
 
-1. Open the `pom.xml` file in the `java-example` directory using your IDE, and right-click and select **Add as a Maven Project**.
+1. Open the `pom.xml` file in the `java-example` directory using your IDE.
+1. Right-click and select **Add as a Maven Project**.
 
     The [```pom.xml```](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/java-example/pom.xml)
   file is configured with the required dependencies.
@@ -57,11 +61,11 @@ Example: Application Status
 Example: Traces Browser
 ![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_traces_browser.png)
 
-## OpenTelemetry Instrumentation Building Blocks
+## OpenTelemetry Instrumentation Steps
 
-### OpenTelemetry Interface
+### Add an OpenTelemetry Interface
 
-You need to configure an instance of the `OpenTelemetrySdk` as early as possible in your application. This can be done using the `OpenTelemetrySdk.builder()` method.
+In your application, you need to configure an instance of the `OpenTelemetrySdk` as early as possible in your application. You can use the `OpenTelemetrySdk.builder()` method, as in this example:
 
 ```java
     static OpenTelemetry initOpenTelemetry() {
@@ -102,13 +106,12 @@ You need to configure an instance of the `OpenTelemetrySdk` as early as possible
       return spanExporter;
     }
 ```
-If you are writing library instrumentation, it is recommended that you provide the users with the
-ability to inject an instance of `OpenTelemetry` into the instrumentation code. If this is not possible, you can use an instance from the `GlobalOpenTelemetry` class. 
+If you are writing a library instrumentation, enable users to inject an instance of `OpenTelemetry` into the instrumentation code. If this is not possible, you can use an instance from the `GlobalOpenTelemetry` class. 
   
-**Note**: You can’t force end-users to configure the global OpenTelemetry class.
+**Note**: You can’t force end users to configure the global OpenTelemetry class.
 
 ### Get a Tracer
-The `Tracer` is responsible for creating spans and interacting with the `Context`. A `Tracer` needs to be acquired using the OpenTelemetry API. You need to specify the name and version of the library that is instrumenting your library or application.
+The `Tracer` is responsible for creating spans and interacting with the `Context`. A `Tracer` needs to be acquired using the OpenTelemetry API. Specify the name and version of the library that is instrumenting your library or application.
 
 ```java
   private static Tracer getTracer() {
