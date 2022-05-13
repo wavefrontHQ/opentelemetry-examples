@@ -67,7 +67,7 @@ Follow these steps:
           If you have already installed the Wavefront proxy, make sure it is version 10.14 or later. 
         </li>
         <li>
-          Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
+          Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
         </li>
       </ul>
 
