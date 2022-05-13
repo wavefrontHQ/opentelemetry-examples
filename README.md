@@ -102,8 +102,7 @@ The OpenTelemetry metrics your applications send are converted to the [Wavefront
 | Delta histograms                    | Histogram |
 | Cumulative exponential histograms   | Gauge metrics |
 | Delta exponential histograms        | Histograms  |
-| Summary metrics                     | Gauge metrics
-    <br/>Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.  |
+| Summary metrics                     | Gauge metrics. Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.  |
 
 {% include tip.html content="For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html)." %}
 
