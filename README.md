@@ -7,6 +7,7 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 
 ### Directly Send Data Using the Wavefront Proxy - (Recommended)
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to Tanzu Observability" style="width:750px;"/>
+
 Follow these steps:
 
 1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11 or higher.
