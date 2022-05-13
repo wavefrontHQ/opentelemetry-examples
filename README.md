@@ -82,7 +82,6 @@ Follow these steps:
         ``` 
 1. Explore the metrics data you sent with charts and dashboards.
     * Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html) or watch the video on that page to get started.
-    * [Examine the sample data on the predefined charts and dashboards](https://docs.wavefront.com/tutorial_dashboards.html).
     * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
       <br/>You need to have the required permissions to do these tasks.
     Example:
