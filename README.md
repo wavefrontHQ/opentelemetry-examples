@@ -54,7 +54,132 @@ You can then use our tracing dashboards to visualize the requests as traces, whi
 
 ## Send Metrics Data
 
-Metrics support for OpenTelemetry on Tanzu Observability by Wavefront will be made available soon!
+If your application uses an OpenTelemetry SDK, you can configure the application to send metrics data to Tanzu Observability using the OpenTelemetry Collector and the Wavefront proxy. Metrics data includes time series, counters, and histograms. When the data is in Tanzu Observability, you can use charts and dashboards to visualize the data and create alerts.
+
+Here's how it works:
+![The diagram shows how the data flows from an application to OpenTelemetry collector, which has the OpenTelemetry exporter, to the wavefront proxy, which has the OpenTelemetry receiver, and finally to Tanzu Observability.](images/opentelemetry_collector_metrics.png)
+
+Follow these steps:
+
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
+    {{site.data.alerts.note}}
+      <ul>
+        <li>
+          If you have already installed the Wavefront proxy, make sure it is version 10.14 or later. 
+        </li>
+        <li>
+          Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
+        </li>
+      </ul>
+    {{site.data.alerts.end}}
+
+1. Configure your application to send the metrics data to the OpenTelemetry Collector. 
+1. Export the data from the OpenTelemetry Collector to the Tanzu Observability (Wavefront) trace exporter:
+    1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
+    1. In the same directory, create a file named `otel_collector_config.yaml`.
+    1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
+    1. On your console, navigate to the directory you downloaded in the step above and run the following command to start OpenTelemetry Collector:
+        ```
+        ./otelcol-contrib --config otel_collector_config.yaml
+        ``` 
+1. Explore the metrics data you sent with charts and dashboards.
+    {% include note.html content="Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html) or watch the video on that page to get started." %}
+    Example:
+    ![shows the OpenTelemetry collector data in a chart](images/tracing_opentelemetry_collector_chart.png)
+    * [Examine the sample data on the predefined charts and dashboards](https://docs.wavefront.com/tutorial_dashboards.html).
+    * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
+      <br/>You need to have the required permissions to do these tasks.
+
+## Metrics Conversion 
+
+The OpenTelemetry metrics your applications send are converted to the [Wavefront data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
+
+<table style="width: 100%;">
+  <tbody>
+    <thead>
+      <tr>
+        <th>OpenTelemetry Metrics Format</th>
+        <th>Tanzu Observability Metrics Format</th>
+      </tr>
+    </thead>
+    <tr>
+      <td>
+        Gauge metrics
+      </td>
+      <td markdown="span">
+        Gauge metrics
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Cumulative sum metrics
+      </td>
+      <td>
+        Gauge metrics
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Delta sum metrics
+      </td>
+      <td>
+        Delta counters
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Cumulative histograms
+      </td>
+      <td>
+        Gauge metrics
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Delta histograms
+      </td>
+      <td>
+        Histograms
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Cumulative exponential histograms
+      </td>
+      <td>
+        Gauge metrics
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Delta exponential histograms
+      </td>
+      <td>
+        Histograms
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Summary metrics
+      </td>
+      <td>
+        Gauge metrics
+        <br/>Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.
+      </td>
+    </tr>
+    
+  </tbody>
+</table>
+
+{% include tip.html content="For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html)." %}
+
 
 ## Tutorials
 
