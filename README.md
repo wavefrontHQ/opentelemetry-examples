@@ -62,7 +62,6 @@ Here's how it works:
 Follow these steps:
 
 1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
-    {{site.data.alerts.note}}
       <ul>
         <li>
           If you have already installed the Wavefront proxy, make sure it is version 10.14 or later. 
@@ -71,7 +70,6 @@ Follow these steps:
           Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
         </li>
       </ul>
-    {{site.data.alerts.end}}
 
 1. Configure your application to send the metrics data to the OpenTelemetry Collector. 
 1. Export the data from the OpenTelemetry Collector to the Tanzu Observability (Wavefront) trace exporter:
@@ -83,12 +81,12 @@ Follow these steps:
         ./otelcol-contrib --config otel_collector_config.yaml
         ``` 
 1. Explore the metrics data you sent with charts and dashboards.
-    {% include note.html content="Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html) or watch the video on that page to get started." %}
-    Example:
-    ![shows the OpenTelemetry collector data in a chart](images/tracing_opentelemetry_collector_chart.png)
+    * Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html) or watch the video on that page to get started.
     * [Examine the sample data on the predefined charts and dashboards](https://docs.wavefront.com/tutorial_dashboards.html).
     * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
       <br/>You need to have the required permissions to do these tasks.
+    Example:
+    ![shows the OpenTelemetry collector data in a chart](images/tracing_opentelemetry_collector_chart.png)
 
 ## Metrics Conversion 
 
@@ -104,7 +102,7 @@ The OpenTelemetry metrics your applications send are converted to the [Wavefront
 | Delta exponential histograms        | Histograms  |
 | Summary metrics                     | Gauge metrics. Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.  |
 
-{% include tip.html content="For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html)." %}
+For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html).
 
 
 ## Tutorials
