@@ -94,89 +94,16 @@ Follow these steps:
 
 The OpenTelemetry metrics your applications send are converted to the [Wavefront data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
 
-<table style="width: 100%;">
-  <tbody>
-    <thead>
-      <tr>
-        <th>OpenTelemetry Metrics Format</th>
-        <th>Tanzu Observability Metrics Format</th>
-      </tr>
-    </thead>
-    <tr>
-      <td>
-        Gauge metrics
-      </td>
-      <td markdown="span">
-        Gauge metrics
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Cumulative sum metrics
-      </td>
-      <td>
-        Gauge metrics
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Delta sum metrics
-      </td>
-      <td>
-        Delta counters
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Cumulative histograms
-      </td>
-      <td>
-        Gauge metrics
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Delta histograms
-      </td>
-      <td>
-        Histograms
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Cumulative exponential histograms
-      </td>
-      <td>
-        Gauge metrics
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Delta exponential histograms
-      </td>
-      <td>
-        Histograms
-      </td>
-    </tr>
-    
-    <tr>
-      <td>
-        Summary metrics
-      </td>
-      <td>
-        Gauge metrics
-        <br/>Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.
-      </td>
-    </tr>
-    
-  </tbody>
-</table>
+|OpenTelemetry Metrics Format         | Tanzu Observability Metrics Format |
+| -----------                         | ----------- |
+| Cumulative sum metrics              | Gauge metrics |
+| Delta sum metrics                   | Delta counters  |
+| Cumulative histograms               | Gauge metrics |
+| Delta histograms                    | Histogram |
+| Cumulative exponential histograms   | Gauge metrics |
+| Delta exponential histograms        | Histograms  |
+| Summary metrics                     | Gauge metrics
+    <br/>Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.  |
 
 {% include tip.html content="For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html)." %}
 
