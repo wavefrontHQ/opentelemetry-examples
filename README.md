@@ -86,6 +86,7 @@ Follow these steps:
     * Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html) or watch the video on that page to get started.
     * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
       <br/>You need to have the required permissions to do these tasks.
+    
     Example:
     ![shows the OpenTelemetry collector data in a chart](images/tracing_opentelemetry_collector_chart.png)
 
