@@ -92,15 +92,7 @@ Follow these steps:
 
 The OpenTelemetry metrics your applications send are converted to the [Wavefront data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
 
-|OpenTelemetry Metrics Format         | Tanzu Observability Metrics Format |
-| -----------                         | ----------- |
-| Cumulative sum metrics              | Gauge metrics |
-| Delta sum metrics                   | Delta counters  |
-| Cumulative histograms               | Gauge metrics |
-| Delta histograms                    | Histogram |
-| Cumulative exponential histograms   | Gauge metrics |
-| Delta exponential histograms        | Histograms  |
-| Summary metrics                     | Gauge metrics. Each quantile in the summary is sent to Tanzu Observability as a series of gauge metrics.  |
+![There is a table that shows how the OpenTelemetry metrics are converted to the Wavefront metrics format](images/opentelemetry_metrics_data_conversion.png)
 
 For more information on the Tanzu Observability metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html).
 
