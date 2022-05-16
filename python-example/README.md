@@ -137,8 +137,6 @@ manually-instrumented with OpenTelemetry.
 
 ### Prerequisite
 
-### Prerequisite
-
 * A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
     If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
@@ -264,7 +262,7 @@ creates a basic “Hello World” application using Flask.
           return "Some Exception"
     ```
 
-#### Step 3: Run the Application
+### Step 3: Run the Application
 
 * Start the application
 

@@ -2,7 +2,7 @@
 
 This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. You learn how to send data to Tanzu Observability by Wavefront using the OpenTelemetry Collector and the Wavefront Proxy. 
 
-**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/http://localhost:4000/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
+**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
 
 ## Prerequisites
 
@@ -119,13 +119,13 @@ The `Tracer` is responsible for creating spans and interacting with the `Context
       return tracer;
   }
 ```
-**Note**: the ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the `Tracer` are purely informational. All `Tracers` created by a single OpenTelemetry instance will work together, regardless of the name or version.
+**Note**: The ```my_instrumentation_library_name``` and ```my_instrumentation_library_version``` of the `Tracer` are purely informational. All `Tracers` created by a single OpenTelemetry instance will work together, regardless of the name or version.
 
-### Create a Nested Span, Add an Attribute
+### Create a Nested Span and Add an Attribute
 
-To create a span, you only need to specify the name of the span. The start and end time of the span are set automatically by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations
+To create a span, you specify the name of the span. The start and end time of the span are set automatically by the OpenTelemetry SDK. Most of the time, you need to correlate spans for nested operations
 
-In OpenTelemetry, you can create spans freely, and it’s up to the implementor to annotate them with attributes specific to the operation. `Attributes` provide additional context on a span and about the specific operation it tracks, such as results or properties of an operation.
+In OpenTelemetry, you can create spans freely. It’s up to the implementor to annotate them with attributes specific to the operation. Attributes provide additional context on a span and about the specific operation it tracks, such as results or properties of an operation.
 
 You can link spans manually for the `main` method to call the `child` method as follows:
   
