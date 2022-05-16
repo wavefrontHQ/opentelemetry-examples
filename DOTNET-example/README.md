@@ -41,6 +41,7 @@ will eventually export the trace data to the Tanzu Observability UI.
         ```
         ./otelcol-contrib --config otel_collector_config.yaml
         ```  
+
 ### Step 1: Get our example application
 
 The instrumentation works with any application, for this walk through we will refer to the following simple application.
