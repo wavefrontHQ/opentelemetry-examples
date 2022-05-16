@@ -105,7 +105,7 @@ otel.SetTracerProvider(
 ## Manual-Instrumentation
 
 This section shows a working example of a Go application manually-instrumented with OpenTelemetry. See
-this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/manual-instrumentation.go)
+this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/manual-instrumentation/main.go)
 .
 
 ### Prerequisite
@@ -144,7 +144,7 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
 ### Step 1: Install OpenTelemetry Packages
 
 All the required dependencies are listed
-in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/go.mod). To install
+in [`go.mod`](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/go-example/manual-instrumentation/go.mod). To install
 OpenTelemetry packages for Golang, run this command:
 
 ```
