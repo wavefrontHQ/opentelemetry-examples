@@ -2,7 +2,7 @@
 
 This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. You learn how to send data to Tanzu Observability by Wavefront using the OpenTelemetry Collector and the Wavefront Proxy. 
 
-**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/http://localhost:4000/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
+**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
 
 ## Prerequisites
 
