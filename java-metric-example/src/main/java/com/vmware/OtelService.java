@@ -27,6 +27,7 @@ import io.opentelemetry.sdk.resources.Resource;
  */
 public class OtelService {
 
+  public static final int INTERVAL = 1000;
   final ConfigCache cache;
   private final static Logger logger = LoggerFactory.getLogger(OtelService.class);
   public OtelService() {
@@ -45,14 +46,7 @@ public class OtelService {
 
   public LongHistogram initHistogramMetricRecorder() {
     AggregationTemporalitySelector temporalitySelector;
-    if (cache.getProperty("aggregation.temporality").equals("delta")) {
-      temporalitySelector = AggregationTemporalitySelector.deltaPreferred();
-      logger.info("Delta aggregation temporality selected.");
-    }
-    else {
-      temporalitySelector = AggregationTemporalitySelector.alwaysCumulative();
-      logger.info("Cumulative aggregation temporality selected.");
-    }
+    temporalitySelector = getAggregationTemporalitySelector();
 
     logger.info("Initializing OtlpGrpcMetricExporter.");
     OtlpGrpcMetricExporter metricExporter = OtlpGrpcMetricExporter.builder()
@@ -62,7 +56,7 @@ public class OtelService {
 
     logger.info("Initializing PeriodicMetricReader.");
     MetricReader periodicReader =
-        PeriodicMetricReader.builder(metricExporter).setInterval(Duration.ofMillis(1000)).build();
+        PeriodicMetricReader.builder(metricExporter).setInterval(Duration.ofMillis(INTERVAL)).build();
 
     logger.info("Initializing SdkMeterProviderBuilder.");
     SdkMeterProviderBuilder builder = SdkMeterProvider.builder()
@@ -73,6 +67,26 @@ public class OtelService {
     InstrumentSelector selector =
         InstrumentSelector.builder().setType(InstrumentType.HISTOGRAM).build();
 
+    View view = createView();
+
+    logger.info("Initializing SdkMeterProvider.");
+    SdkMeterProvider sdkMeterProvider = builder
+        .registerView(selector, view)
+        .build();
+
+    Runtime.getRuntime().addShutdownHook(new Thread(sdkMeterProvider::shutdown));
+
+    logger.info("Initializing Metric Recorder.");
+    return sdkMeterProvider
+        .get(cache.getProperty("instrumentation.library.name"))
+        .histogramBuilder(cache.getProperty("metric.name"))
+        .setDescription(cache.getProperty("description"))
+        .setUnit(cache.getProperty("metric.unit"))
+        .ofLongs()
+        .build();
+  }
+
+  private View createView() {
     View view;
     if (cache.getProperty("metric.sub.type").equals("exponential")) {
       view = View.builder()
@@ -95,21 +109,19 @@ public class OtelService {
       logger.info("Initializing View with aggregation ExplicitBucketHistogramAggregation. " +
           "ExplicitBucketCounts: " + boundaries.size());
     }
+    return view;
+  }
 
-    logger.info("Initializing SdkMeterProvider.");
-    SdkMeterProvider sdkMeterProvider = builder
-        .registerView(selector, view)
-        .build();
-
-    Runtime.getRuntime().addShutdownHook(new Thread(sdkMeterProvider::shutdown));
-
-    logger.info("Initializing Metric Recorder.");
-    return sdkMeterProvider
-        .get(cache.getProperty("instrumentation.library.name"))
-        .histogramBuilder(cache.getProperty("metric.name"))
-        .setDescription(cache.getProperty("description"))
-        .setUnit(cache.getProperty("metric.unit"))
-        .ofLongs()
-        .build();
+  private AggregationTemporalitySelector getAggregationTemporalitySelector() {
+    AggregationTemporalitySelector temporalitySelector;
+    if (cache.getProperty("aggregation.temporality").equals("delta")) {
+      temporalitySelector = AggregationTemporalitySelector.deltaPreferred();
+      logger.info("Delta aggregation temporality selected.");
+    }
+    else {
+      temporalitySelector = AggregationTemporalitySelector.alwaysCumulative();
+      logger.info("Cumulative aggregation temporality selected.");
+    }
+    return temporalitySelector;
   }
 }
