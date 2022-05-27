@@ -1,7 +1,11 @@
 # Sending Metrics from Java Apps to OpenTelemetry
 
-This section shows a working example of a Java application that send metrics to the OpenTelemetry 
-collector
+This section shows a working example of a Java application that send metrics to the OpenTelemetry
+collector.
+
+**WARNING:** This app uses internal OpenTelemetry packages for creating exponential histograms. It 
+should 
+not be used in the production setting. Follow this [PR](https://github.com/open-telemetry/opentelemetry-java/pull/4472) for a public API.
 
 ### Prerequisites
 
