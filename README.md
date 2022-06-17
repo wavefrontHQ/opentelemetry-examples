@@ -65,8 +65,8 @@ Follow these steps:
 1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 12 or higher.
 1. Proxy configurations
     * Open the port on the Wavefront Proxy to send OpenTelemetry spans to Tanzu Observability. 
-    *   port 4317 (recommended) with `otlpGrpcListenerPorts` 
-    *   or port 4318 (recommended) with `otlpHttpListenerPorts`
+      * port 4317 (recommended) with `otlpGrpcListenerPorts` 
+      * or port 4318 (recommended) with `otlpHttpListenerPorts`
     * To receive the OpenTelemetry resource attributes that your application sends for metrics data, set `otlpResourceAttrsOnMetricsIncluded` to `true`.
       
     See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
