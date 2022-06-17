@@ -73,8 +73,10 @@ Follow these steps:
     <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
 1. Configure your application to send trace data to the Wavefront Proxy. 
     <br/>By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`.
-1. Explore the trace data using our [tracing dashboards](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data).
-
+1. Explore the metrics data you sent with charts and dashboards.
+    * Try out the [Dashboards and Charts tutorial](https://docs.wavefront.com/tutorial_dashboards.html), or watch the video on that page to get started.
+    * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
+      <br/>You need to have the required permissions to do these tasks.
 
 ## Send Data Using the OpenTelemetry Collector and the Wavefront Proxy
 
