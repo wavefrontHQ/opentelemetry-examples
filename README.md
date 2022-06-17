@@ -78,7 +78,7 @@ Follow these steps:
     * Create [dashboards](https://docs.wavefront.com/ui_dashboards.html) and [charts](https://docs.wavefront.com/ui_charts.html) for the data you sent to Tanzu Observability. 
       <br/>You need to have the required permissions to do these tasks.
 
-## Send Data Using the OpenTelemetry Collector and the Wavefront Proxy
+### Send Data Using the OpenTelemetry Collector and the Wavefront Proxy
 
 If you have already configured your application to send data to the OpenTelemetry Collector, the data flows from your application to Tanzu Observability as shown in the diagram:
 ![The diagram shows how the data flows from an application to OpenTelemetry collector, which has the OpenTelemetry exporter, to the wavefront proxy, which has the OpenTelemetry receiver, and finally to Tanzu Observability.](images/opentelemetry_collector_metrics.png)
