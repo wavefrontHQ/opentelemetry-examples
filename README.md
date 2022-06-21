@@ -55,7 +55,7 @@ You can then use our tracing dashboards to visualize the requests as traces, whi
 
 ## Send Metrics Data
 
-If your application uses an OpenTelemetry SDK, you can configure the application to send trace data to Tanzu Observability using any of the following options listed below. Metrics data includes time series, counters, and histograms. When the data is in Tanzu Observability, you can use charts and dashboards to visualize the data and create alerts.
+If your application uses an OpenTelemetry SDK, you can configure the application to send metrics data to Tanzu Observability using any of the following options listed below. Metrics data includes time series, counters, and histograms. When the data is in Tanzu Observability, you can use charts and dashboards to visualize the data and create alerts.
 
 ### Directly Send Data Using the Wavefront Proxy - (Recommended)
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to Tanzu Observability" style="width:750px;"/>
@@ -75,14 +75,18 @@ Follow these steps:
     -e WAVEFRONT_URL=https://<INSTANCE>.wavefront.com/api/ \
     -e WAVEFRONT_TOKEN=<TOKEN> \
     -e JAVA_HEAP_USAGE=512M \
-    -e WAVEFRONT_PROXY_ARGS="--otlpResourceAttrsOnMetricsIncluded true" \
+    -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317 --otlpResourceAttrsOnMetricsIncluded true" \
     -p 2878:2878 \
     -p 4317:4317 \
     wavefronthq/proxy:latest
     ```
       
     See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
-    <br/>For example, on Linux, Mac, and Windows, open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file, add the line `otlpGrpcListenerPorts=4317`, and save the file.
+    <br/>For example, on Linux, Mac, and Windows, 
+      * Open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file
+      * Add `otlpGrpcListenerPorts=4317`
+      * Add `otlpResourceAttrsOnMetricsIncluded=true`
+      * Save the file.
 1. Configure your application to send trace data to the Wavefront Proxy. 
     <br/>By default, OpenTelemetry SDKs send data over gRPC to `http://localhost:4317`.
 1. Explore the metrics data you sent with charts and dashboards.
