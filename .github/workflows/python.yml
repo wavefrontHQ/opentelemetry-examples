@@ -13,6 +13,8 @@ on:
 jobs:
   build_and_run_python_app:
     runs-on: ubuntu-latest
+    env: 
+      PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
     strategy:
       matrix:
