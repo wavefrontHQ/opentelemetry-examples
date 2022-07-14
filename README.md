@@ -10,7 +10,7 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11 or higher.
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
 1. Open the port on the Wavefront Proxy to send OpenTelemetry spans to Tanzu Observability. 
     * port 4317 (recommended) with `otlpGrpcListenerPorts` 
     * or port 4318 (recommended) with `otlpHttpListenerPorts`  
@@ -28,7 +28,7 @@ If you have already configured your application to send data to the OpenTelemetr
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html).
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
       <ul>
       <li>
         Open port 30001, with <code>customTracingListenerPorts=30001</code>, for the proxy to generate span-level RED metrics.
@@ -62,7 +62,7 @@ If your application uses an OpenTelemetry SDK, you can configure the application
 
 Follow these steps:
 
-1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11.2 or higher.
+1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
 1. Proxy configurations
     * Open the port on the Wavefront Proxy to send OpenTelemetry spans to Tanzu Observability. 
       * Port 4317 (recommended) with `otlpGrpcListenerPorts` 
