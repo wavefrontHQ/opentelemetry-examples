@@ -114,7 +114,6 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
         options.ExportProcessorType = ExportProcessorType.Simple;
     });
 });
-opentelemetry-bootstrap --action=install
 ```
 
 That’s all the coding we need! The libraries we used above provide auto-instrumentation of all the incoming and outgoing
