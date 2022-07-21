@@ -9,6 +9,7 @@ on:
     paths:
       - '.github/workflows/java.yml'
       - 'java-example/**'
+      - 'java-metric-example/**'
 
 jobs:
   build_and_run_java_app:
@@ -29,13 +30,15 @@ jobs:
           distribution: ${{ matrix.distribution }}
           cache: maven
 
-      - name: Build project with Maven
+      - name: Build java-metric-example with Maven
         run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
-      - name: Compile and Run project
+      - name: Build java-example with Maven
+        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
+      - name: Compile and Run java-example
         run: |
           mvn compile exec:java -Dexec.mainClass="com.vmware.App" \
             -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
-      - name: Check Output
+      - name: Check java-example Output
         run: |
           # Get count of unique Trace IDs from output; 'xargs' trims whitespace
           count=$(grep 'TraceID : ' mvn.log | rev | cut -f1 -d' ' | uniq | wc -l | xargs)
