@@ -30,7 +30,6 @@ Follow these steps:
       -p 4317:4317 \
       wavefronthq/proxy:latest
       ```
-    
       </br>For example, on Linux, Mac, and Windows, 
         * Open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file
         * Add `otlpGrpcListenerPorts=4317`
