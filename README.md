@@ -1,10 +1,10 @@
 # Sending Data to Tanzu Observability by Wavefront
 
-If your application uses an OpenTelemetry SDK, you can configure the application to send traces or metrics to Tanzu Observability using the Wavefront Proxy or the OpenTelemetry Collector.
+If you use OpenTelemetry, you can configure the application to send traces or metrics to Tanzu Observability using the Wavefront Proxy or the OpenTelemetry Collector.
 
 ## Directly Send Data Using the Wavefront Proxy - (Recommended)
 
-If your application uses an OpenTelemetry SDK, you can configure the application to send trace data or metrics data to Tanzu Observability using the Wavefront proxy.
+Send trace data or metrics data to Tanzu Observability using only the Wavefront proxy:
 
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to Tanzu Observability" style="width:750px;"/>
 
@@ -13,11 +13,9 @@ Follow these steps:
 1. [Install the Wavefront Proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
 1. Configure the Wavefront Proxy to send OpenTelemetry data to Tanzu Observability. See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
     * **Trace data**:
-      * port 4317 (recommended) with `otlpGrpcListenerPorts` 
-      * or port 4318 (recommended) with `otlpHttpListenerPorts`
+      port 4317 (recommended) with `otlpGrpcListenerPorts` <br/>  **or** port 4318 (recommended) with `otlpHttpListenerPorts`
     * **Metrics data**: 
-      * Port 4317 (recommended) with `otlpGrpcListenerPorts` 
-      * Or port 4318 (recommended) with `otlpHttpListenerPorts`
+      * Port 4317 (recommended) with `otlpGrpcListenerPorts` <br/> **or** port 4318 (recommended) with `otlpHttpListenerPorts`
       * Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
       * To receive the OpenTelemetry resource attributes that your application sends for metrics data, set `otlpResourceAttrsOnMetricsIncluded` to `true`.
       
