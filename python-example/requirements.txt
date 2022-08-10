@@ -1,5 +1,5 @@
 Flask
 opentelemetry-distro==0.32b0
-opentelemetry-instrumentation-flask==0.32b0
+opentelemetry-instrumentation-flask==0.33b0
 opentelemetry-instrumentation==0.32b0
 opentelemetry-exporter-otlp==1.11.1
