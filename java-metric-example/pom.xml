@@ -12,7 +12,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <version.opentelemetry>1.19.0</version.opentelemetry>
-        <version.logback>1.2.11</version.logback>
+        <version.logback>1.4.4</version.logback>
     </properties>
 
     <profiles>
