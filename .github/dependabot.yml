@@ -6,6 +6,10 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
+    directory: "java-metric-example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "maven"
     directory: "java-example/"
     schedule:
       interval: "daily"
