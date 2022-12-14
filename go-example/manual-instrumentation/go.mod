@@ -1,6 +1,6 @@
 module github.com/wavefronthq/opentelemetry-examples/go-example/manual-instrumentation
 
-go 1.17
+go 1.18
 
 require (
 	go.opentelemetry.io/otel v1.11.2
