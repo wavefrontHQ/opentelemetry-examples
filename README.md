@@ -25,15 +25,14 @@ Follow these steps:
       -e WAVEFRONT_URL=https://<INSTANCE>.wavefront.com/api/ \
       -e WAVEFRONT_TOKEN=<TOKEN> \
       -e JAVA_HEAP_USAGE=512M \
-      -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317 --otlpResourceAttrsOnMetricsIncluded true" \
+      -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
       -p 2878:2878 \
       -p 4317:4317 \
       wavefronthq/proxy:latest
       ```
-      </br>For example, on Linux, Mac, and Windows, 
+      <br/>For example, on Linux, Mac, and Windows:
         * Open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file
         * Add `otlpGrpcListenerPorts=4317`
-        * Add `otlpResourceAttrsOnMetricsIncluded=true`
         * Save the file.
 
 
