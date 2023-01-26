@@ -16,8 +16,8 @@ Follow these steps:
       <br/> port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`
     * **Metrics data**: 
       * Port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`
-      * Ensure that port 2878 is open to send metrics to Tanzu Observability. For example, on Linux, Mac, and Windows, open the <a href="https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths"><code>wavefront.conf</code></a> file and confirm that <code>pushListenerPorts</code> is set to 2878, and that this configuration is uncommented.
       * To receive the OpenTelemetry resource attributes that your application sends for metrics data, set `otlpResourceAttrsOnMetricsIncluded` to `true`.
+        > **Note**: Be aware that setting this to `true` increases the chance of metrics exceeding the [annotations count limit on your Wavefront cluster](https://docs.wavefront.com/wavefront_limits.html#default-customer-specific-limits), causing the metrics to be dropped by the Wavefront Proxy.
       
       For example, the command to start the proxy on Docker:
       ```
