@@ -3,11 +3,11 @@ module github.com/wavefronthq/opentelemetry-examples/go-example/manual-instrumen
 go 1.18
 
 require (
-	go.opentelemetry.io/otel v1.11.2
+	go.opentelemetry.io/otel v1.12.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.11.2
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.11.2
-	go.opentelemetry.io/otel/sdk v1.11.2
-	go.opentelemetry.io/otel/trace v1.11.2
+	go.opentelemetry.io/otel/sdk v1.12.0
+	go.opentelemetry.io/otel/trace v1.12.0
 	google.golang.org/grpc v1.51.0
 )
 
