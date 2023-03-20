@@ -36,7 +36,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
       - name: Compile and Run java-example
         run: |
-          mvn compile exec:java -Dexec.mainClass="com.vmware.App" \
+          mvn clean compile exec:java -Dexec.mainClass="com.vmware.App" \
             -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
       - name: Check java-example Output
         run: |
