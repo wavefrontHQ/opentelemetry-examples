@@ -9,7 +9,7 @@ var resourceList = new List<KeyValuePair<string, object>>();
 resourceList.Add(new KeyValuePair<string, object>
     ("application", "otel-otlp-.net-app"));
 
-builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
+builder.Services.AddOpenTelemetry().WithTracing(tracerProviderBuilder =>
 {
     tracerProviderBuilder.AddAspNetCoreInstrumentation();
     tracerProviderBuilder.AddHttpClientInstrumentation();
