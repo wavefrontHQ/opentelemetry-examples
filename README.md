@@ -10,10 +10,9 @@ Follow these steps:
 
 1. [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
 1. Configure the Wavefront proxy to send OpenTelemetry data to our service. See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
-    * **Trace data**:
-      <br/> port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`
+    * **Trace data**: Port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`.
     * **Metrics data**: 
-      * Port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`
+      * Port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`.
       * To receive the OpenTelemetry resource attributes that your application sends for metrics data, set `otlpResourceAttrsOnMetricsIncluded` to `true`.
         <br/>**Note**: Be aware that setting this to `true` increases the chance of metrics exceeding the [annotations count limit on your cluster](https://docs.wavefront.com/wavefront_limits.html#default-customer-specific-limits), causing the metrics to be dropped by the Wavefront proxy.
       
