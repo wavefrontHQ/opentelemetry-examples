@@ -4,13 +4,12 @@ This section shows a working example of a Java application that send metrics to 
 collector.
 
 **WARNING:** This app uses internal OpenTelemetry packages for creating exponential histograms. It 
-should 
-not be used in the production setting. Follow this [PR](https://github.com/open-telemetry/opentelemetry-java/pull/4472) for a public API.
+should not be used in the production setting. Follow this [PR](https://github.com/open-telemetry/opentelemetry-java/pull/4472) for a public API.
 
 ### Prerequisites
 
-* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
@@ -25,13 +24,13 @@ not be used in the production setting. Follow this [PR](https://github.com/open-
         wavefronthq/proxy:latest
     ```
     Replace:
-    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
-    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+    * `{INSTANCE_NAME}` with the product instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with the API token linked to an account with Proxy permission.
       See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-* Set up an OpenTelemetry Collector for Tanzu Observability:
+* Set up an OpenTelemetry Collector:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
     1. In the same directory, create a file named `otel_collector_config.yaml`.
     1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
@@ -40,7 +39,7 @@ not be used in the production setting. Follow this [PR](https://github.com/open-
         ./otelcol-contrib --config otel_collector_config.yaml
         ```
 
-## Send Data to Tanzu Observability
+## Send Data to Our Service
 
 1. Open the `pom.xml` file in the `java-metric-example` directory using your IDE.
 2. Right-click and select **Add as a Maven Project**.

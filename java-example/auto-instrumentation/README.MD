@@ -5,7 +5,7 @@ This guide shows you how to auto instrument your Java application using the Open
 
 ## Prerequisites
 
-* An Aria Operations for Applications account (formerly known as Tanzu Observability by Wavefront) to visualize and monitor your application health. If you don’t have one already, you can sign up on [our website](https://www.vmware.com/products/aria-operations-for-applications.html). 
+* A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account to visualize and monitor your application health. If you don’t have one already, you can sign up on [our website](https://www.vmware.com/products/aria-operations-for-applications.html). 
 * Docker to run the Wavefront proxy. 
 * Java 11 or higher
 * Maven
