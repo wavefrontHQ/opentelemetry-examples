@@ -4,7 +4,9 @@ If you use OpenTelemetry, you can configure the application to send traces or me
 
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to our service" style="width:750px;"/>
 
-Follow these steps:
+## Send Data
+
+Follow these steps to send traces or metrics to our service:
 
 1. [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html).
 1. Configure the Wavefront proxy to send OpenTelemetry data to our service. See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
@@ -43,7 +45,7 @@ Follow these steps:
           <br/>You need to have the required permissions to do these tasks.
 
 
-### Metrics Conversion 
+## Metrics Conversion 
 
 The OpenTelemetry metrics your applications send are converted to [our data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
 
