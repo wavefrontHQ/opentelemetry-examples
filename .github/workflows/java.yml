@@ -36,9 +36,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify --file java-example/otel-collector/pom.xml
       - name: Compile and Run java-example
         run: |
-          mvn clean compile exec:java -Dexec.mainClass="com.vmware.App" \
-            -Dexec.cleanupDaemonThreads=false --file java-example/otel-collector/pom.xml | tee 
-          mvn.log
+          mvn clean compile exec:java -Dexec.mainClass="com.vmware.App" -Dexec.cleanupDaemonThreads=false --file java-example/otel-collector/pom.xml | tee mvn.log
       - name: Check java-example Output
         run: |
           # Get count of unique Trace IDs from output; 'xargs' trims whitespace
