@@ -266,9 +266,9 @@ creates a basic “Hello World” application using Flask.
 
 * Start the application
 
-```
-opentelemetry-instrument python3 server.py
-```
+  ```
+  opentelemetry-instrument python3 server.py
+  ```
 
 * Visit ```http://localhost:8080``` or ```http://localhost:8080/exception``` and refresh the page. The application generates and
   emits a trace of that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can
