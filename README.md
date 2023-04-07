@@ -1,14 +1,14 @@
 # Sending Data to Our Service
 
-If you use OpenTelemetry, you can configure the application to send traces or metrics to VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) using the Wavefront proxy or the OpenTelemetry Collector.
-
-Send trace data or metrics data to our service using only the Wavefront proxy:
+If you use OpenTelemetry, you can configure the application to send traces or metrics to VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) using the Wavefront proxy.
 
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to our service" style="width:750px;"/>
 
-Follow these steps:
+## Send Data
 
-1. [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html) version 11.3 or higher.
+Follow these steps to send traces or metrics to our service:
+
+1. [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html).
 1. Configure the Wavefront proxy to send OpenTelemetry data to our service. See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
     * **Trace data**: Port 4317 (recommended) with `otlpGrpcListenerPorts` **or** port 4318 (recommended) with `otlpHttpListenerPorts`.
     * **Metrics data**: 
@@ -28,8 +28,8 @@ Follow these steps:
       wavefronthq/proxy:latest
       ```
       <br/>For example, on Linux, Mac, and Windows:
-        * Open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file
-        * Add `otlpGrpcListenerPorts=4317`
+        * Open the [`wavefront.conf`](https://docs.wavefront.com/proxies_configuring.html#proxy-file-paths) file.
+        * Add the `otlpGrpcListenerPorts=4317` configuration.
         * Save the file.
 
 
@@ -45,21 +45,21 @@ Follow these steps:
           <br/>You need to have the required permissions to do these tasks.
 
 
-### Metrics Conversion 
+## Metrics Conversion 
 
-The OpenTelemetry metrics your applications send are converted to the [our data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
+The OpenTelemetry metrics your applications send are converted to [our data format](https://docs.wavefront.com/wavefront_data_format.html) as follows:
 
-![There is a table that shows how the OpenTelemetry metrics are converted to the Wavefront metrics format](images/opentelemetry_metrics_data_conversion.png)
+![A table that shows how the OpenTelemetry metrics are converted to the Wavefront metrics format](images/opentelemetry_metrics_data_conversion.png)
 
 For more information on our metrics, see [Metric Types](https://docs.wavefront.com/metric_types.html).
 
 
 ## Tutorials
 
-Our OpenTelemetry GitHub repository includes specific examples for using the OpenTelemetry collector in Java, Python, .NET, and more. 
+Our OpenTelemetry GitHub repository includes specific examples for Java, Python, .NET, and more. 
  
 * If you are on our Documentation, expand the tutorials section under OpenTelemetry, and try out a tutorial.
-* If you are on the GitHub repository, for example, go to the `java-examples` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
+* If you are on the GitHub repository, for example, go to the `java-examples/auto-instrumentation` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
 
 <!-- 
 ## License

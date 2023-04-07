@@ -68,7 +68,7 @@ For instrumentation, you use the Java agent provided by OpenTelemetry, which can
 
 You can see the traces on the Traces Browser and the Application Map, and metrics on charts.
 
-## View Traces
+### View Traces
 
 * **Traces Browser**: On the toolbar, click **Applications** > **Traces**. You see the traces sent by the Petclinic application.
     Example:
@@ -77,7 +77,7 @@ You can see the traces on the Traces Browser and the Application Map, and metric
     Example:
     ![A screenshot showing the Application Map with the Petclinic application.](images/java_auto_instrumentation_application_map.png)
 
-## Create Charts with Metrics
+### Create Charts with Metrics
 
 When the metrics data collected from the Wavefront Proxy are sent to our service, you can examine them in our user interface.
 
