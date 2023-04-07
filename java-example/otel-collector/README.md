@@ -1,13 +1,10 @@
 # Instrumenting Java Apps with OpenTelemetry
 
-This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. You learn how to send data to Tanzu Observability by Wavefront using the OpenTelemetry Collector and the Wavefront Proxy. 
-
-**Tip**: To learn about the data flow from your application to Tanzu Observability by Wavefront, see [Send Trace Data Using the OpenTelemetry Collector](https://docs.wavefront.com/opentelemetry_tracing.html#send-data-using-the-opentelemetry-collector-and-the-wavefront-proxy).
+This guide shows you how to manually instrument your Java application using the OpenTelemetry API and the OpenTelemetry SDK. You learn how to send data to VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) using the OpenTelemetry Collector and the Wavefront Proxy. 
 
 ## Prerequisites
 
-* Access to a Tanzu Observability by Wavefront account. This gives you access to a Wavefront instance. 
-    If you don’t have one, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* Access to an Aria Operations for Applications account. If you don’t have one, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
@@ -22,13 +19,13 @@ This guide shows you how to manually instrument your Java application using the 
         wavefronthq/proxy:latest
     ```
     Replace:
-    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://example.wavefront.com).
-    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+    * `{INSTANCE_NAME}` with the  product instance (for example, https://example.wavefront.com).
+    * `{TOKEN}` with the API token linked to an account with Proxy permission.
       See [Generating an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-## Set Up an OpenTelemetry Collector for Tanzu Observability:
+## Set Up an OpenTelemetry Collector
 
 1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
 1. In the same directory, create a file named `otel_collector_config.yaml`.
@@ -38,7 +35,7 @@ This guide shows you how to manually instrument your Java application using the 
     ./otelcol-contrib --config otel_collector_config.yaml
     ```
       
-## Send Data to Tanzu Observability
+## Send Data to Our Service
 
 1. Open the `pom.xml` file in the `java-example` directory using your IDE.
 1. Right-click and select **Add as a Maven Project**.
@@ -53,13 +50,13 @@ This guide shows you how to manually instrument your Java application using the 
 
     The ```main``` method in this Java application triggers the application to generate and emit a transaction trace, which includes a parent span and a few child spans.
 
-You can examine the data sent by the application to Tanzu Observability on the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
+You can examine the data sent by the application to our service on our [user interface](https://docs.wavefront.com/tracing_ui_overview.html).
 
 Example: Application Status
-![shows a screenshot of how the application status page looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_app_status.png)
+![shows a screenshot of how the application status page looks once the data is on our service](images/java_examples_collector_app_status.png)
 
 Example: Traces Browser
-![shows a screenshot of how the traces browser looks once the data is on Tanzu Observability by Wavefront](images/java_examples_collector_traces_browser.png)
+![shows a screenshot of how the traces browser looks once the data is on our service](images/java_examples_collector_traces_browser.png)
 
 ## OpenTelemetry Instrumentation Steps
 

@@ -6,8 +6,8 @@ This section shows a working example of a Python application auto-instrumented w
 
 ### Prerequisite
 
-* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
@@ -22,13 +22,13 @@ This section shows a working example of a Python application auto-instrumented w
         wavefronthq/proxy:latest
     ```
     Replace:
-    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
-    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+    * `{INSTANCE_NAME}` with the product instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with an API token linked to an account with Proxy permission.
       See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-* Set up an OpenTelemetry Collector for Tanzu Observability:
+* Set up an OpenTelemetry Collector:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
     1. In the same directory, create a file named `otel_collector_config.yaml`.
     1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
@@ -128,7 +128,7 @@ opentelemetry-instrument python3 server.py
 
 * Visit ```http://localhost``` and refresh the page. The application generates and emits a trace of that transaction.
   When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
-  the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
+  our [user interface](https://docs.wavefront.com/tracing_ui_overview.html).
 
 ## Manual-Instrumentation
 
@@ -137,8 +137,8 @@ manually-instrumented with OpenTelemetry.
 
 ### Prerequisite
 
-* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* An Aria Operations for Applications account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
@@ -153,13 +153,13 @@ manually-instrumented with OpenTelemetry.
         wavefronthq/proxy:latest
     ```
     Replace:
-    * `{INSTANCE_NAME}` with the Tanzu Observability instance (for example, https://longboard.wavefront.com).
-    * `{TOKEN}` with a Tanzu Observability API token linked to an account with Proxy permission.
+    * `{INSTANCE_NAME}` with the product instance (for example, https://longboard.wavefront.com).
+    * `{TOKEN}` with an API token linked to an account with **Proxy** permission.
       See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
     
     See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
     
-* Set up an OpenTelemetry Collector for Tanzu Observability:
+* Set up an OpenTelemetry Collector:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
     1. In the same directory, create a file named `otel_collector_config.yaml`.
     1. Copy the configurations in the [preconfigured YAML file](https://github.com/wavefrontHQ/opentelemetry-examples/blob/master/otel_collector_config.yaml) to the file you just created. For details on OpenTelemetry configurations, see [OpenTelemetry Collector Configuration](https://opentelemetry.io/docs/collector/configuration/).
@@ -272,4 +272,4 @@ opentelemetry-instrument python3 server.py
 
 * Visit ```http://localhost:8080``` or ```http://localhost:8080/exception``` and refresh the page. The application generates and
   emits a trace of that transaction. When the trace data collected from the OpenTelemetry collector are ingested, we can
-  examine them in the [Tanzu Observability user interface](https://docs.wavefront.com/tracing_ui_overview.html).
+  examine them in our [user interface](https://docs.wavefront.com/tracing_ui_overview.html).
