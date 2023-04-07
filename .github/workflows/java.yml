@@ -31,13 +31,14 @@ jobs:
           cache: maven
 
       - name: Build java-metric-example with Maven
-        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
+        run: mvn --batch-mode --update-snapshots verify --file java-example/otel-collector/pom.xml
       - name: Build java-example with Maven
-        run: mvn --batch-mode --update-snapshots verify --file java-example/pom.xml
+        run: mvn --batch-mode --update-snapshots verify --file java-example/otel-collector/pom.xml
       - name: Compile and Run java-example
         run: |
           mvn clean compile exec:java -Dexec.mainClass="com.vmware.App" \
-            -Dexec.cleanupDaemonThreads=false --file java-example/pom.xml | tee mvn.log
+            -Dexec.cleanupDaemonThreads=false --file java-example/otel-collector/pom.xml | tee 
+          mvn.log
       - name: Check java-example Output
         run: |
           # Get count of unique Trace IDs from output; 'xargs' trims whitespace
