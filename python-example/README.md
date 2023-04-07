@@ -122,9 +122,9 @@ The collector is now running and listening to incoming traces on port 4317. Now 
 
 * Start the application
 
-```
-opentelemetry-instrument python3 server.py
-```
+  ```
+  opentelemetry-instrument python3 server.py
+  ```
 
 * Visit ```http://localhost``` and refresh the page. The application generates and emits a trace of that transaction.
   When the trace data collected from the OpenTelemetry collector are ingested, we can examine them in
