@@ -18,6 +18,7 @@ Follow these steps to install the Wavefront proxy using Docker. See [Install a P
     1. Click the gear icon on the toolbar and select your username.
     1. On the **Groups, Roles & Permissions** tab, verify that the **Proxies** check box is selected.
     1. If you don’t see the check box next to **Proxies** selected, ask a user with the **Accounts** permission to grant you with the **Proxies** permission.
+    
     ![A screenshot showing the proxies permission selected.](images/java_auto_instrumentation_proxies permission.png)
 
 1. [Generate an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
