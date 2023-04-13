@@ -15,11 +15,13 @@ This guide shows you how to auto instrument your Java application using the Open
 Follow these steps to install the Wavefront proxy using Docker. See [Install a Proxy](https://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy in your environment.
 
 1. Make sure you have **Proxies** permission.
+    ![A screenshot showing the proxies permission selected.](images/java_auto_instrumentation_proxies permission.png)
+    
     1. Click the gear icon on the toolbar and select your username.
     1. On the **Groups, Roles & Permissions** tab, verify that the **Proxies** check box is selected.
     1. If you don’t see the check box next to **Proxies** selected, ask a user with the **Accounts** permission to grant you with the **Proxies** permission.
     
-    ![A screenshot showing the proxies permission selected.](images/java_auto_instrumentation_proxies permission.png)
+    
 
 1. [Generate an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
 1. Run the following command to install the proxy:
