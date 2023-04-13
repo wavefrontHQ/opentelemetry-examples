@@ -1,21 +1,23 @@
 # Auto Instrumenting Java Apps with OpenTelemetry
 
-This guide shows you how to auto instrument your Java application using the OpenTelemetry Java agent. and send data to our service. 
-
+This guide shows you how to auto instrument your Java application using the OpenTelemetry Java agent and send data to our service. 
 
 ## Prerequisites
 
 * A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account to visualize and monitor your application health. If you don’t have one already, you can sign up on [our website](https://www.vmware.com/products/aria-operations-for-applications.html). 
 * Docker to run the Wavefront proxy. 
-* Java 11 or higher
+* Java 11 or later
 * Maven
 
 
 ## Install the Wavefront Proxy
 
-Follow these steps to install the Wavefront proxy using Docker. See [Install a Proxy](https://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+Follow these steps to install the Wavefront proxy using Docker. See [Install a Proxy](https://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy in your environment.
 
-1. Make sure you have **Proxies** permission by going to `https://{cluster}.wavefront.com/userprofile/groups`. A checkbox next to **Proxies** indicates you have permission. If you don’t see a checkbox next to **Proxies**, your administrator needs to add this permission to your user account.
+1. Make sure you have **Proxies** permission.
+    1. Click the gear icon on the toolbar and select your username.
+    1. On the **Groups, Roles & Permissions** tab, verify that the **Proxies** check box is selected.
+    1. If you don’t see the check box next to **Proxies** selected, ask a user with the **Accounts** permission to grant you with the **Proxies** permission.
     ![A screenshot showing the proxies permission selected.](images/java_auto_instrumentation_proxies permission.png)
 
 1. [Generate an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
@@ -38,7 +40,7 @@ Follow these steps to install the Wavefront proxy using Docker. See [Install a P
     docker ps
     ```
 
-    If `docker ps` does not list the Wavefront proxy, it means that the Wavefront proxy stopped running. If this happens, use `docker logs <container ID>` to view the logs and find the issue. The docker command you ran in step 3 prints out the container ID.
+    If `docker ps` does not list the Wavefront proxy, it means that the Wavefront proxy stopped running. If this happens, use `docker logs <container ID>` to view the logs and find the issue. The `docker` command you ran in step 3 prints out the container ID.
 
 ## Run the Auto-Instrumented Application
 
@@ -52,16 +54,19 @@ For instrumentation, you use the Java agent provided by OpenTelemetry, which can
 
 1. Run `./mvnw package` from the root directory of the project.
 1. Download the OpenTelemetry Java agent.
+    ```
+    curl -L https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar --output otelagent.jar
+    ```
 1. Assign the file path to the `JAVA_AGENT` variable.
     ```
-    JAVA_AGENT= <path to OpenTelemetry Java agent>
+    JAVA_AGENT=./otelagent.jar
     ```
 1. Attach the Java agent and start the Spring Petclinic application.
     ```
     java -javaagent:$JAVA_AGENT -Dotel.service.name=petclinic -Dotel.resource.attributes=application=demo-petclinic -Dotel.exporter.otlp.metrics.temporality.preference=DELTA -Dotel.exporter.otlp.metrics.default.histogram.aggregation=EXPONENTIAL_BUCKET_HISTOGRAM -jar target/*.jar
     ```
 
-1. Navigate to http://localhost:8080 and interact with the Petclinic application to generate telemetry data.
+1. Navigate to [http://localhost:8080](http://localhost:8080) and interact with the Petclinic application to generate telemetry data.
 
 ## View the Metrics and Distributed Traces
 
@@ -78,15 +83,10 @@ You can see the traces on the Traces Browser and the Application Map, and metric
 
 ### Create Charts with Metrics
 
-When the metrics data collected from the Wavefront Proxy are sent to our service, you can examine them in our user interface.
+When the metrics data collected from the Wavefront proxy are sent to our service, you can examine them in our user interface.
 
 Example:
 
 * The query `ts(jvm.threads.live)` shows the total number of live threads in the Petclinic application.
     Example:
     ![A screenshot showing the chart data when you query for ts(jvm.threads.live).](images/java_auto_instrumentation_metrics_chart.png)
-
-* This query `cumulativePercentile(85, mavg(15m, deriv(sum(ts(http.server.duration), le))))` shows the 85th percentile of HTTP response times over the last 15 minutes. In this case, 85 percent of the HTTP response times are 98.75ms or less.
-    **Note**: This query can take up to 15 minutes to complete.
-    Example:
-    ![A screenshot showing the chart data when you query for the cumulativePercentile.](images/java_auto_instrumentation_metrics_chart_cumulativePercentile.png)
