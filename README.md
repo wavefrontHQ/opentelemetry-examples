@@ -59,7 +59,7 @@ For more information on our metrics, see [Metric Types](https://docs.wavefront.c
 Our OpenTelemetry GitHub repository includes specific examples for Java, Python, .NET, and more. 
  
 * If you are on our Documentation, expand the tutorials section under OpenTelemetry, and try out a tutorial.
-* If you are on the GitHub repository, for example, go to the `java-examples/auto-instrumentation` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
+* If you are on the GitHub repository, for example, go to the `java-examples` folder and follow the steps in the README to instrument Java Apps with OpenTelemetry. 
 
 <!-- 
 ## License
