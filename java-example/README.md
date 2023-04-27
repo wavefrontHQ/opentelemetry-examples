@@ -1,6 +1,6 @@
 # Auto Instrumenting Java Apps with OpenTelemetry
 
-This guide shows you how to auto instrument your Java application using the OpenTelemetry Java agent. and send data to our service. 
+This guide shows you how to auto instrument your Java application using the OpenTelemetry Java agent and send data to our service. 
 
 ## Prerequisites
 
@@ -89,3 +89,7 @@ Example:
 The query `ts(jvm.threads.live)` shows the total number of live threads in the Petclinic application.
 
 ![A screenshot showing the chart data when you query for ts(jvm.threads.live).](images/java_auto_instrumentation_metrics_chart.png)
+
+## Learn More!
+
+To manually configure your application and send data to our service, see [Instrumenting Java Apps with OpenTelemetry](https://github.com/wavefrontHQ/opentelemetry-examples/tree/master/java-example/otel-collector#instrumenting-java-apps-with-opentelemetry).
