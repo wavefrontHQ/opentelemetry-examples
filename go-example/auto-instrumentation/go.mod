@@ -1,6 +1,6 @@
 module github.com/wavefronthq/opentelemetry-examples/go-example/auto-instrumentation
 
-go 1.18
+go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.9.0
