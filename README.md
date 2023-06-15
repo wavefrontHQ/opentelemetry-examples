@@ -6,7 +6,7 @@ If you use OpenTelemetry, you can configure the application to send traces or me
 
 ## Configure the Wavefront Proxy
 
-**Note**: Starting June 26, 2023, VMware Aria Operations for Applications is a service on the VMware Cloud services platform (CSP) and the Wavefront proxy supports authentication to Operations for Applications with a VMware Cloud services API token or OAuth app. For more information, see [Proxy Authentication Types](proxies_installing.html#proxy-authentication-types).
+**Note**: Starting June 26, 2023, VMware Aria Operations for Applications is a service on the VMware Cloud services platform (CSP). With this update, the Wavefront proxy supports authentication to Operations for Applications with a VMware Cloud services API token or OAuth app. For more information, see [Proxy Authentication Types](proxies_installing.html#proxy-authentication-types).
 
 1. [Install the Wavefront proxy](https://docs.wavefront.com/proxies_installing.html).
 1. Configure the Wavefront proxy to send OpenTelemetry data to our service. See the [Wavefront proxy settings for OpenTelemetry](https://docs.wavefront.com/proxies_configuring.html#opentelemetry-proxy-properties).
@@ -18,10 +18,10 @@ If you use OpenTelemetry, you can configure the application to send traces or me
 
 ### Examples
 
-The following examples run the Wavefront Proxy on Docker and sends trace data to our service.
+The following examples run the Wavefront Proxy on Docker and send trace data to our service.
 
 * Applications using OAuth: 
-  **Note**: The proxy requires a VMware Cloud services API token with the **Proxies** service role.
+  <br/>**Note**: The proxy requires a VMware Cloud services API token with the **Proxies** service role.
 
   ```
   docker run -d \
@@ -36,7 +36,7 @@ The following examples run the Wavefront Proxy on Docker and sends trace data to
   wavefronthq/proxy:latest
   ```
 * Applications using the CSP API token:
-  **Note**: The proxy requires a VMware Cloud services API token with the **Proxies** service role.
+  <br/>**Note**: The proxy requires a VMware Cloud services API token with the **Proxies** service role.
 
   ```
   docker run -d \
