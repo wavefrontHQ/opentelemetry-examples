@@ -11,23 +11,11 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
     If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
-* Install the Wavefront proxy on Docker.
-    ```
-    docker run -d \
-        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
-        -e WAVEFRONT_TOKEN={TOKEN} \
-        -e JAVA_HEAP_USAGE=512m \
-        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
-        -p 2878:2878 \
-        -p 30001:30001 \
-        wavefronthq/proxy:latest
-    ```
-    Replace:
-    * `{INSTANCE_NAME}` with the product instance (for example, https://longboard.wavefront.com).
-    * `{TOKEN}` with the API token linked to an account with Proxy permission.
-      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
-    
-    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+* [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy). You need to add the following configurations to the default proxy installation configurations.
+  ```
+  -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
+  -p 4317:4317 \  
+  ```
     
 * Set up an OpenTelemetry Collector:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
@@ -114,23 +102,11 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
     If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
-* Install the Wavefront proxy on Docker.
-    ```
-    docker run -d \
-        -e WAVEFRONT_URL=https://{INSTANCE_NAME}.wavefront.com/api/ \
-        -e WAVEFRONT_TOKEN={TOKEN} \
-        -e JAVA_HEAP_USAGE=512m \
-        -e WAVEFRONT_PROXY_ARGS="--customTracingListenerPorts 30001" \
-        -p 2878:2878 \
-        -p 30001:30001 \
-        wavefronthq/proxy:latest
-    ```
-    Replace:
-    * `{INSTANCE_NAME}` with the product instance (for example, https://longboard.wavefront.com).
-    * `{TOKEN}` with the API token linked to an account with Proxy permission.
-      See [Generating and an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
-    
-    See [Install a Proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy on your environment.
+* [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy). You need to add the following configurations to the default proxy installation configurations.
+  ```
+  -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
+  -p 4317:4317 \  
+  ```
     
 * Set up an OpenTelemetry Collector:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
