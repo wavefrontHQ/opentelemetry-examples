@@ -5,17 +5,17 @@ This guide shows you how to auto instrument your Java application using the Open
 ## Prerequisites
 
 * A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account to visualize and monitor your application health. If you don’t have one already, you can sign up on [our website](https://www.vmware.com/products/aria-operations-for-applications.html). 
-* Docker to run the Wavefront proxy. 
 * Java 11 or later.
 * Maven
 
 ## Install the Wavefront Proxy
 
-[Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy). You need to add the following configurations to the default proxy installation configurations.
-```
--e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
--p 4317:4317 \  
-```
+[Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
+
+**Note**: When running the Wavefront proxy:
+* Make sure that the `WAVEFRONT_PROXY_ARGS` environment variable contains `--otlpGrpcListenerPorts 4317`.
+* and expose the OpenTelemetry port via `-p 4317:4317`.
+
 ## Run the Auto-Instrumented Application
 
 For instrumentation, you use the Java agent provided by OpenTelemetry, which can be attached to any Java application. This agent dynamically injects bytecode to collect telemetry data, and developers can avoid manual instrumentation. 

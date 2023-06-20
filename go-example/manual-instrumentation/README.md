@@ -11,12 +11,10 @@ this [working example](https://github.com/wavefrontHQ/opentelemetry-examples/blo
 * A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
     If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
-* Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
-* [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy). You need to add the following configurations to the default proxy installation configurations.
-  ```
-  -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
-  -p 4317:4317 \  
-  ```
+* [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
+  <br/>**Note**: When running the Wavefront proxy:
+  * Make sure that the `WAVEFRONT_PROXY_ARGS` environment variable contains `--otlpGrpcListenerPorts 4317`.
+  * And expose the OpenTelemetry port via `-p 4317:4317`.
     
 * Set up an OpenTelemetry Collector for Tanzu Observability:
     1. Download the `otelcol-contrib` binary from the latest release of the [OpenTelemetry Collector project](https://github.com/open-telemetry/opentelemetry-collector-releases/releases).
