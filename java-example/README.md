@@ -5,41 +5,16 @@ This guide shows you how to auto instrument your Java application using the Open
 ## Prerequisites
 
 * A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account to visualize and monitor your application health. If you don’t have one already, you can sign up on [our website](https://www.vmware.com/products/aria-operations-for-applications.html). 
-* Docker to run the Wavefront proxy. 
 * Java 11 or later.
 * Maven
 
-
 ## Install the Wavefront Proxy
 
-Follow these steps to install the Wavefront proxy using Docker. See [Install a Proxy](https://docs.wavefront.com/proxies_installing.html#install-a-proxy) to find other options for installing the proxy in your environment.
+[Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
 
-1. Make sure you have **Proxies** permission.
-    1. Click the gear icon on the toolbar and select your username.
-    1. On the **Groups, Roles & Permissions** tab, verify that the **Proxies** check box is selected.
-    1. If you don’t see the check box next to **Proxies** selected, ask a user with the **Accounts** permission to grant you with the **Proxies** permission.
-
-1. [Generate an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
-1. Run the following command to install the proxy:
-    ```
-    docker run -d \
-        -e WAVEFRONT_URL=https://{CLUSTER}.wavefront.com/api/ \
-        -e WAVEFRONT_TOKEN={TOKEN} \
-        -e JAVA_HEAP_USAGE=512m \
-        -e WAVEFRONT_PROXY_ARGS="--otlpGrpcListenerPorts 4317" \
-        -p 2878:2878 \
-        -p 4317:4317 \
-        wavefronthq/proxy:latest
-    ```
-    You need to:
-    * Replace `{CLUSTER}` with the name of your cluster.
-    * Replace `{TOKEN}` with the API token that you generated. 
-1. Confirm that the proxy is running.
-    ```
-    docker ps
-    ```
-
-    If `docker ps` does not list the Wavefront proxy, it means that the Wavefront proxy stopped running. If this happens, use `docker logs <container ID>` to view the logs and find the issue. The `docker` command you ran in step 3 prints out the container ID.
+**Note**: When running the Wavefront proxy:
+* Make sure that the `WAVEFRONT_PROXY_ARGS` environment variable contains `--otlpGrpcListenerPorts 4317`.
+* and expose the OpenTelemetry port via `-p 4317:4317`.
 
 ## Run the Auto-Instrumented Application
 
