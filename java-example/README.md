@@ -37,7 +37,7 @@ For instrumentation, you use the Java agent provided by OpenTelemetry, which can
     ```
 1. Attach the Java agent and start the Spring Petclinic application.
     ```
-    java -javaagent:$JAVA_AGENT -Dotel.service.name=petclinic -Dotel.resource.attributes=application=demo-petclinic -Dotel.exporter.otlp.metrics.temporality.preference=DELTA -Dotel.exporter.otlp.metrics.default.histogram.aggregation=EXPONENTIAL_BUCKET_HISTOGRAM -jar target/*.jar
+    java -javaagent:$JAVA_AGENT -Dotel.service.name=petclinic -Dotel.resource.attributes=application=demo-petclinic -Dotel.exporter.otlp.metrics.temporality.preference=DELTA -Dotel.exporter.otlp.metrics.default.histogram.aggregation=BASE2_EXPONENTIAL_BUCKET_HISTOGRAM -jar target/*.jar
     ```
 
 1. Navigate to [http://localhost:8080](http://localhost:8080) and interact with the Petclinic application to generate telemetry data.
