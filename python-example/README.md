@@ -6,8 +6,8 @@ This section shows a working example of a Python application auto-instrumented w
 
 ### Prerequisite
 
-* A VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
+* A Tanzu Observability account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/tanzu_observability.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
   <br/>**Note**: When running the Wavefront proxy:
@@ -123,8 +123,8 @@ manually-instrumented with OpenTelemetry.
 
 ### Prerequisite
 
-* An Aria Operations for Applications account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
+* A Tanzu Observability (formerly known as VMware Aria Operations for Applications) account, which gives you access to a cluster. 
+    If you don’t have a cluster, [sign up for a free trial](https://www.vmware.com/products/tanzu_observability.html).
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
   <br/>**Note**: When running the Wavefront proxy:

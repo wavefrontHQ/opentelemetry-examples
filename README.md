@@ -1,6 +1,6 @@
 # Sending Data to Our Service
 
-If you use OpenTelemetry, you can configure the application to send traces or metrics to VMware Aria Operations for Applications (formerly known as Tanzu Observability by Wavefront) using the Wavefront proxy.
+If you use OpenTelemetry, you can configure the application to send traces or metrics to Tanzu Observability (formerly known as VMware Aria Operations for Applications) using the Wavefront proxy.
 
 <img src="images/opentelemetry_proxy_tracing.png" alt="A data flow diagram that shows how the data flows from your application to the proxy, and then to our service" style="width:750px;"/>
 
