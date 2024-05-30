@@ -4,7 +4,7 @@ This guide shows you how to manually instrument your Java application using the 
 
 ## Prerequisites
 
-* Access to an Aria Operations for Applications account. If you don’t have one, [sign up for a free trial](https://www.vmware.com/products/aria-operations-for-applications.html).
+* Access to an Aria Operations for Applications account.
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * Install the Docker platform. You’ll run the Wavefront proxy on Docker for this tutorial.
 * Install the Wavefront proxy on Docker.
