@@ -4,8 +4,7 @@ This section shows a working example of a Go application that send metrics to th
 
 ### Prerequisites
 
-* A Tanzu Observability by Wavefront account, which gives you access to a cluster. 
-    If you don’t have a cluster, [sign up for a free trial](https://tanzu.vmware.com/observability-trial).
+* A Tanzu Observability by Wavefront account, which gives you access to a cluster.
 * Clone the [OpenTelemetry Examples](https://github.com/wavefrontHQ/opentelemetry-examples) repository.
 * [Install the Wavefront proxy](http://docs.wavefront.com/proxies_installing.html#install-a-proxy).
     <br/>**Note**: When running the Wavefront proxy:
